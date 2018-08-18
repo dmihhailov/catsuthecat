@@ -1,0 +1,21 @@
+<div class="footer_newsletter_subscribe">
+  {% if settings.language_enable %}
+  <p class="lang1">{{ settings.newsletter_footer_content | split: '[lang2]' | first }}</p>
+  <p class="lang2">{{ settings.newsletter_footer_content | split: '[lang2]' | last }}</p>
+  {% else %}
+  {{ settings.newsletter_footer_content | split: '[lang2]' | first }}
+  {% endif %}
+  {% if settings.newsletter_form_action != blank %}
+  {% assign form_action = settings.newsletter_form_action %}
+  {% else %}
+  {% assign form_action = '#' %}
+  {% endif %} 
+  <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+    <div class="input-group"> 
+      <p class="text" {% if settings.language_enable %}data-translate="general.newsletter_form.text"{% endif %}>{{ 'general.newsletter_form.text' | t }}</p>
+      <input id="fc-email" placeholder="Email Address"  type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+      <button type="submit" class="btn-button" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.submit"{% endif %}>{{ 'general.newsletter_form.submit' | t }}</button>
+    </div> 
+    <label id="fc-response" for="fc-email"></label>
+  </form>  
+</div>

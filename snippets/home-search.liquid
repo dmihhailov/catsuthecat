@@ -1,0 +1,10 @@
+<form id="search_mini_form" action="/search" method="get" class="search-bar">
+  <div class="form-search"> 
+    {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+    <input id="search" type="search" name="q" value="{{ search.terms | escape }}" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" class="input-text" aria-label="{{ 'general.search.placeholder' | t }}">
+    
+    <button type="submit" class="search-button">
+      <span><i class="fa fa-search"></i></span>
+    </button>
+  </div>
+</form>

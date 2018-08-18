@@ -1,0 +1,208 @@
+<div data-section-id="{{ section.id }}" data-section-type="banner-section">
+  <div class="banner_fixed_grid_3" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="grid1" style="position:relative;">
+            <a href="{{ section.settings.link_image_baner1 }}" style="position:absolute;height:100%;width:100%;z-index:1;"></a>
+            {% if section.settings.banner_image_1 != blank  %}
+            {% assign baner_url = section.settings.banner_image_1 | img_url: '566x536' %}
+            {% else %}
+            {% assign baner_url = 'baner566x536.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}"/>
+            <div class="ribbon theme-border-color" style="position:absolute;right:0;top:0;color:#fff;">
+              <div style="position:absolute;right:9%;top:10%;width:90%;text-align:right;">
+                {% if settings.language_enable %}
+                <div class="lang1">{{ section.settings.banner_1_content_1 | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ section.settings.banner_1_content_1 | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ section.settings.banner_1_content_1 | split: '[lang2]' | first }}
+                {% endif %}
+              </div>
+            </div>
+            <div class="content" style="position:absolute;right:15%;bottom:14%;text-align:right;">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.banner_1_content_2 | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.banner_1_content_2 | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.banner_1_content_2 | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="grid3 col-sm-margin" style="position:relative;">
+            <a href="{{ section.settings.link_image_baner2 }}" style="position:absolute;height:100%;width:100%;z-index:1;"></a>
+            {% if section.settings.banner_image_2 != blank %}
+            {% assign baner_url = section.settings.banner_image_2 | img_url: '279x264' %}
+            {% else %}
+            {% assign baner_url = 'img279x264.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}"/>
+            <div class="content" style="position:absolute;right:11.55%;top:25%;text-align:right;">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.banner_2_content | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.banner_2_content | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.banner_2_content | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="grid4" style="position:relative;">
+            <a href="{{ section.settings.link_image_baner3 }}" style="position:absolute;height:100%;width:100%;z-index:1;"></a>
+            {% if section.settings.banner_image_3 != blank %}
+            {% assign baner_url = section.settings.banner_image_3 | img_url: '279x264' %}
+            {% else %}
+            {% assign baner_url = 'img279x264.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}"/>
+            <div class="content" style="position:absolute;left:0;top:17%;text-align:center;width:100%;">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.banner_3_content | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.banner_3_content | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.banner_3_content | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="grid2" style="position:relative;">
+            <a href="{{ section.settings.link_image_baner4 }}" style="position:absolute;height:100%;width:100%;z-index:1;"></a>
+            {% if section.settings.banner_image_4 != blank  %}
+            {% assign baner_url = section.settings.banner_image_4 | img_url: '279x536' %}
+            {% else %}
+            {% assign baner_url = 'baner279x536.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}"/>
+            <div class="content" style="position:absolute;right:10%;top:5%;text-align:right;">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.banner_4_content | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.banner_4_content | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.banner_4_content | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div> 
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Fixed Grid 3",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },  
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Banner Settings"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "banner_image_1",
+      "label": "Banner Image 1"
+    },
+    {
+      "type": "url",
+      "id": "link_image_baner1",
+      "label": "Link Banner Image"
+    },
+    {
+      "type": "html",
+      "id": "banner_1_content_1",
+      "label": "Banner 1 Content 1",
+	  "default":"<em style='font-weight:300;font-style:normal;color:#fff;margin-right:26%;'>UP TO</em><h4 style='font-weight:700;color:#fff;'>70%</h4><h5 style='font-weight:600;color:#fff;'>OFF</h5>"
+    }, 
+    {
+      "type": "html",
+      "id": "banner_1_content_2",
+      "label": "Banner 1 Content 2",
+	  "default": "<h2 style='font-weight:800;font-style:italic;color:#fff;margin-bottom:0;'>HUGE <b style='font-weight:600;'>SALE</b></h2><p style='font-weight:300;color:#fff;'>Now starting at <b style='font-weight:600;'>$99</b></p><a href='#'>Shop now &gt;</a>"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_2",
+      "label": "Banner Image 2"
+    },
+    {
+      "type": "url",
+      "id": "link_image_baner2",
+      "label": "Link Banner Image"
+    },
+    {
+      "type": "html",
+      "id": "banner_2_content",
+      "label": "Banner 2 Content",
+	  "default": "<h3 style='font-weight:400;color:#121213;'>amazing</h3><h2 style='font-weight:800;color:#121213;margin-bottom:10px;'>COLLECTION</h2><a style='color:#121213;margin:0;' href='#'>Shop now &gt;</a>"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_3",
+      "label": "Banner Image 3"
+    },
+    {
+      "type": "url",
+      "id": "link_image_baner3",
+      "label": "Link Banner Image"
+    },
+    {
+      "type": "html",
+      "id": "banner_3_content",
+      "label": "Banner 3 Content",
+	  "default": "<p style='font-weight:300;color:#313131;'>MOBILE</p><p style='font-weight:700;color:#313131;'>MEGA SALE</p><h4 style='font-weight:400;color:#888;'><span>$</span>450.<span>00</span></h4><h3 class='theme-color' style='font-weight:400'><span>$</span>350.<span>00</span></h3><a href='#'>Shop now &gt;</a>"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_4",
+      "label": "Banner Image 4"
+    },
+    {
+      "type": "url",
+      "id": "link_image_baner4",
+      "label": "Link Banner Image"
+    },
+    {
+      "type": "html",
+      "id": "banner_4_content",
+      "label": "Banner 4 Content",
+	  "default": "<h2 style='font-weight:300;color:#000;'><b style='font-weight:600;font-style:italic;'>Deals</b> +<br>PROMOS</h2><p style='font-weight:300;color:#000;opacity:0.7;filter:alpha(opacity=70);font-style:italic;'>Limited sales in<br>our categories.</p><a class='btn btn-default' href='#'>SHOP NOW <i class='icon-right-dir'></i></a>"
+    }
+  ],
+  "presets": [{
+    "name": "Banner Fixed Grid 3",
+    "category": "Banner",
+    "settings": { 
+
+    }
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,48 @@
+<div class="top-links-container topbar-text-{{settings.topbar_text_color}}">
+  <div class="container"> 
+    <div class="search-area show-icon show-left"> 
+      <a href="javascript:void(0);" class="search-icon"><span>
+        <i class="icon-search"></i>
+        <span {% if settings.language_enable %} data-translate="general.search.submit" {% endif %}>{{ 'general.search.submit' | t }}</span>
+        </span>
+      </a>
+      {% include 'header-search' %}  
+    </div>
+    <span class="split"></span>
+    {% include 'header-setting' %} 
+    <div class="cart-area"> 
+      <div class="mini-cart">
+        {% include 'header-cart' %} 
+      </div>
+    </div> 
+    <span class="split f-right"></span>
+    <div class="top-links-area show-icon">
+      <div class="top-links-icon">
+        <a href="javascript:;" {% if settings.language_enable %}data-translate="header.settings.links"{% endif %}>{{ 'header.settings.links' | t }}</a>
+      </div>
+      {% section 'header-toplink-menu' %}
+    </div>
+    <div class="menu-icon f-right">
+      <span class="split f-right"></span>
+      <a href="javascript:void(0)" title="Menu"><i class="fa fa-bars"></i></a></div>
+    <div class="clearer"></div>
+  </div>
+</div>
+<div class="header container">
+  {% include 'header-logo' %}
+  <div class="header-wrapper">
+    <div class="main-nav wrapper-top-menu">   
+      <div class="container">
+        <div id="main-top-nav" class="main-top-nav"> 
+          {% include 'header-logo-sticky' %}
+          <!-- Main Menu -->
+          {% include 'main-menu' %} 
+          <!-- End Main Menu -->
+          <div class="mini-cart">
+            {% include 'header-cart' %} 
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>  
+</div> 

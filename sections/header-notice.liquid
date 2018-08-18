@@ -1,0 +1,68 @@
+<div class="top-newsletter notice-color-{{settings.notice_text_color}}">
+  <div class="container">
+    <div class="row">
+      {%- if section.blocks.size > 0 -%} 
+      {%- for block in section.blocks -%}
+      {%- case block.type -%}
+      {%- when 'html' -%}
+      <div class="col-sm-{{ 12 | divided_by: section.blocks.size }} {% if forloop.last %}a-right-sm{% else %}a-left-sm{% endif %}">
+        {% if settings.language_enable %}
+        <div class="lang1">{{ block.settings.custom_block | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ block.settings.custom_block | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ block.settings.custom_block | split: '[lang2]' | first }}
+        {% endif %}  
+      </div>
+      {%- else -%}
+      <div class="col-sm-{{ 12 | divided_by: section.blocks.size }} {% if forloop.last %}a-right-sm{% else %}a-left-sm{% endif %}">
+        <div style="display: inline-block; vertical-align: middle;">
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.custom_block | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.custom_block | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ block.settings.custom_block | split: '[lang2]' | first }}
+          {% endif %}           
+        </div>
+        <div class="right_top_letter" style="display: inline-block; vertical-align: middle; padding-left: 20px; position: relative;">
+          {% include 'header_newsletter' %}
+        </div>
+      </div>
+      {%- endcase -%} 
+      {%- endfor -%}
+      {%- endif -%} 
+    </div>
+  </div>
+</div>
+{%- schema -%}
+{
+  "name": "Header Notice", 
+  "max_blocks": 4,
+  "blocks": [ 
+    {
+      "type": "html",
+      "name": "Custom Block",
+        "settings": [
+        {
+          "type": "html",
+          "id": "custom_block",
+          "label": "Custom Block",
+          "default": "<span style=\"font-size: 16px; font-family: Georgia; line-height: 30px;\"><b>SALE:</b> use coupon code <b>PORTO</b> to save 30%</span>"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+        "settings": [
+        {
+          "type": "html",
+          "id": "custom_block",
+          "label": "Custom Block",
+          "default": "<p style=\"margin: 0; font-family: Georgia; font-size: 15px; font-weight: 700; line-height: 15px;\">Be the First to Know</p><p style=\"margin: 0; font-size: 12px; color: #a7a7a7; line-height: 15px;\">Sign up for newsletter today.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

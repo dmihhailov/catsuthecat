@@ -1,0 +1,217 @@
+.header-container.type6{
+  border: 0; 
+  .template-index & {
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+  }
+  &.sticky-header {
+    .header-wrapper {
+      .main-nav.container {
+        margin: 0 auto;
+      }
+    }
+  } 
+  .top-links-area {
+    float: none;
+    display: inline-block;
+  }
+  .links {
+    float: none;
+    display: inline-block;
+    li {
+      padding: 0 10px;
+      border: 0;
+      border-right: 1px solid #ccc;
+      &.first {
+        padding-left: 0;
+      }
+    }
+  } 
+  .header { 
+    display: block;
+    vertical-align: middle;
+    padding: 28px 0;
+    .site-logo {
+      float: left;
+      .logo { 
+        display: block;
+        padding: 0 15px;
+        margin: 0 10px 0 0;
+      }
+    } 
+  } 
+  .select-language, .setting-currency { 
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }  
+  .mini-cart {    
+    display: inline-block;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: auto;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    background-color: #fff;
+    border-radius: 3px; 
+  } 
+  .search-area {
+    position: relative;
+    margin: 0;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    height: 40px;
+    z-index: 5; 
+    line-height: 40px;
+    float: none;
+    .search-icon {margin: 0 10px;}
+  }
+  .header-wrapper {
+    border: 0;
+    display: block;
+    padding: 10px 0;
+  } 
+  .main-nav { 
+    margin: 0;
+    height: 30px;
+    .main-top-nav {
+      border-radius: 0; 
+    } 
+    ul.top-navigation {
+      padding-right: 200px;
+      >li {
+        >a {
+          padding-top: 9px;
+          padding-bottom: 9px; 
+        } 
+        &.fl-right {
+          margin-right: 0;
+          margin-left: 3px; 
+        }
+      }
+    }
+  }
+  .switcher-area {
+    display: inline-block;
+    vertical-align: middle;
+    .split {
+      display: none;
+    }
+  }
+  .currency-wrapper, .language-wrapper, .compare-link {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    background-color: #fff;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+}
+@media (max-width: 1679px) {
+  .header-container.type6 {
+    .top-links-icon {
+      display: block; 
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .links {
+      display: none;
+      position: absolute;
+      left: 0;
+      min-width: 130px;
+      text-align: left;
+      top: 100%;
+      background-color: #fff;
+      padding: 10px 0;
+      z-index: 10;
+      li {
+        display: block;
+        border: 0;
+        padding: 0 10px;
+        a {
+          font-size: 11px;
+          line-height: 19px;
+          color: #777;
+          white-space: nowrap;
+          padding: 0;
+          display: block;
+          transition: all .2s;
+          font-weight: 400;
+        }
+        &:hover {
+          a {
+            background-color: #ccc !important;
+            color: #fff !important;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  } 
+}
+@media (max-width: 991px){ 
+  .header-container.type6 {
+    .header {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .custom-block {
+      display: none;
+    }
+    .main-nav {
+      display: none;
+    }  
+    .menu-icon {
+      display: inline-block;
+      vertical-align: middle;
+      height: auto;
+      padding: 0;
+      margin-right: 15px;
+    }
+    &.sticky-header {
+      .header-wrapper {
+        display: none;
+      }
+    }
+  } 
+}
+@media (max-width: 767px) {
+  .header-container.type6 {
+    &.sticky-header {
+      .switcher-area {
+        display: none;
+      }
+      .header > .logo img {
+        height: 35px;
+      }
+      .top-links-area {
+        margin: 0;
+      }
+      .cart-area {
+        margin-top: 0;
+        top: auto;
+      }
+    }
+  }
+}
+@media (max-width: 640px) {
+  .header-container.type6 {
+    .cart-area {
+      position: static;
+      float: right;
+      height: auto;
+      margin-left: -150px;
+    }
+    .top-links-area {
+      margin: 13px 0 30px;
+    } 
+    .menu-icon {
+      margin: 0 15px 0 10px;
+    }
+    .switcher-area {
+      display: block;
+      margin-right: 15px;
+    }
+  } 
+}

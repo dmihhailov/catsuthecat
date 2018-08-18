@@ -1,0 +1,135 @@
+<div data-section-id="{{ section.id }}" data-section-type="instagram-shop-section">
+  <div class="intagram-shop" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+      <div class="content">
+        {%if block.settings.content_text1 != ''%}
+        <h2 style="color:{{block.settings.text1color}};">{{block.settings.content_text1}}</h2>
+        {% endif %}
+        {%if block.settings.content_text2 != ''%}
+        <p style="color:{{block.settings.text2color}};">{{block.settings.content_text2}}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="main-shop" style="margin-left:-7.5px;margin-right:-7.5px;">
+      {{ section.settings.instagramjs }}
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .hotspot-modal .modal-content {
+    background-color: #fff !important; 
+  } 
+  public-modal .public-hotspot-info-holder .public-hotspot-info .public-hotspot-info__price {
+    color: #333;
+    font-size: 20px;
+    letter-spacing: -1px;
+  } 
+  .hotspot-modal--frontend .public-hotspot--username{color: #333 !important;}
+  public-modal .public-hotspot-info-holder .public-hotspot-info.public-hotspot-info--highlighted .public-hotspot-info__number, 
+  public-modal .public-hotspot-info-holder .public-hotspot-info:hover .public-hotspot-info__number,
+  public-modal .public-hotspot-info-holder .public-hotspot-info .public-hotspot-info__second-line{
+    color: #333;
+  }
+</style>
+{% schema %}
+{
+  "name": "Instagram Shop",
+  "settings": [ 
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "General"
+    },
+	{
+      "type": "textarea",
+      "id": "instagramjs",
+      "label": "Instagram js",
+      "info": "[Snapppt](http:\/\/www.getsnapppt.com\/)"
+    } 
+  ],
+  "blocks": [
+    {
+      "type": "content",
+      "name": "Top Content",
+	  "limit": 1,		
+      "settings": [ 
+        {
+          "type":"text",
+          "id":"content_text1",
+          "label":"Content 1",
+		  "default": "Instagram Shop"
+        },
+        {
+          "type":"html",
+          "id":"content_text2",
+          "label":"Content 2",
+		  "default": "Snapppt is a free instagram shop plugin that turns your instagram images into picture perfect shoppable links"
+        },
+		{
+          "type": "color",
+          "id": "text1color",
+          "label": "Text 1 Color",
+          "default": "#333"
+        },
+        {
+          "type": "color",
+          "id": "text2color",
+          "label": "Text 2 Color",
+          "default": "#333"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Shop",
+      "category": "Instagram",
+      "blocks": [ 
+        {
+          "type": "content",
+          "settings": {
+            "content_text1": "Instagram Shop",
+            "content_text2": "Snapppt is a free instagram shop plugin that turns your instagram images into picture perfect shoppable links"
+          } 
+        } 
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,420 @@
+<style>
+  .blog_article .item .row.row-{{ section.id }} .post-date .day{
+    background-color: {{ section.settings.bg_post_day }};
+    color: {{ section.settings.color_post_day }};
+  }
+  .blog_article .item .row.row-{{ section.id }} .postTitle h2 a{
+    color: {{ section.settings.title_blog_item }};
+  } 
+  .blog_article .item .row.row-{{ section.id }} .postContent{
+    color: {{ section.settings.color_desc_blog }};
+  }
+  .blog_article .item .row.row-{{ section.id }} .post-date .month{
+    background-color: {{ section.settings.bg_post_month }};
+    color: {{ section.settings.color_post_month }};
+  }
+  .blog_article .item .row.row-{{ section.id }} a.readmore{
+    color: {{ section.settings.color_readmore }};
+  } 
+  .testimonials.testimonials-{{ section.id }} .item blockquote{ 
+    color: {{ section.settings.color_block_quote }};
+  }
+  .testimonials.testimonials-{{ section.id }} .item blockquote::before,
+  .testimonials.testimonials-{{ section.id }} .item blockquote::after{
+  	color: {{ section.settings.color_block_quote }};
+  } 
+  .main-container .last_blog_clients.id-{{section.id}} .blog_article .item.blog_post_type_2 .row a.readmore{
+    background-color: {{ section.settings.bg_button_readmore }};
+  }
+  .last_blog_clients.id-{{section.id}},
+  .last_blog_clients.id-{{section.id}} .blog_article h3.title-widget span.inner {
+    background-color: {{ section.settings.bg_section_color }};
+  }
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="blog-testimonial-section">
+  <div id="blog-testimonial-{{section.id}}" class="last_blog_clients id-{{section.id}}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="blog_article">
+            {% if section.settings.title != blank %}
+            <h3 class="title-widget"> 
+              <span class="inner">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h3>
+            {% endif %}
+            {%- assign blog = blogs[section.settings.blog] -%}
+            {% unless blog.empty? %}
+            <div class="latest_news owl-top-narrow">
+              <div class="recent-posts">
+                <div class="data-carousel"  
+                     data-auto="{{ section.settings.blog_autoplay }}"
+                     data-items="{{ section.settings.blog_column }}"
+                     data-1200="{{ section.settings.blog_column }}"
+                     data-992="1"
+                     data-768="1"
+                     data-640="1"
+                     data-480="1"
+                     data-320="1"
+                     data-paging="{{ section.settings.blog_show_paging }}"
+                     data-nav="{{ section.settings.blog_show_nav }}"
+                     data-margin="{{ section.settings.blog_item_margin }}"
+                     data-prev='{{ section.settings.blog_nav_prev }}' 
+                     data-next='{{ section.settings.blog_nav_next }}' style="display: none;"></div> 
+                <div class="owl-carousel">
+                  {% for article in blog.articles limit:settings.blog_article_limit %}
+                  <div class="item blog_post_type_2">
+                    <div class="row row-{{ section.id }}">
+                      <div class="col-sm-5">
+                        <div class="post-image">
+                          {% if article.image %}
+                          <a href="{{ article.url }}" class="article-image">
+                            <img src="{{ article | img_url: '300x' }}" />
+                          </a>
+                          {% endif %} 
+                          <div class="post-date">
+                            <span class="day">{{ article.published_at | date: '%d' }}</span>
+                            <span class="month">{{ article.published_at | date: '%b' }}</span>
+                          </div> 
+                        </div>
+                      </div>
+                      <div class="col-sm-7"> 
+                        <div class="postTitle">
+                          <h2>
+                            <a href="{{ article.url }}">
+                              {% if settings.language_enable %}
+                              <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                              <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                              {% else %}
+                              {{ article.title | split: '|' | first }}
+                              {% endif %}
+                            </a>
+                          </h2> 
+                        </div>
+                        <div class="postContent">
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 10}}</span>
+                          <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 10}}</span>
+                          {% else %}
+                          {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 10}}
+                          {% endif %} 
+                        </div>
+                        <a class="readmore" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+                      </div>
+                    </div>
+                  </div> 
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endunless %}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <h3 class="title-widget">
+            <span class="inner">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.testimonials_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.testimonials_title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.testimonials_title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </h3>
+          <div class="testimonials testimonials-{{ section.id }}">
+            <div class="owl-banner">
+              <div class="data-carousel" 
+                   data-items="1"
+                   data-auto="4000"
+                   data-paging="true"
+                   data-nav="false"
+                   data-prev=''
+                   data-margin="0"
+                   data-next='' style="display: none;"></div>
+              <div class="owl-carousel">
+                {% for block in section.blocks %}
+                <div class="item"> 
+                  <div class="testimonial-author">
+                    <div class="img-thumbnail img-thumbnail-small">
+                      {% if block.settings.testimonials_image != blank %}
+                      {% assign img_url = block.settings.testimonials_image | img_url: 'master' %}
+                      {% else %}
+                      {% assign img_url = 'img60x60.png' | asset_url %}
+                      {% endif %}
+                      <img width="60" height="60" src="{{ img_url }}" alt="">
+                    </div>
+                    {% if settings.language_enable %}
+                    <p class="lang1">
+                      <strong>{{ block.settings.name_author | split: '[lang2]' | first }}</strong>
+                      <span>{{ block.settings.desc_author | split: '[lang2]' | first }}</span>
+                    </p>
+                    <p class="lang2">
+                      <strong>{{ block.settings.name_author | split: '[lang2]' | last }}</strong>
+                      <span>{{ block.settings.desc_author | split: '[lang2]' | last }}</span>
+                    {% else %}
+                      <strong>{{ block.settings.name_author | split: '[lang2]' | first }}</strong>
+                      <span>{{ block.settings.desc_author | split: '[lang2]' | first }}</span>
+                    {% endif %}
+                    </p>
+                  </div> 
+                  <blockquote>
+                    {% if settings.language_enable %}
+                    <p class="lang1">{{ block.settings.text_content | split: '[lang2]' | first }}</p>
+                    <p class="lang2">{{ block.settings.text_content | split: '[lang2]' | last }}</p>
+                    {% else %}
+                    {{ block.settings.text_content | split: '[lang2]' | first }}
+                    {% endif %}
+                  </blockquote> 
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Blog Posts & Testimonial",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },  
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "color",
+      "id": "title_blog_item",
+      "label": "Posts Title Color",
+      "default":"#000"
+    }, 
+    {
+      "type": "color",
+      "id": "color_post_day",
+      "label": "Posts Day Color ",
+      "default":"#3f4658"
+    },
+    {
+      "type": "color",
+      "id": "color_post_month",
+      "label": "Posts Month Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color_desc_blog",
+      "label": "Posts Desc Color",
+      "default": "#777"
+    },
+    {
+      "type": "color",
+      "id": "bg_post_day",
+      "label": "Posts Bg Day Color",
+      "default": "#3f4658"
+    },
+    {
+      "type": "color",
+      "id": "bg_post_month",
+      "label": "Posts Bg Month Color",
+      "default": "#3f4658"
+    },
+    {
+      "type": "color",
+      "id": "color_readmore",
+      "label": "Posts Readmore Color",
+      "default": "#fff"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_button_readmore",
+      "label": "Post Bg Readmore Color",
+      "default": "#333"
+    },
+    {
+      "type": "color",
+      "id": "color_block_quote",
+      "label": "Testimonial Content Color",
+      "default": "#333"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Background FullWidth Color",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Blog"
+    }, 
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Blog posts"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "post_limit",
+      "label": "Number of article to show",
+      "default": "4"
+    },   
+    {
+      "type": "text",
+      "id": "blog_column",
+      "label": "Columns",
+      "default": "1"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_nav",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_next",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+    {
+      "type":"header",
+      "content":"Testimonials"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_title",
+      "label": "Testimonials Ttitle",
+      "default": "What Client's Say"
+    },
+	{
+      "type": "checkbox",
+      "id": "move_author",
+      "label": "Move Author?",
+      "default": false
+    }
+  ],
+  "blocks":[
+    {
+      "type": "content",
+      "name": "Content",
+      "settings":[
+        {
+          "type": "image_picker",
+          "id": "testimonials_image",
+          "label": "Testimonials Image"
+        },
+        {
+          "type": "textarea",
+          "id": "text_content",
+          "label": "Text Content",
+          "default": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it."
+        },
+        {
+          "type": "text",
+          "id": "name_author",
+          "label": "Name Author",
+          "default": "John Smith"
+        },
+        {
+          "type": "text",
+          "id": "desc_author",
+          "label": "Description Author",
+          "default": "CEO & Founder - Okler"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Posts & Testimonial",
+      "category": "Blog",
+      "settings": {
+
+      },
+      "blocks":[
+        {
+          "type": "content",
+          "settings":
+          {
+            "text_content": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it.",
+            "name_author": "John Smith",
+            "desc_author": "CEO & Founder - Okler"
+          }
+        },
+        {
+          "type": "content",
+          "settings":
+          {
+            "text_content": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it.",
+            "name_author": "John Smith",
+            "desc_author": "CEO & Founder - Okler"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

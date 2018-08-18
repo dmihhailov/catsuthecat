@@ -1,0 +1,246 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-filter-section">
+  {% assign limit = section.settings.tab_products_collection_limit %} 
+  {% if section.settings.tab_products_collection_column != '5' and section.settings.tab_products_collection_column != '7' %}
+  {% assign col = 12 | divided_by: section.settings.tab_products_collection_column %}
+  {% else %}
+  {% assign col = section.settings.tab_products_collection_column %}
+  {% endif %}
+  {% assign product_limitation = 0 %}
+  {% if section.settings.tab_products_show_more %}
+  {% assign product_limitation = section.settings.tab_products_show_one_time | plus: 0 %}
+  {% endif %} 
+  <div id="collection-filter-{{ section.id }}" class="block-by-collection main-tab-products" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};"> 
+    <div class="container">
+      <div class="row">
+        <div class="shop-by-collection tab-product-collection">  
+          {% if section.blocks.size > 0 %}
+          <div class="col-sm-2 category-list ">
+            <span class="filter-title">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.category_list_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.category_list_title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.category_list_title | split: '|' | first }}
+              {% endif %}
+            </span>
+            <div class="tab-selector">
+              <ul class="nav nav-tabs" role="tablist">
+                {% for block in section.blocks %}
+                <li class="{% if forloop.index == 1%}active{% endif %}">
+                  <a href="#filter-{{forloop.index}}-{{ section.id }}" data-toggle="tab"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ block.settings.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %} 
+              </ul>
+            </div>  
+          </div> 
+          <div class="col-sm-10 category-detail {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">
+            <div class="tab-content">            
+              {% for block in section.blocks %}
+              <div class="tab-pane {% if forloop.index == 1%}active{% endif %}" id="filter-{{forloop.index}}-{{ section.id }}">
+                <div class="category-products">  
+                  {%- assign name_collection = block.settings.collection -%}
+                  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                  {%- assign collection = collections[name_collection] -%} 
+                  {% if collection.products.size == 0 %}
+                  <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+                  {% else %}
+                  <ul class="products-grid columns{{section.settings.tab_products_collection_column}} {% if section.settings.tab_collection_collection_flex_grid != blank %}flex-grid{% endif %} {% if section.settings.tab_collection_move_actions != blank %}move-action{% endif %} {% if section.settings.tab_collection_hide_actions != blank %}hide-action{% endif %}">
+                    {% for product in collection.products limit: section.settings.tab_products_collection_limit %}  
+                    <li class="item product product-layout-grid" {% if section.settings.tab_products_show_more and forloop.index > product_limitation %} style="display:none" {% endif %}>
+                      {% include 'lazyload-product-grid-item' %}
+                    </li> 
+                    {% endfor %} 
+                  </ul> 
+                  {% endif %}
+                  {%- assign products_to_show = section.settings.tab_products_show_one_time | plus:0 -%}  
+                  {% if section.settings.tab_products_show_more and collection.all_products_count > products_to_show %} 
+                  <div class="infinite-scrolling infinite-scrolling-{{forloop.index}}">
+                    <a class="btn-button bordered uppercase" href="javascript:void(0)" {% if settings.language_enable %}data-translate="products.general.show_more"{% endif %}>{{ 'products.general.show_more' | t }}</a>
+                  </div> 
+                  <script>
+                    var productsToShow{{forloop.index}}{{ section.id }} = {{ products_to_show }};
+                    var totalProducts{{forloop.index}}{{ section.id }} = {{collection.all_products_count}}; 
+                    jQuery(".infinite-scrolling-{{forloop.index}} a").click(function() {
+                           if (jQuery('#filter-{{forloop.index}}-{{ section.id }} .products-grid .item:hidden').length > 0) {
+                           jQuery('#filter-{{forloop.index}}-{{ section.id }} .products-grid .item:hidden:lt('+productsToShow{{forloop.index}}{{ section.id }}+')').each(function() {
+                      jQuery(this).show(); 
+                      jQuery(this).find('img[data-src]').each(function () {
+                        $(this).attr('src', $(this).attr('data-src'));
+                      });
+                    });       
+                    jQuery("window").scroll();
+                    if (jQuery('#filter-{{forloop.index}}-{{ section.id }} .products-grid .item:hidden').length == 0) {
+                               var noMoreText = "{{ 'products.general.no_more_product' | t}}";              
+                               {% if settings.language_enable %}
+                               if (translator.isLang2()) 
+                      noMoreText = window.lang2.products.general.no_more_product;
+                    {% endif %}
+                    jQuery(".tab-product-collection .infinite-scrolling-{{forloop.index}} a").text(noMoreText).hide();              
+                           }
+                           }
+                           });
+                  </script>
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}  
+            </div>
+          </div> 
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Shop By Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },  
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "text",
+      "id": "category_list_title",
+      "label": "Category List Title",
+	  "default": "Shop By"
+    },
+    {
+      "type": "text",
+      "id": "tab_products_collection_limit",
+      "label": "Number of products to show",
+      "default": "12"
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_products_show_more",
+      "label": "Display Show More Button?",
+	  "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_products_show_one_time",
+      "label": "Number of products to show at one time",
+      "default": "8"
+    },
+    {
+      "type": "text",
+      "id": "tab_products_collection_column",
+      "label": "Products per row",
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_collection_hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "tab_collection_move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_collection_collection_flex_grid",
+      "label": "Flex Grid",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title",
+		  "default": "Collection Title"
+        },
+        {
+          "type":"collection",
+          "id":"collection",
+          "label":"Collection"
+        } 
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Collection",
+      "category": "Products",
+      "blocks": [ 
+        {
+          "type": "collection",
+          "settings": {
+            "title": "NEW ARRIVALS" 
+          } 
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "MEN" 
+          } 
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "WOMAN" 
+          } 
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "BOYS" 
+          } 
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "GIRLS" 
+          } 
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

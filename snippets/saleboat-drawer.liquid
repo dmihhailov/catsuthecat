@@ -1,0 +1,42 @@
+<link href="http://uw-dashboard.com/css/styles.css" rel="stylesheet">
+
+<div id="uw-drawer-container" class="shopify">
+  <div id="uw-tab"><img src="http://uw-dashboard.com/images/shopify/wishlist_tab.png" alt="Wishlist Tab" /></div>
+  <div id="uw-drawer" class="">
+    <div class="sort-bar clearfix">
+      <p class="pull-right">
+        <a href="#" id="uw-close-drawer">
+          <span class="glyphicon glyphicon-chevron-right"></span> Close
+        </a>
+      </p>
+    </div>
+    <div id="uw-smartlist">
+      <div class="uw-drawer-header">
+        <h3>My Wishlist</h3>
+      </div>
+      <div id="uw-subs">
+        <img src="http://uw-dashboard.com/images/shopify/loading.gif" style="margin: 0 auto; text-align: center; float: none;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getSessionId() {
+    var val = sessionStorage.getItem("session_id")
+    return val == null ? "" : val
+  }
+
+  function setSessionId(id) {
+    return sessionStorage.setItem("session_id", id)
+  }
+  
+  function getLocalId() {
+    var val = localStorage.getItem("session_id")
+    return val == null ? "" : val
+  }
+
+  function setLocalId(id) {
+    return localStorage.setItem("session_id", id)
+  }
+</script>

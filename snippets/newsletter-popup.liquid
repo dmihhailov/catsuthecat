@@ -1,0 +1,69 @@
+{% if settings.newsletter_enable != blank %} 
+<div style="display: none">
+  <img src="{{ 'newsletter_bg_image.jpg' | asset_url }}" style="display: none;" />
+  <style>
+    #popup_newsletter {
+      {% if settings.newsletter_bg_image_use != blank %} 
+      background-position: center center;
+      background-repeat: no-repeat;
+      {% endif %}
+      background-size: cover; 
+      {% if settings.newsletter_bg_color != ''%}
+      background-color: {{ settings.newsletter_bg_color }};
+      {% endif %}
+      max-width: {{ settings.newsletter_width }}px;
+    } 
+    .block-subscribe {
+      background: #fff;
+      padding: 20px 30px;
+      text-align: left; 
+      margin: 40px auto;
+      position: relative;
+    }
+    {{settings.newsletter_custom_style}}
+  </style>
+  <div id="popup_newsletter" class="block block-subscribe" style="{% if settings.newsletter_bg_image_use != blank %}background-image: url({{ 'newsletter_bg_image.jpg' | asset_url }});{% endif %}">  
+    {% if settings.newsletter_form_action != blank %}
+    {% assign form_action = settings.newsletter_form_action %}
+    {% else %}
+    {% assign form_action = '#' %}
+    {% endif %}
+    <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+      <div class="block-content">
+        {% if settings.newsletter_logo_use != blank %}
+        <img src="{{ 'newsletter_logo.png' | asset_url }}" alt="">
+        {% endif %}
+        <div class="block-title">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ settings.newsletter_title | split: '|' | first }}</span>
+          <span class="lang2">{{ settings.newsletter_title | split: '|' | last }}</span>
+          {% else %}
+          {{ settings.newsletter_title | split: '|' | first }}
+          {% endif %}
+        </div>
+        <div class="content"> 
+          {% if settings.language_enable %}
+          <span class="lang1">{{ settings.newsletter_content | split: '|' | first  }}</span>
+          <span class="lang2">{{ settings.newsletter_content | split: '|' | last }}</span>
+          {% else %}
+          {{ settings.newsletter_content | split: '|' | first }}
+          {% endif %}
+        </div>
+        <div class="input-box"> 
+          <input id="mc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" class="input-group-field input-text" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+          <label id="mc-response" for="mc-email"></label>
+          <input type="submit" class="btn-button effect" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.go"{% endif %} value="{{ 'general.newsletter_form.go' | t }}">
+        </div>        
+      </div> 
+    </form>
+    <label class="subcriper_label">
+      <input type="checkbox">
+      <span {% if settings.language_enable %}data-translate="general.newsletter_form.noitice"{% endif %}>{{ 'general.newsletter_form.noitice' | t }}</span>
+    </label>
+  </div>  
+</div> 
+<script type="text/javascript">
+  var newsletterData = {}; 
+  newsletterData.delay = '{{ settings.newsletter_delay }}'; 
+</script>
+{% endif %}

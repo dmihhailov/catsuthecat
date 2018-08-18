@@ -1,0 +1,303 @@
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">  
+  <div class="main-slideshow main-slideshow-{{section.id}}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row" style="margin:0 -10px;">
+        <div class="col-md-9 md-f-right" style="padding:0 10px;">
+          {% if section.blocks.size > 0 %}
+          <div class="slideshow-sidebar slideshow-section">
+            <div class="data-slideshow"  
+                 data-auto="{{ section.settings.auto_speed }}"
+                 data-paging="{{ section.settings.slide_pagination }}"
+                 data-nav="{{ section.settings.slide_navigation }}"
+                 data-transition="{{ section.settings.slide_transition }}"
+                 data-prev='{{ section.settings.slide_nav_prev }}' 
+                 data-next='{{ section.settings.slide_nav_next }}' style="display: none;"></div>
+            <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel">
+              {% for block in section.blocks %}
+              <div class="item"> 
+                <a href="{{block.settings.link}}">
+                  {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{block.settings.image.alt}}"/>
+                  {% else %}
+                  <img src="{{ 'image-slider850x421.png' | asset_url }}" alt="{{block.settings.image.alt}}"/>
+                  {% endif %}
+                </a>
+                {%if block.type == 'video' %}
+                <div class="video-wrap">
+                  {% if block.settings.ico_slide_video_overlay != 'none' %}
+                  <div class="video-overlay overlay-{{ block.settings.ico_slide_video_overlay }}" style="opacity: 1;"></div>
+                  {% endif %}
+                  <video class="video" poster="{{ slide_img | asset_url }}" autoplay {% if block.settings.ico_slide_video_loop == 'loop' %}loop=""{% endif %} {% if block.settings.ico_slide_video_mute == 'mute' %}muted=""{% endif %} preload="auto" data-width="0" data-height="0">
+                    {% if block.settings.ico_slide_video contains '.mp4' %}     
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/mp4">
+                    {% else %}
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/webm">
+                    {% endif %}
+                  </video>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %} 
+        </div>
+        <div class="col-md-3" style="padding:0 10px;">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="side-custom-menu custom-menu-{{ section.id }}1" style="margin-bottom:10px;">
+                <h2> 
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.sidebar_title | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.sidebar_title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.sidebar_title | split: '|' | first }}
+                  {% endif %}
+                </h2>
+                <ul>
+                  {% for link1 in linklists[section.settings.sidebar_linklist_1].links %}   
+                  <li>
+                    <a href="{{ link1.url }}">
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ link1.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ link1.title | split: '|' | last }}</span>
+                      {% else %}
+                      {{ link1.title | split: '|' | first }}
+                      {% endif %}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                <div class="sidebar_content">
+                {% if settings.language_enable %}
+                <div class="lang1">{{ section.settings.sidebar_content | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ section.settings.sidebar_content | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ section.settings.sidebar_content | split: '[lang2]' | first }}
+                {% endif %}
+              </div>      
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+{% schema %}
+{
+  "name": "Slideshow & Collection", 
+  "settings": [  
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    }, 
+    {
+      "type": "text",
+      "id": "sidebar_title",
+      "label": "Sidebar Title",
+      "default": "TOP CATEGORIES"
+    }, 
+    {
+      "type": "textarea",
+      "id": "sidebar_content",
+      "label": "Sidebar Content",
+	  "default":"<ul><li><a href=\"#\"><i class=\"icon-cat-shirt\"></i> Fashion</a></li><li><a href=\"#\"><i class=\"icon-cat-computer\"></i> Electronics</a></li><li><a href=\"#\"><i class=\"icon-cat-gift\"></i> Gifts</a></li><li><a href=\"#\"><i class=\"icon-cat-garden\"></i> Home &amp; Garden</a></li><li><a href=\"#\"><i class=\"icon-cat-computer\"></i> Music</a></li><li><a href=\"#\"><i class=\"icon-cat-sport\"></i> Sports</a></li></ul>"
+    }, 
+    {
+      "type": "header",
+      "content": "Slideshow"
+    },
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "select",
+      "id": "slide_navigation",
+      "label": "Navigation",
+      "info": "Choose if you would like to display the left\/right arrows on the slider.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "slide_pagination",
+      "label": "Pagination",
+      "info": "Choose if you would like to display the slider pagination.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide link"
+        }
+      ]
+    },
+	{
+  "type": "video",
+  "name": "Video slide",
+  "settings": [
+  {
+  "type": "text",
+  "id": "ico_slide_video",
+  "label": "Background Video .mp4 or .webm URL",
+  "info": "provide the video .mp4, .webm url for the background"
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_loop",
+  "label": "Video Loop",
+  "info": "Choose if you would like the slide background video to play once, or loop.",
+  "options": [
+  {
+  "value": "loop",
+  "label": "Loop"
+  },
+  {
+  "value": "",
+  "label": "Single play"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_mute",
+  "label": "Video mute",
+  "info": "Choose if you would like the slide background video to be muted, or not.",
+  "options": [
+  {
+  "value": "mute",
+  "label": "Mute"
+  },
+  {
+  "value": "volume",
+  "label": "Volume"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_overlay",
+  "label": "Video overlay",
+  "info": "Choose if you would like to show an overlay style over the video.",
+  "options": [
+  {
+  "value": "none",
+  "label": "None"
+  },
+  {
+  "value": "lightgrid",
+  "label": "Lightgrid"
+  }
+  ]
+  }
+  ]
+  }
+  ],
+  "presets": [{
+    "name": "Slideshow & Sidebar Collection",
+    "category": "Slideshow",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image"
+      },
+      {
+        "type": "image"
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

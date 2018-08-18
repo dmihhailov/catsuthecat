@@ -1,0 +1,795 @@
+<div data-section-id="{{ section.id }}" data-section-type="main-block-section">
+  <div id="main-block-{{ section.id }}" class="main_section main_section_two" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">     
+        <div class="col-md-9 col-sm-8">
+          {% assign limit = section.settings.tab_products_collection_limit %} 
+          {% if section.settings.tab_products_collection_column != '5' and section.settings.tab_products_collection_column != '7' %}
+          {% assign col = 12 | divided_by: section.settings.tab_products_collection_column %}
+          {% else %}
+          {% assign col = section.settings.tab_products_collection_column %}
+          {% endif %}
+          {% assign product_limitation = 0 %} 
+          {% if section.settings.tab_products_collection_enable != blank %}
+          <div class="main-tab-products" style="padding-top: 27px;"> 
+            <div class="tab-product-collection"> 
+              <div class="category-list"> 
+                <div class="tab-selector tab-{{ section.id }}">
+                  <ul class="nav nav-tabs" role="tablist">
+                    {%- assign numb = 0 -%}
+                    {%- for block in section.blocks -%}
+                    {%- if block.type == 'tab' -%} 
+                    {%- assign numb = numb | plus: 1 -%}
+                    <li class="{% if numb == 1 %}active first{% endif %}">
+                      <a href="#collection-{{ block.id }}" data-toggle="tab"> 
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+                        {% else %}
+                        {{ block.settings.title | split: '|' | first }}
+                        {% endif %}
+                      </a>
+                    </li> 
+                    {%- endif -%}
+                    {%- endfor -%} 
+                  </ul>
+                </div> 
+              </div>
+              <div class="category-detail {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">
+                <div class="tab-content">  
+                  {%- assign numb2 = 0 -%}
+                  {%- for block in section.blocks -%}
+                  {%- if block.type == 'tab' -%} 
+                  {%- assign numb2 = numb2 | plus: 1 -%}
+                  <div class="tab-pane{% if numb2 == 1 %} active{% endif %}" id="collection-{{ block.id }}">
+                    <div class="category-products products-spacing-{{section.settings.space_product}}">  
+                      {%- assign name_collection = block.settings.collection -%}
+                      {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                      {%- assign collection = collections[name_collection] -%} 
+                      <ul class="products-grid columns{{section.settings.tab_products_collection_column}} {% if section.settings.tab_collection_flex_grid != blank %}flex-grid{% endif %} {% if section.settings.tab_collection_move_actions != blank %}move-action{% endif %} {% if section.settings.tab_collection_hide_actions != blank %}hide-action{% endif %} {% if section.settings.tab_collection_wishlist_quickview != blank %}wishlist_quickview{% endif %}">
+                        {% for product in collection.products limit: section.settings.tab_products_collection_limit %}  
+                        <li class="item product product-layout-grid">
+                          {% include 'lazyload-product-grid-item' %}
+                        </li> 
+                        {% endfor %} 
+                      </ul> 
+                    </div>
+                  </div>
+                  {%- endif -%}
+                  {%- endfor -%}  
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if section.settings.grid-images_enable != blank %}
+          <div class="grid-images">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="grid1">
+                  <a href="{{ section.settings.home_banner_link_1 }}">
+                    {% if section.settings.home_banner_image_1 != blank  %}
+                    {% assign img_url = section.settings.home_banner_image_1 | img_url: '269x114' %}
+                    {% else %}
+                    {% assign img_url = 'img269x114.png' | asset_url %}
+                    {% endif %}
+                    <img src="{{ img_url }}" width="269" height="114"/>
+                  </a>
+                </div>
+                <div class="grid2">
+                  <a href="{{ section.settings.home_banner_link_2 }}">
+                    {% if section.settings.home_banner_image_2 != blank  %}
+                    {% assign img_url = section.settings.home_banner_image_2 | img_url: '269x114' %}
+                    {% else %}
+                    {% assign img_url = 'img269x114.png' | asset_url %}
+                    {% endif %}
+                    <img src="{{ img_url }}" width="269" height="114"/>
+                  </a>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="grid3">
+                  <a href="{{ section.settings.home_banner_link_3 }}">
+                    {% if section.settings.home_banner_image_3 != blank  %}
+                    {% assign img_url = section.settings.home_banner_image_3 | img_url: '558x237' %}
+                    {% else %}
+                    {% assign img_url = 'img558x237.png' | asset_url %}
+                    {% endif %}
+                    <img src="{{ img_url }}" width="558" height="237"/>
+                  </a>
+                </div>
+              </div>
+            </div> 
+          </div> 
+          {% endif %}
+          {% if section.settings.featured-brands_enable != blank %}
+          <div class="featured-brands" style="clear:both;">
+            <h3 class="title-widget" style="margin: 10px 0 10px;">
+              <span class="inner">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.brand_title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.brand_title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.brand_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h3> 
+            <div class="brands-slider owl-no-narrow">
+              <div class="data-carousel"  
+                   data-auto="{{ section.settings.brand_autoplay }}"
+                   data-items="{{ section.settings.brand_columns }}"
+                   data-1200="{{ section.settings.brand_columns }}"
+                   data-992="5"
+                   data-768="3"
+                   data-640="3"
+                   data-480="2"
+                   data-paging="{{ section.settings.brand_paging }}"
+                   data-nav="{{ section.settings.brand_navigation }}"
+                   data-margin="{{ section.settings.brand_margin }}"
+                   data-prev='{{ section.settings.brand_prev }}' 
+                   data-next='{{ section.settings.brand_next }}' style="display: none;"></div> 
+              <div class="owl-carousel">
+                {% for block in section.blocks %}
+                {%- if block.type == 'image' -%}
+                <div class="item">
+                  <a href="{{ block.settings.link }}">
+                    {% if block.settings.image != blank %}
+                    {% assign img_url = block.settings.image | img_url: '140x29' %}
+                    {% else %}
+                    {% assign img_url = 'img160x70.png' | asset_url %}
+                    {% endif %}
+                    <img src="{{ img_url }}" alt="{{ section.settings.image.alt }}"/>
+                  </a>
+                </div>
+                {%- endif -%}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-md-3 col-sm-4 sidebar home_slidebar">
+          {% if section.settings.home_menu_category_enable != blank %}
+          <div class="block block-nav sidebar-cate-toogle block-{{ section.id }}" style="margin-top: 25px;margin-bottom: 30px;">
+            <div class="block-title">
+              <span {% if settings.language_enable %}data-translate="collections.sidebar.categories"{% endif %}>{{ 'collections.sidebar.categories' | t }}</span>
+              <span class="collapse" style="display:none;">
+                <i class="icon-up-dir"></i>
+                <i class="icon-down-dir"></i>
+              </span>
+            </div>
+            <div class="sidebar-content block-content">
+              {%- assign list = linklists[section.settings.sidebar_menu] -%} 
+              <ul id="categories_nav" class="nav-accordion nav-categories">
+                {% for link in list.links %}
+                {% assign child_list_handle = link.title | handleize %}  
+                {% if linklists[child_list_handle].links != blank %}
+                <li class="level0 level-top parent {% if forloop.index == list.links.size %}last{% endif %}">
+                  <a href="{{ link.url }}" class="level-top">
+                    <span> 
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                      {% else %}
+                      {{ link.title | split: '|' | first }}
+                      {% endif %}
+                    </span>
+                  </a>
+                  <ul class="level0"> 
+                    {% for childlink in linklists[child_list_handle].links %}  
+                    {% assign grand_child_list_handle = childlink.title | handle %}
+                    {% if linklists[grand_child_list_handle].links != blank %} 
+                    <li class="level1 parent {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                      <a href="{{ childlink.url }}">
+                        <span> 
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first }}
+                          {% endif %}
+                        </span>
+                      </a>
+                      <ul class="level1">
+                        {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                        <li class="level2 {% if forloop.index == linklists[grand_child_list_handle].links.size %}last{% endif %}">
+                          <a href="{{ grand_child_link.url }}" class="site-nav__link"> 
+                            {% if settings.language_enable %}
+                            <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+                            <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+                            {% else %}
+                            {{ grand_child_link.title | split: '|' | first }}
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                    {% else %}
+                    <li class="level1 {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                      <a href="{{ childlink.url }}">
+                        <span> 
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first }}
+                          {% endif %}
+                        </span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                  </ul>
+                </li>
+                {% else %}
+                <li class="level0 level-top {% if forloop.index == list.links.size %}last{% endif %}">
+                  <a href="{{ link.url }}" class="level-top"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+          {% if section.settings.use_sidebar_image_banner != blank %}
+          <div class="sidebar_banner_image">
+            {% if section.settings.sidebar_banner_image != blank %}
+            {% assign img_banner = section.settings.sidebar_banner_image | img_url:'master' %}
+            {% else %}
+            {% assign img_banner = 'img270x260.png' | asset_url %}
+            {% endif %}
+            <a href="{{ section.settings.link_banner }}">
+          		<img src="{{ img_banner }}"  />
+            </a>
+          </div>
+          {% endif %}
+          {% if section.settings.sidebar_blog_enable != blank %}
+          <div class="blog_article block"  style="padding-bottom: 37px;">
+            <h3 class="title-widget" style="margin-bottom: -15px!important;margin-top: 20px;">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.sidebar_blog_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.sidebar_blog_title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.sidebar_blog_title | split: '|' | first }}
+              {% endif %}
+            </h3>
+            {%- assign blog = blogs[section.settings.blog] -%}
+            {% unless blog.articles_count == 0 %}
+            <div class="latest_news owl-top-narrow">
+              <div class="recent-posts">
+                <div class="data-carousel"  
+                     data-auto="{{ section.settings.blog_autoplay }}"
+                     data-items="{{ section.settings.blog_column }}"
+                     data-1200="{{ section.settings.blog_column }}"
+                     data-992="1"
+                     data-768="1"
+                     data-640="1"
+                     data-480="1"
+                     data-320="1"
+                     data-paging="{{ section.settings.blog_show_paging }}"
+                     data-nav="{{ section.settings.blog_show_nav }}"
+                     data-margin="{{ section.settings.blog_item_margin }}"
+                     data-prev='{{ section.settings.blog_nav_prev }}' 
+                     data-next='{{ section.settings.collection_nav_next }}' style="display: none;"></div> 
+                <div class="owl-carousel">
+                  {% for article in blog.articles limit:section.settings.post_limit %}
+                  <div class="item blog_post_type_2"> 
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <div class="post-image">
+                          {% if article.image %}
+                          <a href="{{ article.url }}" class="article-image">
+                            <img src="{{ article | img_url: '300x' }}" />
+                          </a>
+                          {% endif %} 
+                          <div class="post-date">
+                            <span class="day">{{ article.published_at | date: '%d' }}</span>
+                            <span class="month">{{ article.published_at | date: '%b' }}</span>
+                          </div> 
+                        </div>
+                      </div>
+                      <div class="col-sm-7"> 
+                        <div class="postTitle">
+                          <h2>
+                            <a href="{{ article.url }}">
+                              {% if settings.language_enable %}
+                              <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                              <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                              {% else %}
+                              {{ article.title | split: '|' | first }}
+                              {% endif %}
+                            </a>
+                          </h2> 
+                        </div>
+                        <div class="postContent">
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 10}}</span>
+                          <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 10}}</span>
+                          {% else %}
+                          {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 10}}
+                          {% endif %} 
+                        </div>
+                        <a class="readmore" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+                      </div>
+                    </div> 
+                  </div> 
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endunless %}
+          </div>
+          {% endif %}
+          {% if section.settings.custom_block_enable != blank %}
+          <div class="custom_html">
+            <h3 class="title-widget">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.sidebar_custom_html_title | split: '|' | first }}</div>
+              <div class="lang2">{{ section.settings.sidebar_custom_html_title | split: '|' | last }}</div>
+              {% else %}
+              {{ section.settings.sidebar_custom_html_title | split: '|' | first }}
+              {% endif %}
+            </h3>
+            <div class="html_content" style="margin-top: 15px;">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.sidebar_custom_html_content| split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.sidebar_custom_html_content | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.sidebar_custom_html_content | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Main Section 2",
+  "settings": [  
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Menu Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "home_menu_category_enable",
+      "label": "Menu Category Enable",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu",
+      "label": "Home Menu categories",
+	  "default": "main-menu"
+    },
+    {
+      "type":"header",
+      "content":"Sidebar Banner Image"
+    },
+	{
+      "type": "checkbox",
+      "id": "use_sidebar_image_banner",
+      "label": "Use Sidebar Banner Image?",
+      "default": true
+	},
+    {
+      "type": "image_picker",
+      "id": "sidebar_banner_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_banner",
+      "label": "Link Banner"
+    },
+    {
+      "type":"header",
+      "content":"Sidebar Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_blog_enable",
+      "label": "Sidebar Blog Enable?",
+      "default": true
+    }, 
+    {
+      "type": "text",
+      "id": "sidebar_blog_title",
+      "label": "Sidebar Blog Title",
+      "default": "FROM THE BLOG"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "post_limit",
+      "label": "Number of article to show",
+      "default": "4"
+    },   
+    {
+      "type": "text",
+      "id": "blog_column",
+      "label": "Columns",
+      "default": "1"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+	  "default": "5000"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_nav",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Custom Html Block"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_block_enable",
+      "label": "Custom Block Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sidebar_custom_html_title",
+      "label": "Sidebar Custom Title",
+      "default": "CUSTOM HTML BLOCK"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_custom_html_content",
+      "label": "Sidebar Custom Content",
+	  "default": "<h5 style='font-family:Arial;font-weight:400;font-size:11px;color:#878787;line-height:1;margin-bottom:13px;'>This is a custom sub-title.</h5><p style='font-weight:400;font-size:14px;color:#666;line-height:1.42;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi. Etiam non tellus </p>"
+    },
+    {
+      "type": "header",
+      "content": "Main Tab Products Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_products_collection_enable",
+      "label": "Tab Products Collection Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_products_collection_limit",
+      "label": "Number of products to show",
+      "default": "8"
+    },
+    {
+      "type": "text",
+      "id": "tab_products_collection_column",
+      "label": "Products per row",
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "25",
+          "label": "25"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "10"
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_collection_hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "tab_collection_move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_collection_flex_grid",
+      "label": "Flex Grid",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "tab_collection_wishlist_quickview",
+      "label": "Hide Wishlist Quickview",
+      "default": false
+    }, 
+    {
+      "type":"header",
+      "content":"Main Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "grid-images_enable",
+      "label": "Grid Images Enable?",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_1",
+      "label": "Home Banner Image 1"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_1",
+      "label": "Banner link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_2",
+      "label": "Home Banner Image 2"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_2",
+      "label": "Banner link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_3",
+      "label": "Home Banner Image 3"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_3",
+      "label": "Banner link 3"
+    },
+    {
+      "type": "header",
+      "content": "Main Featured Brands"
+    },
+    {
+      "type": "checkbox",
+      "id": "featured-brands_enable",
+      "label": "Featured Brands Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brand_title",
+      "label": "Title",
+      "default": "OUR BRAND"
+    },
+    {
+      "type": "text",
+      "id": "brand_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+      "default": "4000" 
+    }, 
+    {
+      "type": "text",
+      "id": "brand_columns",
+      "label": "Columns",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "brand_margin",
+      "label": "Item Margin",
+      "default": "5"
+    },
+    {
+      "type": "checkbox",
+      "id": "brand_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "brand_navigation",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brand_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "brand_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    } 
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Brand Image",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }, 
+    {
+      "type": "tab",
+      "name": "Tab Item",
+      "settings": [  
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection title",
+          "default": "FEATURED"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection use:"
+        }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Main Section 2",
+      "category": "Main Section",
+      "settings":{
+        "sidebar_menu":"main-menu"
+      },
+      "blocks": [ 
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "tab",
+		  "settings": {
+			"title": "FEATURED"
+		  }
+        },
+        {
+          "type": "tab",
+		  "settings": {
+			"title": "LATEST PRODUCTS"
+		  }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

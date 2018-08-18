@@ -1,0 +1,79 @@
+<!-- /templates/blog.liquid --> 
+
+{% paginate blog.articles by 5 %} 
+{% include 'breadcrumb' %}
+<div class="blog-container">
+<div class="container">
+  <div class="row">
+    {% if settings.blog_sidebar_position == 'left' %}
+    <div class="col-sm-3 sidebar"> 
+      {% include 'blog-sidebar' %} 
+    </div>
+    {% endif %}
+    <div class="{% if settings.blog_sidebar_position == 'none' %}col-sm-12{% else %}col-sm-9{% endif %}">
+      <div class="blog-wrapper">  
+        {% for article in blog.articles %}  
+        <div class="postWrapper"> 
+          <div class="postBanner">
+            {{ article.excerpt }}
+          </div>
+          <div class="post-date">
+            <span class="day">{{ article.published_at | date: '%d' }}</span>
+            <span class="month">{{ article.published_at | date: '%b' }}</span>
+          </div>
+          <div class="postTitle">
+            <h2>
+              <a href="{{ article.url }}"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                {% else %}
+                {{ article.title | split: '|' | first }}
+                {% endif %}
+              </a>
+            </h2>  
+          </div> 
+          <div class="postContent">
+            <p>
+              {% if settings.language_enable %}
+              <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 50 }}</span>
+              <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 50 }}</span>
+              {% else %}
+              {{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 50}}
+              {% endif %}
+            </p>
+            <a class="readmore" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+          </div> 
+          <div class="postDetails">
+            {% capture author %}{{ article.author }}{% endcapture %}
+
+            {% capture date %}<time datetime='{{ article.published_at | date: '%Y-%m-%d' }}'>{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+            <span class="blog_author" {% if settings.language_enable %}data-translate="blogs.article.author_on_date_html|date:{{date}},author:{{author}}" translate-item="blog-date-author"{%endif%}>
+              <i class="icon-calendar"></i>
+              {{ 'blogs.article.author_on_date_html' | t: date: date, author: author }}        
+            </span>
+            <span class="blog_author" {% if settings.language_enable %}data-translate="blogs.article.by_admin|author:{{author}}" translate-item="blog-date-author"{%endif%}>
+              <i class="icon-user"></i>
+              {{ 'blogs.article.by_admin' | t: author: author }}        
+            </span>
+          </div>
+        </div>
+        {% endfor %} 
+        {% if paginate.pages > 1 %} 
+        <div class="pagenav-wrap">
+          <div class="pagination">
+            {% include 'pagination' %}
+          </div>
+        </div>
+        {% endif %}
+      </div> 
+    </div>
+    {% if settings.blog_sidebar_position == 'right' %}
+    <div class="col-sm-3 sidebar"> 
+      {% include 'blog-sidebar' %} 
+    </div>
+    {% endif %}
+  </div> 
+</div>
+</div>
+{% endpaginate %} 

@@ -1,0 +1,253 @@
+<!-- style sheets -->
+<style>
+  .banner-slide-section .content.content-{{ section.id }} h3{
+    color: {{ section.settings.text_content_banner }};
+  }
+  .banner-slide-section .content.content-{{ section.id }} a{
+    background-color: {{ section.settings.bg_button_content }};
+    color: {{ section.settings.text_button_content_banner }};
+  }
+</style>
+<!-- end style sheets -->
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  {% if section.blocks.size > 0 %}
+  <div class="banner-slide-section" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="data-slideshow"  
+         data-auto="{{ section.settings.auto_speed }}"
+         data-paging="{{ section.settings.slide_pagination }}"
+         data-nav="{{ section.settings.slide_navigation }}"
+         data-transition="{{ section.settings.slide_transition }}"
+         data-prev='{{ section.settings.slide_nav_prev }}'  
+         data-next='{{ section.settings.slide_nav_next }}' style="display: none;"></div>
+    <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel">
+      {% for block in section.blocks %}
+      <div class="item"> 
+        {% if block.settings.bg_image != blank %}
+        {% assign bg_image = block.settings.bg_image | img_url: '1920x609' %}
+        {% else %}
+        {% assign bg_image = 'img1920x609.png' | asset_url %}
+        {% endif;%}
+        <img data-src="{{ bg_image }}" class="owl-lazy"/>  
+        <div class="content content-{{ section.id }}"> 
+          <h3>
+            {% if settings.language_enable %}
+            <span class="lang1">{{ block.settings.title | split: '[lang2]' | first }}</span>
+            <span class="lang2">{{ block.settings.title | split: '[lang2]' | last }}</span>
+            {% else %}
+            {{ block.settings.title | split: '[lang2]' | first }}
+            {% endif %} 
+          </h3>
+          {% if block.settings.content_image != blank %}
+          {% assign img_url = block.settings.content_image | img_url: 'master' %}
+          {% else %}
+          {% assign img_url = 'shoes.png' | asset_url %}
+          {% endif %}
+          <p><img src="{{ img_url }}"/>  </p>
+          {% if block.settings.button_content != '' %} 
+          <a href="{{ block.settings.link }}" style="position:relative;z-index:3;"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ block.settings.button_content | split: '[lang2]' | first }}</span>
+            <span class="lang2">{{ block.settings.button_content | split: '[lang2]' | last }}</span>
+            {% else %}
+            {{ block.settings.button_content | split: '[lang2]' | first }}
+            {% endif %} 
+          </a> 
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div> 
+  </div>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "Banner Slider Content",  
+  "settings": [
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "color",
+        "id": "bg_section_color",
+        "label": "Section background color" 
+      }, 
+      {
+        "type": "text",
+        "id": "margin_top",
+        "label": "Section margin top",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "margin_bottom",
+        "label": "Section margin bottom",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "section_padding",
+        "label": "Section padding",
+        "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+      }, 
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type":"color",
+      "id": "bg_button_content",
+      "label": "Background Button Content Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_content_banner",
+      "label": "Text Content Color",
+      "default" :"#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_button_content_banner",
+      "label": "Text Button Content Color",
+      "default" :"#000"
+    },
+    {
+      "type": "header",
+      "content": "Config"
+    },
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "select",
+      "id": "slide_navigation",
+      "label": "Navigation",
+      "info": "Choose if you would like to display the left\/right arrows on the slider.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "slide_pagination",
+      "label": "Pagination",
+      "info": "Choose if you would like to display the slider pagination.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Banner Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "content_image",
+          "label": "Content Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Adidas Ultra Boost"
+        },  
+        {
+          "type": "text",
+          "id": "button_content",
+          "label": "Button content",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        } 
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Banner Slider Content",
+    "category": "Banner",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image",
+		"settings": {
+          "title": "Adidas Ultra Boost" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "title": "Adidas Ultra Boost" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

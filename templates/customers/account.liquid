@@ -1,0 +1,92 @@
+<!-- /templates/customers/account.liquid -->  
+{% include 'breadcrumb' %}
+<div class="container">
+  <div class="row">
+  <div class="account-dashboard">  
+    <div class="col-sm-12">
+      <div class="main-account">
+        <div class="my-account">  
+          <h5>{{ customer.name }} <span><a href="/account/logout" {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>({{ 'customer.logout.title' | t }})</a></span></h5>
+          <div class="content">
+          	{% if customer.default_address != nil %}
+              <p>
+              {{ customer.default_address.address1 }}<br>
+
+              {% if customer.default_address.address2 != "" %}
+                {{ customer.default_address.address2 }}<br>
+              {% endif %}
+
+              {% if customer.default_address.city != "" %}
+                {{ customer.default_address.city }}<br>
+              {% endif %}
+
+              {% if customer.default_address.province_code != "" %}
+                {{ customer.default_address.province_code | upcase }}<br>
+              {% endif %}
+
+              {% if customer.default_address.zip != "" %}
+                {{ customer.default_address.zip | upcase }}<br>
+              {% endif %}
+
+              {% if customer.default_address.country != "" %}
+                {{ customer.default_address.country }}<br>
+              {% endif %}
+
+              {% if customer.default_address.phone != "" %}
+                {{ customer.default_address.phone }}
+              {% endif %}
+              </p>
+
+            {% endif %}
+
+            <p><a href="/account/addresses" class="btn-button bordered"><span {% if settings.language_enable %}data-translate="customer.account.view_addresses"{% endif %}>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a></p>
+          </div> 
+        </div>
+        <div class="my-order">
+          <h5>{{ 'customer.orders.title' | t }}</h5> 
+          {% comment %}
+            If we have past orders, loop through each one
+          {% endcomment %}
+          {% paginate customer.orders by 20 %}
+            {% if customer.orders.size != 0 %}
+
+              <div class="table-wrap">
+                <table class="full">
+                  <thead>
+                    <tr>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.order_number"{% endif %}>{{ 'customer.orders.order_number' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.date"{% endif %}>{{ 'customer.orders.date' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.payment_status"{% endif %}>{{ 'customer.orders.payment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.fulfillment_status"{% endif %}>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                      <th {% if settings.language_enable %}data-translate="customer.orders.total"{% endif %}>{{ 'customer.orders.total' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in customer.orders %}
+                      <tr>
+                        <td>{{ order.name | link_to: order.customer_url }}</td>
+                        <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                        <td>{{ order.financial_status_label }}</td>
+                        <td>{{ order.fulfillment_status_label }}</td>
+                        <td>{{ order.total_price | money }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <p {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.orders.none' | t }}</p>
+            {% endif %}
+            {% if paginate.pages > 1 %}
+              <hr>
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        </div>
+      </div> 
+    </div> 
+  </div>
+  </div>
+</div>

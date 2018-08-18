@@ -1,0 +1,78 @@
+<div class="modal fade" id="wishlistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div role="document" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title"><span class="brackets" {% if settings.language_enable %}data-translate="wish_list.general.wishlist"{% endif %}>{{ 'wish_list.general.wishlist' | t }}</span><span id="wishlistCount"></span></h4>
+      </div>
+      <div class="modal-body">
+        <div id="wishlistAlert"></div>
+        <div id="wishlistTableList">
+          <table class="data-table cart-table" style="display:none;">
+            <colgroup>
+              <col>
+              <col width="1">
+              <col width="1">
+              <col width="1">
+              <col width="1">
+              <col width="1">
+            </colgroup>
+            <thead>
+              <tr class="first last">
+                <th colspan="1">&nbsp;</th>
+                <th colspan="2"><span class="nobr"><span class="brackets" {% if settings.language_enable %}data-translate="wish_list.general.product"{% endif %}>{{ 'wish_list.general.product' | t }}</span></span></th>
+                <th colspan="1" class="a-center"><span class="nobr"><span class="brackets" {% if settings.language_enable %}data-translate="wish_list.general.price"{% endif %}>{{ 'wish_list.general.price' | t }}</span></span></th>
+                <th colspan="2" class="a-center"><span class="brackets" {% if settings.language_enable %}data-translate="wish_list.general.quantity"{% endif %}>{{ 'wish_list.general.quantity' | t }}</span></th>
+                <th colspan="2" class="a-center product-options"><span class="brackets" {% if settings.language_enable %}data-translate="wish_list.general.options"{% endif %}>{{ 'wish_list.general.options' | t }}</span></th>
+                <th colspan="1" class="a-center last">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<div id="wishlistModalBody" class="hide">
+  <div class="form_cart">
+    <table class="data-table cart-table"> 
+      <tbody>
+        <tr class="odd first last wishlist-option-item-0">
+          <td colspan="1" class="product-image shoppingcart-image"><a class="product-image"><img src="#image#"></a></td>
+          <td colspan="2" class="product-name shoppingcart-name"><h2 class="product-name"><a href="#urlProduct#">#title#</a> <!----></h2></td>
+          <td colspan="1" class="a-right product-unittax"> 
+            <div class="price"> 
+              <span class="special-price"><span class="price">#price#</span></span>
+              <span class="compare-price"><span class="price"><span class="compare_at_price"></span></span></span> 
+            </div> 
+          </td>
+          <td colspan="2" class="a-center product-qty shoppingcart-qty"> 
+            <div class="product-type-main product-view">
+              <div class="product-options-bottom">
+                <div class="add-to-cart-box">
+                  <div class="input-box pull-left">
+                    <input type="text" name="quantity" value="1" min="1" class="quantity-selector"> 
+                    <div class="plus-minus">
+                      <div class="increase items" onclick="setQuantityUp(event)">
+                        <i class="icon-up-dir"></i>
+                      </div>
+                      <div class="reduced items" onclick="setQuantityDown(event)">
+                        <i class="icon-down-dir"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </td>
+          <td colspan="2" class="product-options product-options-form"></td>
+          <td colspan="1" class="a-center last">
+            <a href="javascript:void(0)" class="remove-wishlist-form btn-remove" data-product-handle="#handle#" data-product-title="#title#"  onclick="removeWishlist(event)">×</a>
+            <a href="javascript:void(0)" class="add-cart-wishlist"><i class="icon-cart"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

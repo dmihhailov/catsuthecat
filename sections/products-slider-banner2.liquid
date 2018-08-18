@@ -1,0 +1,281 @@
+<div data-section-id="{{ section.id }}" data-section-type="products-banner-section">
+  <div id="products-banner-{{ section.id }}" class="slideshow slideshow_content_collection" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    {% if section.settings.background_image != blank %}
+    {% assign bg_url = section.settings.background_image | img_url: 'master' %}
+    {% else %}
+    {% assign bg_url = 'bg1900x1102.png' | asset_url %}
+    {% endif %}
+    <div style="background: url({{ bg_url }}) 73% 0 no-repeat;background-size: cover;color: #3d3734;">
+      <div class="banner-content-18">
+        <div class="container" style="text-align: left;">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="text-content" style="display: inline-block;padding-left: 5%;">
+                {% if settings.language_enable %}
+                <div class="lang1">{{ section.settings.content1 | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ section.settings.content1 | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ section.settings.content1 | split: '[lang2]' | first }}
+                {% endif %}
+                {% if settings.language_enable %}
+                <div class="lang1">{{ section.settings.content2 | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ section.settings.content2 | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ section.settings.content2 | split: '[lang2]' | first }}
+                {% endif %}
+                {% if settings.language_enable %}
+                <div class="lang1">{{ section.settings.content3 | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ section.settings.content3 | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ section.settings.content3 | split: '[lang2]' | first }}
+                {% endif %}
+              </div>
+              <div class="owl-middle-outer-narrow {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}" style="text-align: left;">
+                <p class="filter_title_type_2">
+                 <span class="title_line_content" style="width:215px;">
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ section.settings.collection_title | split: '[lang2]' | first }}</span>
+                    <span class="lang2">{{ section.settings.collection_title | split: '[lang2]' | last }}</span>
+                    {% else %}
+                    {{ section.settings.collection_title | split: '[lang2]' | first }}
+                    {% endif %}
+                  </span>
+                   <span class="title_line"></span>
+                </p>
+                <div class="category-products products-spacing-{{section.settings.space_product}}">  
+                  {%- assign limit = section.settings.limit -%}   
+                  {%- assign name_collection = section.settings.collection -%}
+                  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                  {%- assign collection = collections[name_collection] -%} 
+                  {% if collection.products.size == 0 %}
+                  <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+                  {% else %}
+                  <div class="data-carousel"             
+                       data-auto="{{ section.settings.autoplay }}"
+                       data-items="{{ section.settings.column }}"
+                       data-lazy="true"
+                       data-1200="{{ section.settings.column }}"
+                       data-1024="3"
+                       data-992="3"
+                       data-768="2"
+                       data-640="2"
+                       data-480="2"
+                       data-320="2"
+                       data-nav="{{ section.settings.show_nav }}"
+                       data-prev='{{ section.settings.nav_prev }}'
+                       data-next='{{ section.settings.nav_next }}'
+                       data-paging="0"
+                       data-margin='{{ section.settings.item_margin }}' style="display: none;"></div> 
+                  <div class="products-grid owl-carousel {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %} {% if section.settings.hide_wishlist_quickview != blank %}hide_wishlist_quickview{% endif %}"> 
+                    {% for product in collection.products limit: limit %}  
+                    <div class="item product" style="line-height:1.4;">
+                      {% include 'owl-lazyload-product-grid-item' %}
+                    </div> 
+                    {% endfor %}  
+                  </div> 
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Products Slider & Banner2", 
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type":"header",
+      "content":"Banner Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "html",
+      "id": "content1",
+      "label": "Banner Content 1",
+	  "default": "<em style='font-style: normal; display: block;font-weight:600;'>NEW ARRIVALS</em>"
+    }, 
+    {
+      "type": "html",
+      "id": "content2",
+      "label": "Banner Content 2",
+	  "default": "<h2 style='line-height: 1;font-weight:800;margin:0;color:#3d3734'>FASHION</h2>"
+    }, 
+    {
+      "type": "html",
+      "id": "content3",
+      "label": "Banner Content 3",
+	  "default": "<p><span style='vertical-align: top;font-weight:300;'>UP TO <b style='font-weight:800;'>70% OFF</b> IN THE NEW COLLECTION</span></p><p><a href='#' class='btn btn-default' style='vertical-align: top; font-weight: 400;'>SHOP NOW</a></p>"
+    }, 
+    {
+      "type":"header",
+      "content":"Product Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "collection_title",
+      "label": "Collection Title",
+	  "default": "SELECTED <b>PRODUCTS</b>"
+    },  
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Number of products to show",
+      "default": "6"
+    },  
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "25",
+          "label": "25"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "10"
+    },
+    {
+      "type": "text",
+      "id": "column",
+      "label": "Products per row",
+      "default": "3"
+    },    
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "hide_wishlist_quickview",
+      "label": "Hide Wishlist Quickview",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    }, 
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-left-open\"><\/i>"
+    },
+    {
+      "type": "text",
+      "id": "nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-right-open\"><\/i>"
+    } 
+  ],
+  "presets": [{
+    "name": "Product Slider With Banner 2",
+    "category": "Products",
+    "settings": { 
+
+    }
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

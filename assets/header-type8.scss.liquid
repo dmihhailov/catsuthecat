@@ -1,0 +1,211 @@
+.header-container.type8{ 
+  border: 0; 
+  &.sticky-header {
+    .dropdown-menu{
+    	padding-left: 25px;
+    }
+    .header-wrapper { 
+      .main-nav.container {
+        margin: 0 auto;
+        background-color: transparent;
+        ul.top-navigation > li > a {
+          padding: 13px 5px !important;
+          margin: 0 10px !important;
+        }
+      }
+    } 
+    .top-navigation.side-menu {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .mini-cart {
+      top: 6px;
+      .cart-total { 
+        font-size: 14px;
+      }
+    }
+    .top-links-container {display: none;}
+  }
+  .header { 
+    .custom-block {
+      margin-right: 10px;
+      line-height: 1;
+      padding-top: 4px;
+      div >* {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      span.split {
+        height: 14px;
+        width: 1px;
+        border-right: 1px solid #eee;
+        margin: 0 13px;
+      }
+      a {
+        font-size: 12px;
+        color: inherit;
+      }
+    }
+  }
+  .header-wrapper { 
+    border-bottom: 1px solid #eee;
+    .main-nav >.container {
+      padding: 0 5px;
+    }
+  }
+  .dropdown-menu {
+    position: relative;
+    width: 25%;
+    min-width: 244px;
+    overflow: visible;
+    z-index: 3;
+    display: inline-block;
+    padding: 0 10px;
+    border: 0;
+    box-shadow: none;
+    float: none;
+    background-color: transparent;
+    margin: 0;
+    .menu-container {
+      position: relative;
+      >a {
+        color: #fff;
+        background-color: #303030;
+        padding: 14px 15px;
+        width: 100%;
+        font-size: 13px;
+        font-weight: 700;
+        display: block;
+        >i {
+          margin-right: 5px;
+        }
+      }
+    } 
+  }  
+  .template-index & {
+    &:not(.sticky-header)
+    .top-navigation.side-menu {
+      opacity: 1;
+      visibility: visible;
+    } 
+  }
+  .top-select:first-child > a {
+    padding-left: 0;
+  } 
+  .mini-cart {
+    position: relative;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    left: 0;
+    top: 0; 
+  } 
+  .search-area{ 
+    position: static;
+    margin: 0 0 0 65px; 
+  }  
+  .custom-menu-block {
+    display: inline-block;
+    line-height: 41px;
+    a {
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 600; 
+      white-space: nowrap;
+    }
+  }
+  .top-navigation.side-menu {
+    position: absolute;
+    left: 0; 
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    border-bottom: 5px solid #303030;
+    visibility: visible;
+    opacity: 0;
+    visibility: hidden;
+    transition: 200ms opacity;
+    &.show {
+      visibility: visible;
+      opacity: 1;
+    } 
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px){ 
+  .header-container.type8 {
+    .search-area {
+      margin-left: 55px;
+      .search-extended {
+        width: 350px;
+      }
+    }
+  }
+}
+@media (max-width: 991px){ 
+  .header-container.type8 {
+    &.sticky-header {
+      .header{
+        display:none;
+      }
+      .header-wrapper {
+        position: relative;
+      }
+      .menu-wrapper>.custom-menu-block {
+        display: none;
+      }
+    }
+    .custom-menu-block{
+      display:none;
+    }
+    .cart-area {
+      float: right;
+      position: static;
+      margin: 35px 0;
+    }
+    .mini-cart {
+      width: auto;
+      position: relative;
+      top: -3px;
+      left: 0;
+    }
+    .custom-block {
+      display: none;
+    }
+    .search-area {
+      position: relative;
+      left: 0;
+      top: 0;
+      float: right;
+      margin: 35px 10px;
+      z-index: 2;
+      .search-icon {
+        display: block;
+        line-height: 40px;
+      }
+      .search-extended {
+        display: none;
+        width: 0;
+        margin: 0;
+      } 
+    }
+    .header-wrapper {
+      display: block;
+    }
+    .cms-index-index & {
+      .dropdown-menu .menu-container>a {
+        pointer-events: all;
+      }
+    }
+    .dropdown-menu .menu-container .top-navigation.side-menu {
+      display: none!important;
+    }
+  }  
+}
+@media (max-width: 767px) { 
+  .header-container.type8.sticky-header .dropdown-menu{
+  	min-width: 215px;
+  }
+  .header-container.type8 .dropdown-menu{
+  	z-index: 1;
+  }
+}

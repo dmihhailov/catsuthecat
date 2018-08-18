@@ -1,0 +1,111 @@
+<div data-section-id="{{ section.id }}" data-section-type="products-masonry-section"> 
+  <style>
+    #products-masonry-{{ section.id }},
+    #products-masonry-{{ section.id }} .products-collection h3.title-widget span.inner{background-color: {{section.settings.bg_section_color}}} 
+  </style>
+  <div id="products-masonry-{{ section.id }}" class="new-products product_collection_3" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="products-collection product_type_3">    
+        {% if section.settings.title != '' %}
+        <h3 class="title-widget">
+          <span class="inner"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </h3>
+        {% endif %}
+        <div class="category-products"> 
+          {% assign carousel = section.settings.collection_carousel %} 
+          {% assign limit = 7 %}   
+          {%- assign name_collection = section.settings.collection -%}
+          {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+          {%- assign collection = collections[name_collection] -%} 
+          {% if collection.products.size == 0 %}
+          <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+          {% else %}
+          <ul class="products-grid masonry-grid hide-action">
+            {% for product in collection.products limit: 7 %}  
+            {% if forloop.index == 1%}
+              <div class="grid double">
+                <li class="item product product-layout-grid">
+                  {% include 'lazyload-products-masonry-item' %}
+                </li> 
+              </div>
+            {% else %} 
+             	{% assign row  = forloop.index | modulo:2 %} 
+              {% if row == 0 %}
+              <div class="grid">
+              {% endif %}
+                <li class="item product product-layout-grid">
+                  {% include 'lazyload-products-masonry-item' %}
+                </li>  
+              {% if row == 1 or forloop.last %}
+              </div>
+              {% endif %} 
+            {% endif %}
+            {% endfor %} 
+          </ul>  
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Products Masonry", 
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "General Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Collection Title"
+    },  
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Collection Products Masonry",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

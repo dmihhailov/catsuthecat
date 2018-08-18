@@ -1,0 +1,954 @@
+<div data-section-id="{{ section.id }}" data-section-type="main-block-section">
+  <!-- style sheets -->
+  <style>
+    .main_section_one .home_slidebar .block-subscribe.block-{{ section.id }}{
+      border-top-color: {{ section.settings.border_top_block_subscribe }};
+      background-color: {{ section.settings.bg_block_subscribe }};
+    }
+    .main_section_one .home_slidebar .block-subscribe.block-{{ section.id }} .block-title{
+      color: {{ section.settings.title_block_subscribe }}
+    }
+    .main_section_one .home_slidebar .block-subscribe.block-{{ section.id }} .block-content{
+      color: {{ section.settings.text_content_block_subscribe }}
+    }
+    .main_section_one .home_slidebar .testimonials.testimonials-{{ section.id }} .item blockquote{ 
+      color: {{ section.settings.text_content_block_testimonials }};
+    }
+    .main_section_one .home_slidebar .testimonials.testimonials-{{ section.id }} .item blockquote::after,
+    .main_section_one .home_slidebar .testimonials.testimonials-{{ section.id }} .item blockquote::before{
+      color: {{ section.settings.text_content_block_testimonials }};
+    } 
+    .main_section_{{ section.id }} .home_slidebar .blog_article .latest_news .item .row .post_date_new .long-date{
+      color: {{ section.settings.post_day_color }} !important;
+    }
+    .main_section_{{ section.id }} .blog_article .latest_news .post-date .day{
+      color: {{ section.settings.post_day_color }} !important; 
+    }  
+    .main_section_{{ section.id }} .blog_article .latest_news .postTitle h2 a{
+    	color: {{ section.settings.title_blog_color }} !important;
+    }
+    .main_section_{{ section.id }} .blog_article .latest_news .postContent{
+    	color: {{ section.settings.description_blog_color }} !important;
+    }
+  </style>
+  <!-- style sheets end -->
+  <div id="main-block-{{ section.id }}" class="main_section_one main_section main_section_{{ section.id }}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row" style="margin:0 -10px;">
+        <div class="col-md-3 home_slidebar" style="padding:0 10px;">
+          {% if section.settings.home_slider_banner_enable != blank %}
+          <div class="home_slider_banner" style="text-align:center;">
+            <div class="owl-banner">
+              <div class="data-carousel" 
+                   data-items="1"
+                   data-auto="5000"
+                   data-paging="true"
+                   data-nav="false"
+                   data-prev=''
+                   data-margin="0"
+                   data-next='' style="display: none;"></div>
+              <div class="owl-carousel">
+                {% for i in (1..3) %} 
+                {% capture banner %}slider_banner_{{ i }}{% endcapture %} 
+                {% capture link %}slider_banner_link_{{ i }}{% endcapture %} 
+                {% if section.settings[banner] != blank %}
+                {% assign img_baner = section.settings[banner] | img_url: 'master' %}
+                {% else %}
+                {% assign img_baner = 'img255x353.png' | asset_url %}
+                {% endif %}
+                <div class="item">
+                  <a href="{{ section.settings[link] }}">
+                    <img src="{{ img_baner }}" alt="{{section.settings[banner].alt}}"/>
+                  </a>
+                </div> 
+                {% endfor %}
+              </div>
+            </div>
+          </div> 
+          {% endif %}
+          {% if section.settings.block_subscribe_enable != blank %}
+          <div class="block block-subscribe home-sidebar-block block-{{ section.id }}">
+            <div class="block-title">
+              <strong>
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.block_subscribe_title | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.block_subscribe_title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.block_subscribe_title | split: '|' | first }}
+                  {% endif %}
+                </span>
+              </strong>
+            </div>
+            <div class="block-content">
+              <p>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.block_subscribe_content | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ section.settings.block_subscribe_content | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ section.settings.block_subscribe_content | split: '[lang2]' | first }}
+                {% endif %}            
+              </p>
+              <div class="block_subscribe_form">
+                {% if settings.newsletter_form_action != blank %}
+                {% assign form_action = settings.newsletter_form_action %}
+                {% else %}
+                {% assign form_action = '#' %}
+                {% endif %} 
+                <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+                  <div class="input-group"> 
+                    <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                    <button type="submit" class="btn-button" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.subscribe"{% endif %}>{{ 'general.newsletter_form.subscribe' | t }}</button>
+                  </div> 
+                  <label id="fc-response" for="fc-email"></label>
+                </form>  
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if section.settings.testimonials_enable != blank %} 
+          <div class="testimonials testimonials-{{ section.id }}">
+            <div class="owl-banner">
+              <div class="data-carousel" 
+                   data-items="1"
+                   data-auto=""
+                   data-paging="true"
+                   data-nav="false"
+                   data-prev=''
+                   data-margin="0"
+                   data-next='' style="display: none;"></div>
+              <div class="owl-carousel">
+                {% for i in (1..2) %} 
+                {% capture testimonials_blockquote %}testimonials_blockquote_{{ i }}{% endcapture %} 
+                {% capture testimonials_image %}testimonials_image_{{ i }}{% endcapture %} 
+                {% capture testimonials_author %}testimonials_author_{{ i }}{% endcapture %} 
+                {% if testimonials_blockquote %}
+                <div class="item"> 
+                  <div class="testimonial-author author_new">
+                    <div class="img-thumbnail img-thumbnail-small">
+                      {% if section.settings[testimonials_image] != blank %}
+                      {% assign img_url = section.settings[testimonials_image] | img_url: 'master' %}
+                      {% else %}
+                      {% assign img_url = 'img60x60.png' | asset_url %}
+                      {% endif %}
+                      <img width="60" height="60" src="{{ img_url }}" alt="">
+                    </div>
+                    {% if settings.language_enable %}
+                    <p class="lang1">{{ section.settings[testimonials_author] | split: '[lang2]' | first }}</p>
+                    <p class="lang2">{{ section.settings[testimonials_author] | split: '[lang2]' | last }}</p>
+                    {% else %}
+                    {{ section.settings[testimonials_author] | split: '[lang2]' | first }}
+                    {% endif %}
+                  </div> 
+                  <blockquote>
+                    {% if settings.language_enable %}
+                    <p class="lang1">{{ section.settings[testimonials_blockquote] | split: '[lang2]' | first }}</p>
+                    <p class="lang2">{{ section.settings[testimonials_blockquote] | split: '[lang2]' | last }}</p>
+                    {% else %}
+                    {{ section.settings[testimonials_blockquote] | split: '[lang2]' | first }}
+                    {% endif %}
+                  </blockquote> 
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if section.settings.latest_news_enable != blank %}
+          <div class="blog_slidebar blog_article"> 
+            {%- assign blog = blogs[section.settings.blog] -%}
+            {% unless blog.empty? %}
+            <div class="latest_news owl-top-narrow">
+              <div class="recent-posts">
+                <div class="data-carousel"  
+                     data-auto="{{ section.settings.blog_autoplay }}"
+                     data-items="{{ section.settings.blog_column }}"
+                     data-1200="{{ section.settings.blog_column }}"
+                     data-992="1"
+                     data-768="1"
+                     data-640="1"
+                     data-480="1"
+                     data-320="1"
+                     data-paging="{{ section.settings.blog_show_paging }}"
+                     data-nav="{{ section.settings.blog_show_nav }}"
+                     data-margin="{{ section.settings.blog_item_margin }}"
+                     data-prev='{{ section.settings.blog_nav_prev }}' 
+                     data-next='{{ section.settings.blog_nav_next }}' style="display: none;"></div> 
+                <div class="owl-carousel">
+                  {% for article in blog.articles limit:section.settings.post_limit %}
+                  <div class="item">
+                    <div class="row"> 
+                      <div class="col-sm-7"> 
+                        <div class="post-date post_date_new">                        
+                          <span class="long-date">{{ article.published_at | date: '%b %d, %Y' }}</span>
+                        </div> 
+                        <div class="postTitle">
+                          <h2>
+                            <a href="{{ article.url }}">
+                              {% if settings.language_enable %}
+                              <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                              <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                              {% else %}
+                              {{ article.title | split: '|' | first }}
+                              {% endif %}
+                            </a>
+                          </h2> 
+                        </div>
+                        <div class="postContent">
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 20}}</span>
+                          <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 20}}</span>
+                          {% else %}
+                          {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 20}}
+                          {% endif %} 
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endunless %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-md-9" style="padding:0 10px;">
+          {% if section.settings.home_banner_enable != blank %}
+          <div class="single-images">
+            <div class="row">
+              <div class="col-sm-4">
+                <a href="{{ section.settings.home_banner_link_1 }}" class="image-link border-radius">
+                  {% if section.settings.home_banner_image_1 != blank %}
+                  {% assign img_baner = section.settings.home_banner_image_1 | img_url: '270x200' %}
+                  {% else %}
+                  {% assign img_baner = 'img269x199.png' | asset_url %}
+                  {% endif; %}
+                  <img src="{{ img_baner }}" width="270" height="200"/>
+                </a>
+              </div>
+              <div class="col-sm-4" style="padding-left:10px;padding-right:10px;">
+                <a href="{{ section.settings.home_banner_link_2 }}" class="image-link border-radius">
+                  {% if section.settings.home_banner_image_2 != blank %}
+                  {% assign img_baner = section.settings.home_banner_image_2 | img_url: '270x200' %}
+                  {% else %}
+                  {% assign img_baner = 'img269x199.png' | asset_url %}
+                  {% endif; %}
+                  <img src="{{ img_baner }}" width="270" height="200"/>
+                </a>
+              </div>
+              <div class="col-sm-4" style="padding-left:10px;padding-right:10px;">
+                <a href="{{ section.settings.home_banner_link_3 }}" class="image-link border-radius">
+                  {% if section.settings.home_banner_image_3 != blank %}
+                  {% assign img_baner = section.settings.home_banner_image_3 | img_url: '270x200' %}
+                  {% else %}
+                  {% assign img_baner = 'img269x199.png' | asset_url %}
+                  {% endif; %}
+                  <img src="{{ img_baner }}" width="270" height="200"/>
+                </a>
+              </div>
+            </div> 
+          </div>
+          {%endif%}
+          {% if section.settings.products_collection_enable != blank %}
+          <div class="products-collection {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">    
+            {% if section.settings.collection_title != '' %}
+            <h3 class="title-widget" style="margin-top:20px;">
+              <span class="inner"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.collection_title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.collection_title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.collection_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h3>
+            {% endif %}
+            {% if section.settings.collection_carousel == blank %}
+            <div class="row">
+              {% endif %}
+              <div class="category-products products-spacing-{{section.settings.space_product}}"> 
+                {% assign carousel = section.settings.collection_carousel %} 
+                {% assign limit = section.settings.collection_limit %}     
+                {%- assign name_collection = section.settings.collection -%}
+                {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                {%- assign collection = collections[name_collection] -%} 
+                <div class="data-carousel"             
+                     data-auto="{{ section.settings.collection_autoplay }}"
+                     data-items="{{ section.settings.collection_column }}"
+                     data-1200="{{ section.settings.collection_column }}"
+                     data-992="3"
+                     data-768="3"
+                     data-640="2"
+                     data-480="2"
+                     data-320="2"
+                     data-nav="{{ section.settings.collection_product_show_nav }}"
+                     data-prev='{{ section.settings.collection_product_nav_prev}}'
+                     data-next='{{ section.settings.collection_product_nav_next}}'
+                     data-paging="{{ section.settings.collection_show_paging }}"
+                     data-margin='{{ section.settings.collection_item_margin }}' style="display: none;"></div>
+                {% if carousel %}
+                <div class="products-grid owl-carousel {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %}"> 
+                  {% for product in collection.products limit: section.settings.collection_limit %}  
+                  <div class="item product">
+                    {% include 'owl-lazyload-product-grid-item' %}
+                  </div> 
+                  {% endfor %}  
+                </div>
+                {% else %}
+                <ul class="products-grid columns{{section.settings.collection_column}} {% if settings.collection_flex_grid != blank %}flex-grid{% endif %} {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %}">
+                  {% for product in collection.products limit: section.settings.collection_limit %}  
+                  <li class="item product product-layout-grid">
+                    {% include 'lazyload-product-grid-item' %}
+                  </li> 
+                  {% endfor %} 
+                </ul>
+                {% endif %}
+              </div>
+              {% if section.settings.collection_carousel == blank %}
+            </div>
+            {% endif %}
+          </div>
+          {%endif%}
+          <hr class="line_main_section" style="background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);border: 0;height: 1px;margin: 17px 0 7px;">
+          {% if section.settings.filter_products_enable != blank %}
+          <div class="filter-products">
+            <div class="row">
+              <div class="col-sm-4">
+                <h3 class="title-widget">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.filter_products_title_1 | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.filter_products_title_1 | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.filter_products_title_1 | split: '|' | first }}
+                  {% endif %}
+                </h3>
+                <div class="category-products"> 
+                  {% assign limit = section.settings.filter_products_limit_1 %}   
+                  {%- assign name_collection = section.settings.home_filter_products_1 -%}
+                  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                  {%- assign collection = collections[name_collection] -%} 
+                  <div class="products-grid"> 
+                    {% for product in collection.products limit: section.settings.filter_products_limit_1 %}  
+                    {% include 'filter-products-item' %}
+                    {% endfor %} 
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <h3 class="title-widget">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.filter_products_title_2 | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.filter_products_title_2 | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.filter_products_title_2 | split: '|' | first }}
+                  {% endif %}
+                </h3>
+                <div class="category-products"> 
+                  {% assign limit = section.settings.filter_products_limit_2 %}  
+                  {%- assign name_collection = section.settings.home_filter_products_2 -%}
+                  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                  {%- assign collection = collections[name_collection] -%} 
+                  <div class="products-grid"> 
+                    {% for product in collection.products limit: section.settings.filter_products_limit_2 %}  
+                    {% include 'filter-products-item' %} 
+                    {% endfor %} 
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <h3 class="title-widget">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.filter_products_title_3 | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.filter_products_title_3 | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.filter_products_title_3 | split: '|' | first }}
+                  {% endif %}
+                </h3>
+                <div class="category-products"> 
+                  {% assign limit = section.settings.filter_products_limit_3 %}   
+                  {%- assign name_collection = section.settings.home_filter_products_3 -%}
+                  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                  {%- assign collection = collections[name_collection] -%} 
+                  <div class="products-grid"> 
+                    {% for product in collection.products limit: section.settings.filter_products_limit_3 %}  
+                    {% include 'filter-products-item' %}
+                    {% endfor %} 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%endif%}
+          {% if section.settings.shop_features_enable != blank %}
+          <div class="shop-features">
+            <h2 class="shop-features-title">
+              <span class="shop-features-title-content">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.shop_features_title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.shop_features_title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.shop_features_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h2>
+            <div class="row">
+              <div class="col-sm-4">
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.shop_features_content_1 | split: '[lang2]' | first }}</span>
+                  <span class="lang2">{{ section.settings.shop_features_content_1 | split: '[lang2]' | last }}</span>
+                  {% else %}
+                  {{ section.settings.shop_features_content_1 | split: '[lang2]' | first }}
+                  {% endif %}
+                </span>
+              </div>
+              <div class="col-sm-4">
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.shop_features_content_2 | split: '[lang2]' | first }}</span>
+                  <span class="lang2">{{ section.settings.shop_features_content_2 | split: '[lang2]' | last }}</span>
+                  {% else %}
+                  {{ section.settings.shop_features_content_2 | split: '[lang2]' | first }}
+                  {% endif %}
+                </span>
+              </div>
+              <div class="col-sm-4">
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.shop_features_content_3 | split: '[lang2]' | first }}</span>
+                  <span class="lang2">{{ section.settings.shop_features_content_3 | split: '[lang2]' | last }}</span>
+                  {% else %}
+                  {{ section.settings.shop_features_content_3 | split: '[lang2]' | first }}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+          {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Main Section",
+  "settings": [  
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Color"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_block_subscribe",
+      "label": "Background Block Subcribe Color",
+      "default": "#FBFBFB"
+    },
+    {
+      "type": "color",
+      "id": "title_block_subscribe",
+      "label": "Title Block Subscribe",
+      "default": "#313131"
+    },
+    {
+      "type": "color",
+      "id": "text_content_block_subscribe",
+      "label": "Text Content Block Subscribe Color",
+      "default": "#777"
+    }, 
+    {
+      "type": "color",
+      "id": "text_content_block_testimonials",
+      "label": "Text Content Block Testimonials",
+      "default": "#62615e"
+    },
+    {
+      "type": "color",
+      "id": "title_blog_color",
+      "label": "Title Blog Color",
+      "default": "#000"
+	},
+	{
+      "type": "color",
+      "id": "description_blog_color",
+      "label": "Description Blog Color",
+      "default": "#000"
+	},
+	{
+      "type": "color",
+      "id": "post_day_color",
+      "label": "Post Day Color",
+      "default": "#000"
+	}, 
+    {
+      "type":"header",
+      "content":"Home Sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "home_slider_banner_enable",
+      "label": "Home Slider Banner Enable",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_banner_1",
+      "label": "Slider Banner 1"
+    },
+    {
+      "type": "url",
+      "id": "slider_banner_link_1",
+      "label": "Slide link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_banner_2",
+      "label": "Slider Banner 2"
+    },
+    {
+      "type": "url",
+      "id": "slider_banner_link_2",
+      "label": "Slide link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_banner_3",
+      "label": "Slider Banner 3"
+    },
+    {
+      "type": "url",
+      "id": "slider_banner_link_3",
+      "label": "Slide link 3"
+    },
+    {
+      "type":"header",
+      "content":"Block Subscribe"
+    },
+    {
+      "type": "checkbox",
+      "id": "block_subscribe_enable",
+      "label": "NEWSLETTER",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "block_subscribe_title",
+      "label": "Block Subscribe Ttitle",
+      "default": "Be the First to Know"
+    },
+    {
+      "type": "textarea",
+      "id": "block_subscribe_content",
+      "label": "Block Subscribe Content",
+      "default":"Keep up on our always evolving product features and technology.<br>Enter your e-mail and subscribe to our newsletter."
+    },
+    {
+      "type":"header",
+      "content":"Testimonials"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonials_enable",
+      "label": "Enable?",
+      "default": true
+    },  
+    {
+      "type": "textarea",
+      "id": "testimonials_blockquote_1",
+      "label": "Testimonials Block 1",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit vehicula est."
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonials_image_1",
+      "label": "Testimonials Image 1"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonials_author_1",
+      "label": "Testimonials Author 1",
+      "default": "<strong>John Smith</strong><span>CEO &amp; Founder - Okler</span>"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonials_blockquote_2",
+      "label": "Testimonials Block 2",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit vehicula est."
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonials_image_2",
+      "label": "Testimonials Image 2"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonials_author_2",
+      "label": "Testimonials Author 2",
+      "default": "<strong>John Smith</strong><span>CEO &amp; Founder - Okler</span>"
+    },
+    {
+      "type":"header",
+      "content":"Latest News"
+    },
+    {
+      "type": "checkbox",
+      "id": "latest_news_enable",
+      "label": "Enable?",
+      "default": true
+    },  
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "post_limit",
+      "label": "Number of article to show",
+      "default": "4"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_column",
+      "label": "Columns",
+      "default": "1"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_nav",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+    {
+      "type":"header",
+      "content":"Home Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "home_banner_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_1",
+      "label": "Home Banner Image 1"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_1",
+      "label": "Banner link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_2",
+      "label": "Home Banner Image 2"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_2",
+      "label": "Banner link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "home_banner_image_3",
+      "label": "Home Banner Image 3"
+    },
+    {
+      "type": "url",
+      "id": "home_banner_link_3",
+      "label": "Banner link 3"
+    },
+    {
+      "type":"header",
+      "content":"Products Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "products_collection_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Collection Title",
+      "default": "FEATURED FASHION DRESS"
+    },  
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "collection_limit",
+      "label": "Number of products to show",
+      "default": "8"
+    },  
+    {
+      "type": "text",
+      "id": "collection_column",
+      "label": "Products per row",
+      "default": "4"
+    },    
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "25",
+          "label": "25"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "10"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_carousel",
+      "label": "Enable Carousel",
+      "info": "Use for only default layout and don't show more button.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collection_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_show_paging",
+      "label": "Show Paging"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "collection_product_show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collection_product_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-left-open\"><\/i>"
+    },
+    {
+      "type": "text",
+      "id": "collection_product_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-right-open\"><\/i>"
+    }, 
+    {
+      "type":"header",
+      "content":"Filter Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_products_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "filter_products_title_1",
+      "label": "Filter Products title 1",
+      "default": "NEW"
+    },
+    {
+      "type": "collection",
+      "id": "home_filter_products_1",
+      "label": "Filter Products 1 use:"
+    },
+    {
+      "type": "text",
+      "id": "filter_products_limit_1",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "filter_products_title_2",
+      "label": "Filter Products title_2",
+      "default": "HOT"
+    },
+    {
+      "type": "collection",
+      "id": "home_filter_products_2",
+      "label": "Filter Products 2 use:"
+    },
+    {
+      "type": "text",
+      "id": "filter_products_limit_2",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "filter_products_title_3",
+      "label": "Filter Products title 3",
+      "default": "SALE"
+    },
+    {
+      "type": "collection",
+      "id": "home_filter_products_3",
+      "label": "Filter Products 3 use:"
+    },
+    {
+      "type": "text",
+      "id": "filter_products_limit_3",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type":"header",
+      "content":"Shop Features"
+    },
+    {
+      "type": "checkbox",
+      "id": "shop_features_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shop_features_title",
+      "label": "Shop Features Title",
+      "default": "WHY SHOP WITH US?"
+    },
+    {
+      "type": "textarea",
+      "id": "shop_features_content_1",
+      "label": "Shop Features Content 1",
+      "default": "<i class='icon-star'></i><h3>DEDICATED SERVICE</h3><p>Consult our specialists for help with an order, customization, or design advice.</p><a href='#'>Get in Touch &gt;</a>"
+    },
+    {
+      "type": "textarea",
+      "id": "shop_features_content_2",
+      "label": "Shop Features Content 2",
+      "default": "<i class='icon-reply'></i><h3>FREE RETURNS</h3><p>We stand behind our goods and services and want you to be satisfied with them.</p><a href='#'>Returns Policy &gt;</a>"
+    },
+    {
+      "type": "textarea",
+      "id": "shop_features_content_3",
+      "label": "Shop Features Content 3",
+      "default": "<i class='icon-paper-plane'></i><h3>INTERNATIONAL SHIPPING</h3><p>Currently over 50 countries qualify for express international shipping.</p><a href='#'>Learn More &gt;</a>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Section",
+      "category": "Main Section"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

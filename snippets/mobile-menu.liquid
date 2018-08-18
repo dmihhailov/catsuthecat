@@ -1,0 +1,116 @@
+<div id="navbar-toggle" class="bs-navbar-collapse skip-content">
+
+  {% assign list = linklists[settings.nav_linklist] %} 
+  <ul id="mobile-menu" class="nav-accordion nav-categories">
+    {% for link in list.links %}
+    {% capture menu_label %}menu_item_label_{{ forloop.index }}{% endcapture %} 
+    {% capture menu_label_text1 %}menu_item_label_{{ forloop.index }}_text1{% endcapture %} 
+    {% capture menu_label_text2 %}menu_item_label_{{ forloop.index }}_text2{% endcapture %}
+    {% assign child_list_handle = link.title | handleize %}  
+    {% if linklists[child_list_handle].links != blank %}
+    <li class="level0 level-top parent {% if forloop.index == list.links.size %}last{% endif %}">
+      <a href="{{ link.url }}" class="level-top">
+        <span> 
+          {% if settings.language_enable %}
+          <span class="lang1">{{ link.title | split: '|' | first }}</span>
+          <span class="lang2">{{ link.title | split: '|' | last }}</span>
+          {% else %}
+          {{ link.title | split: '|' | first }}
+          {% endif %}
+          {% if settings[menu_label] !='' and settings[menu_label] == '1' %}
+          <span class="cat-label cat-label-label1 pin-bottom"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ settings[menu_label_text1] | split: '|' | first }}</span>
+            <span class="lang2">{{ settings[menu_label_text1] | split: '|' | last }}</span>
+            {% else %}
+            {{ settings[menu_label_text1] | split: '|' | first }}
+            {% endif %}
+          </span>
+          {% endif %}
+          {% if settings[menu_label] !='' and settings[menu_label] == '2' %}
+          <span class="cat-label cat-label-label2 pin-bottom"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ settings[menu_label_text2] | split: '|' | first }}</span>
+            <span class="lang2">{{ settings[menu_label_text2] | split: '|' | last }}</span>
+            {% else %}
+            {{ settings[menu_label_text2] | split: '|' | first }}
+            {% endif %}
+          </span>
+          {% endif %}
+        </span>
+      </a>
+      <ul class="level0"> 
+        {% for childlink in linklists[child_list_handle].links %}  
+        {% assign grand_child_list_handle = childlink.title | handle %}
+        {% if linklists[grand_child_list_handle].links != blank %} 
+        <li class="level1 parent {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+          <a href="{{ childlink.url }}"><span>{{ childlink.title }}</span></a>
+          <ul class="level1">
+            {% for grand_child_link in linklists[grand_child_list_handle].links %}
+            <li class="level2 {% if forloop.index == linklists[grand_child_list_handle].links.size %}last{% endif %}">
+              <a href="{{ grand_child_link.url }}" class="site-nav__link"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+                <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+                {% else %}
+                {{ grand_child_link.title | split: '|' | first }}
+                {% endif %}   
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% else %}
+        <li class="level1 {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+          <a href="{{ childlink.url }}">
+            <span> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+              <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+              {% else %}
+              {{ childlink.title | split: '|' | first }}
+              {% endif %}   
+            </span>
+          </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </li>
+    {% else %}
+    <li class="level0 level-top"> 
+      <a href="{{ link.url }}" class="level-top">
+        <span> 
+          {% if settings.language_enable %}
+          <span class="lang1">{{ link.title | split: '|' | first }}</span>
+          <span class="lang2">{{ link.title | split: '|' | last }}</span>
+          {% else %}
+          {{ link.title | split: '|' | first }}
+          {% endif %} 
+          {% if settings[menu_label] !='' and settings[menu_label] == '1' %}
+          <span class="cat-label cat-label-label1 pin-bottom"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ settings[menu_label_text1] | split: '|' | first }}</span>
+            <span class="lang2">{{ settings[menu_label_text1] | split: '|' | last }}</span>
+            {% else %}
+            {{ settings[menu_label_text1] | split: '|' | first }}
+            {% endif %}
+          </span>
+          {% endif %}
+          {% if settings[menu_label] !='' and settings[menu_label] == '2' %}
+          <span class="cat-label cat-label-label2 pin-bottom"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ settings[menu_label_text2] | split: '|' | first }}</span>
+            <span class="lang2">{{ settings[menu_label_text2] | split: '|' | last }}</span>
+            {% else %}
+            {{ settings[menu_label_text2] | split: '|' | first }}
+            {% endif %}
+          </span>
+          {% endif %}
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</div>

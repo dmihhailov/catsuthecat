@@ -1,0 +1,65 @@
+<div class="block-option-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-sm-12"> 
+        <div class="block-subscribe" style="{% if settings.bg_newsletter_use != blank %}background: url({{ 'newsletter-bg.png' | asset_url }}) no-repeat center center;{% endif %}">
+          <div class="block-inner">
+            {% if settings.newsletter_form_title !='' %}
+            <div class="block-title">
+              <span> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ settings.newsletter_form_title | split: '|' | first }}</span>
+                <span class="lang2">{{ settings.newsletter_form_title | split: '|' | last }}</span>
+                {% else %}
+                {{ settings.newsletter_form_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </div>
+            {% endif %}
+            {% if settings.newsletter_form_title !='' %}
+            <div class="block-content">
+              {% if settings.language_enable %}
+                <span class="lang1">{{ settings.newsletter_form_content | split: '|' | first }}</span>
+                <span class="lang2">{{ settings.newsletter_form_content | split: '|' | last }}</span>
+                {% else %}
+                {{ settings.newsletter_form_content | split: '|' | first }}
+                {% endif %}
+            </div>
+            {% endif %}
+            {% if settings.newsletter_form_action != blank %}
+            {% assign form_action = settings.newsletter_form_action %}
+            {% else %}
+            {% assign form_action = '#' %}
+            {% endif %}
+            <form id="subscribe_footer" action="{{ form_action }}" method="post" name="mc-embedded-subscribe-form" class="input-group">
+              <div class="item">
+                <div class="input-box">
+                  <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" required="required" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                </div>
+                <div class="actions">
+                  <button type="submit" class="btn-button"><i class="fa fa-angle-right"></i></button>
+                </div>
+              </div> 
+              <label id="fc-response" for="fc-email"></label>
+            </form> 
+            <script type="text/javascript">
+              jQuery(document).ready(function() {  
+                var $_form = jQuery('#subscribe_footer');
+                var $_action = $_form.attr('action');
+                $_form.ajaxChimp({
+                  url: $_action,
+                  callback: function(resp){  
+                    $('#fc-response').show();
+                  }
+                });
+              });
+            </script>
+          </div> 
+        </div>	
+      </div>
+      <div class="col-md-3 col-sm-12">
+		{% include 'advertising-slide' %}
+      </div>
+    </div>
+  </div>
+</div>

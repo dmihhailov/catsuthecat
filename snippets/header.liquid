@@ -1,0 +1,329 @@
+{% case settings.logo_width %}
+{% when '' %}
+{%- assign image_logo_width = '111' -%}
+{%- assign image_logo_height = '' -%} 
+{% else %}
+{%- assign image_logo_width = settings.logo_width -%}
+{%- assign image_logo_height = '' -%}
+{% endcase %}  
+{% capture logo_size %}{{ image_logo_width }}x{{ image_logo_height }}{% endcapture %} 
+{% case settings.logo_sticky_width %}
+{% when '' %}
+{%- assign image_logo_sticky_width = '71' -%}
+{%- assign image_logo_sticky_height = '' -%} 
+{% else %}
+{%- assign image_logo_sticky_width = settings.logo_sticky_width -%}
+{%- assign image_logo_sticky_height = '' -%}
+{% endcase %}  
+{% capture logo_sticky_size %}{{ image_logo_sticky_width }}x{{ image_logo_sticky_height }}{% endcapture %}
+{% if settings.header_show_notice != blank %}
+{% section 'header-notice' %}
+{%endif%} 
+<header class="main-section-header">
+  <div class="header-container {{settings.header_design}} {% if settings.header_overlap != blank and template == 'index' %}header-overlap{% endif %} header-color-{{settings.header_text_color}} header-menu-style-{{settings.header_menu_style}} menu-color-{{settings.header_menu_style_color}} sticky-menu-color-{{settings.header_sticky_menu_style_color}} header-menu-{{settings.header_menu_align}}"> 
+    {%- assign name_header = 'header_' | append:settings.header_design -%}
+    {%- include name_header -%}
+  </div>
+  {% if settings.header_sticky_enable == 'enable'%}
+  <script type="text/javascript"> 
+    $(document).ready(function(){ 
+      var scrolled = false;
+      $(window).scroll(function(){
+        if(200 < $(window).scrollTop() && !scrolled){
+          $('.header-container').addClass('sticky-header');
+          $('.header-container .main-nav').addClass('container');
+          scrolled = true;
+        }
+        if(200>$(window).scrollTop() && scrolled){
+          $('.header-container').removeClass('sticky-header');
+          $('.header-container .main-nav').removeClass('container');
+          scrolled = false;
+        }
+      }) 
+    }); 
+  </script>
+  {% endif %}
+  <div class="mobile-nav">
+    <span class="close-sidebar-menu"><i class="icon-cancel"></i></span>
+    {% include 'mobile-menu' %} 
+    <div class="custom-block">
+      {% if settings.language_enable %}
+      <div class="lang1">{{ settings.header_mobile_custom_text | split: '[lang2]' | first }}</div>
+      <div class="lang2">{{ settings.header_mobile_custom_text | split: '[lang2]' | last }}</div>
+      {% else %}
+      {{ settings.header_mobile_custom_text | split: '[lang2]' | first }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="mobile-nav-overlay"></div>
+  <style type="text/css">
+    .header-container {
+      border-color: {{settings.theme_color}};
+    }
+    .top-newsletter {
+      background-color: {{settings.notice_background_color}};
+    }
+    .notice-color-dark, .notice-color-dark a {color: #333;} 
+    .notice-color-light, .notice-color-light a {color: #fff;}
+    .main-section-header .top-links-container {
+      background-color: {{settings.topbar_background_color}};
+      {% if settings.topbar_background_image != blank %}
+      background-image: url({{ settings.topbar_background_image | img_url: 'master' }}); 
+      {% endif %}
+      background-repeat: {{settings.topbar_background_image_repeat}};
+      background-size: {{settings.topbar_background_size}};
+      background-attachment: {{settings.topbar_background_attachment}};
+      background-position: {{settings.topbar_background_position | replace: '_', ' ' }}; 
+    }
+    .main-section-header .topbar-text-light, .main-section-header .topbar-text-light a {
+      color:#fff;
+    }
+    .main-section-header .topbar-text-dark, .main-section-header .topbar-text-dark a {
+      color:#333;
+    }
+    .main-section-header .topbar-text-custom, .main-section-header .topbar-text-custom a {
+      color: {{settings.topbar_text_custom_color}};
+    }
+    .site-logo img {
+      max-width: {{settings.logo_width | remove: 'px' | append: 'px'}};
+    }
+    .site-sticky-logo img {
+      max-width: {{settings.logo_sticky_width | remove: 'px' | append: 'px'}};
+    }
+    .header-clone .site-logo img {
+      max-width: {{settings.logo_sticky_width | remove: 'px' | append: 'px'}};
+    }
+    .main-section-header .header-container {
+      background-color: {{settings.header_background_color}};
+    }
+    .sticky-header .header-wrapper, .header-container.type16.sticky-header {
+      background-color: {{settings.header_sticky_background_color}};
+    }
+    .woodmart-header-overlap .act-scroll {
+      background-color: rgba(0,0,0,.9);
+    }
+    .main-section-header .header-container {
+      {% if settings.header_background_image != blank %}
+      background-image: url({{ settings.header_background_image | img_url: 'master' }}); 
+      {% endif %}
+      background-repeat: {{settings.header_background_image_repeat}};
+      background-size: {{settings.header_background_size}};
+      background-attachment: {{settings.header_background_attachment}};
+      background-position: {{settings.header_background_position | replace: '_', ' ' }}; 
+    } 
+    .main-section-header .header-container.sticky-header:not(.type14) .header-wrapper {
+      background-color: {{settings.header_sticky_background_color}}; 
+    }
+    {%- if settings.header_design  == 'type13' or settings.header_design == 'type20' -%}
+      {%- if settings.header_sticky_menu_style_color  == 'primary' -%}
+      {%- capture h13_color -%}{{settings.theme_color}}{%- endcapture -%}
+      {%- endif -%}
+      {%- if settings.header_sticky_menu_style_color  == 'light' -%}
+      {%- capture h13_color -%}#fff{%- endcapture -%}
+      {%- endif -%}
+      {%- if settings.header_sticky_menu_style_color  == 'dark' -%}
+      {%- capture h13_color -%}#333{%- endcapture -%}
+      {%- endif -%}
+      {%- if settings.header_sticky_menu_style_color  == 'custom' -%}
+      {%- capture h13_color -%}{{settings.header_sticky_menu_text_color}}{%- endcapture -%} 
+      {%- endif -%}
+      .header-container.type13.header-overlap.sticky-header, .header-container.type13.sticky-header,
+      .header-container.type20.header-overlap.sticky-header, .header-container.type20.sticky-header{
+        background-color: {{settings.header_sticky_background_color}};
+        color:{{h13_color}};
+      }
+      .header-container.type13.sticky-header .search-area .search-extended {border-color:{{h13_color}};}
+      .header-container.type13.sticky-header .search-area .searchform input[type=text], 
+      .header-container.type13.sticky-header .search-area .searchform input[type=text]::-webkit-input-placeholder,
+      .header-container.type13.sticky-header .searchform .searchsubmit {color:{{h13_color}};}
+      .header-container.type13.sticky-header a, .header-container.type20.sticky-header a{
+        color:{{h13_color}};
+      }
+      .header-container.type20.sticky-header .main-nav ul.top-navigation>li >a{
+        color:{{h13_color}} !important;
+      }
+    {%- endif -%}
+    .header-color-dark, .header-color-dark a { 
+      color:#333;
+    }
+    .header-color-light, .header-color-light a { 
+      color:#fff;
+    }
+    .header-color-custom, .header-color-custom a{
+      color: {{settings.header_text_custom_color}};
+    }
+    .header-container .mini-cart .icon-cart-header {
+      color: {{settings.shoping_cart_icon_color}};
+    }
+    .header-container .mini-cart .icon-cart-header:after {
+      color: {{settings.shoping_cart_icon_text_color}};
+    }
+    .header-container .mini-cart .icon-cart-header .cart-total {
+      color: {{settings.shoping_cart_icon_text_color}};
+    }
+    .header-container.sticky-header .main-top-nav .mini-cart .icon-cart-header {
+      color: {{settings.sticky_shoping_cart_icon_color}};
+    }
+    .header-container.sticky-header .main-top-nav .mini-cart .icon-cart-header:after {
+      color: {{settings.sticky_shoping_cart_icon_text_color}};
+    }
+    .header-container.sticky-header .main-top-nav .mini-cart .icon-cart-header .cart-total {
+      color: {{settings.sticky_shoping_cart_icon_text_color}};
+    }
+    .header-container .searchform, .search-by-category .input-dropdown-inner>a, .searchform .searchsubmit { 
+      color: {{settings.header_search_text_color}};
+    }
+    .header-container .searchform input[type=text], .header-container .searchform input[type=text]::-webkit-input-placeholder { 
+      color: {{settings.header_search_text_color}};
+    }
+    .header-container .search-area .search-extended {
+      background-color: {{settings.header_search_background_color}};
+      border-color: {{settings.header_search_border_color}};
+    }
+    .header-container .main-nav ul.top-navigation>li>a,.main-navigation .top-navigation.side-menu>li>a,.header-container.type21 .links li a {
+      font-family: {{settings.font_menu}};
+      font-size: {{settings.font_menu_size}}px;
+      {%- if settings.font_menu_style != 'normal' -%}
+        {%- assign font_style = settings.font_menu_style -%}
+        {%- if font_style contains '_' -%}
+          {%- assign _font_style = font_style | split: '_' -%}
+          font-weight: {{_font_style[1]}};
+          font-style: italic;
+        {%- else -%}
+          font-weight: {{settings.font_menu_style}};
+          font-style: normal;
+        {%- endif -%}
+      {%- endif -%}
+    }
+    {%- if settings.header_menu_bg_style == 'default' -%}
+      .header-container:not(.sticky-header) .main-nav .main-top-nav {
+        background-color: {{settings.header_menu_main_bg_color}};
+      } 
+    {%- else-%}
+      .header-container:not(.sticky-header) .header-wrapper {
+        background-color: {{settings.header_menu_main_bg_color}};
+      }
+    {%- endif -%}
+    .main-navigation .top-navigation.side-menu>li:hover,
+    .main-navigation .top-navigation.side-menu>li.active{
+      background-color: {{settings.category_menu_hover_bg_color}};
+    }
+    .main-navigation .top-navigation.side-menu>li .menu-wrap-sub {border-color: {{settings.category_menu_hover_bg_color}};}
+    .main-navigation .top-navigation.side-menu>li > a{color:{{settings.category_menu_text_color}};}
+    .main-navigation .top-navigation.side-menu>li:hover > a,
+    .main-navigation .top-navigation.side-menu>li.parent:hover a.level-top:after,
+    .main-navigation .top-navigation.side-menu>li.active > a{color:{{settings.category_menu_hover_text_color}};}
+    
+    {%- if settings.header_menu_style_color == 'primary' -%}
+      {%- if settings.header_menu_style == 'background' or settings.header_menu_style == 'background_new' -%}
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li:hover,
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li.active,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li:hover,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li.active{
+          background-color: {{settings.theme_color}};
+        }
+        .header-menu-style-background.menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+	    .header-menu-style-background.menu-color-primary .main-navigation .top-navigation.side-menu>li .menu-wrap-sub{
+          background-color: #fff;
+          border-color: {{settings.theme_color}};
+          color: #777;
+        }
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li >a,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li > a{color:{{settings.theme_color}};}
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li:hover >a,
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li.active >a,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li:hover > a,
+	    .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li.active > a{color:#fff;}
+      {%- else -%}
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li,
+	    .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li{background:none;}
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li >a,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li > a,
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li:hover >a, 
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li:hover > a
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-nav ul.top-navigation>li.active >a, 
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-primary .main-navigation .top-navigation.side-menu>li.active > a{color:{{ settings.theme_color }};}
+	    .header-container.type18.header-menu-style-background_new .main-nav ul.top-navigation>li:hover>a:before{background-color:{{ settings.theme_color }}; }
+    	.header-menu-style-background.menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+    	.header-menu-style-default.menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+    	.header-menu-style-default.menu-color-primary .main-navigation .top-navigation.side-menu>li .menu-wrap-sub,
+	    .header-menu-style-background.menu-color-primary .main-navigation .top-navigation.side-menu>li .menu-wrap-sub{
+          background-color: #fff;
+          border-color: {{settings.theme_color}};
+          color: #777;
+        } 
+      {%- endif -%}
+    {%- endif -%} 
+    {%- if settings.header_menu_style_color == 'custom' -%}
+      {%- if settings.header_menu_style == 'background' or settings.header_menu_style == 'background_new' -%}
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-nav ul.top-navigation>li:hover,
+        .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-nav ul.top-navigation>li.active,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-navigation .top-navigation.side-menu>li:hover,
+    	.header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-navigation .top-navigation.side-menu>li.active{
+          background-color: {{settings.header_menu_bg_color}};
+        }  
+      {%- endif -%}
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-nav ul.top-navigation>li >a,
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-navigation .top-navigation.side-menu>li > a{color:{{ settings.header_menu_text_color }};}
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-nav ul.top-navigation>li:hover >a,
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-nav ul.top-navigation>li.active >a,
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-navigation .top-navigation.side-menu>li:hover > a,
+      .header-menu-style-{{settings.header_menu_style}}.menu-color-custom .main-navigation .top-navigation.side-menu>li.active > a{color:{{ settings.header_menu_hover_text_color }};}
+      .header-container.type18.header-menu-style-background_new .main-nav ul.top-navigation>li:hover>a:before{background-color:{{ settings.header_menu_hover_text_color }}; }
+      .header-menu-style-background.menu-color-custom .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+      .header-menu-style-default.menu-color-custom .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+      .header-menu-style-default.menu-color-custom .main-navigation .top-navigation.side-menu>li .menu-wrap-sub,
+	  .header-menu-style-background.menu-color-custom .main-navigation .top-navigation.side-menu>li .menu-wrap-sub{
+        background-color: #fff;
+        border-color: {{settings.header_menu_bg_color}};
+        color: #777;
+      } 
+    {%- endif -%}
+    {%- if settings.header_sticky_menu_style_color == 'primary' -%}
+      {%- if settings.header_menu_style == 'background' or settings.header_menu_style == 'background_new' -%}
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li:hover,
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li.active {
+          background-color: {{settings.theme_color}};
+        }
+        .sticky-header.header-menu-style-background.sticky-menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub {
+          background-color: #fff;
+          border-top-color: {{settings.theme_color}};
+          color: #777;
+        }
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li >a{color:{{settings.theme_color}};}
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li:hover >a,
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li.active >a{color:#fff;}
+      {%- else -%}
+    	.sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li {background:none;}
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li >a,
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li:hover >a,
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-primary .main-nav ul.top-navigation>li.active >a{color:{{ settings.theme_color }};}
+	    .header-container.type18.header-menu-style-background_new .main-nav ul.top-navigation>li:hover>a:before{background-color:{{ settings.theme_color }}; }
+    	.sticky-header.header-menu-style-background.menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+    	.sticky-header.header-menu-style-default.menu-color-primary .main-nav .main-navigation ul.top-navigation .menu-wrap-sub{
+          background-color: #fff;
+          border-color: {{settings.theme_color}};
+          color: #777;
+        } 
+      {%- endif -%}
+    {%- endif -%} 
+    {%- if settings.header_sticky_menu_style_color == 'custom' -%}
+      {%- if settings.header_menu_style == 'background' or settings.header_menu_style == 'background_new' -%}
+    	.sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-custom .main-nav ul.top-navigation>li:hover,
+        .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-custom .main-nav ul.top-navigation>li.active {
+          background-color: {{settings.header_sticky_menu_bg_color}};
+        }  
+      {%- endif -%}
+      .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-custom .main-nav ul.top-navigation>li >a{color:{{ settings.header_sticky_menu_text_color }};}
+      .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-custom .main-nav ul.top-navigation>li:hover >a,
+      .sticky-header.header-menu-style-{{settings.header_menu_style}}.sticky-menu-color-custom .main-nav ul.top-navigation>li.active >a{color:{{ settings.header_sticky_menu_hover_text_color }};}
+      .header-container.type18.header-menu-style-background_new .main-nav ul.top-navigation>li:hover>a:before{background-color:{{ settings.header_sticky_menu_hover_text_color }}; }
+      .sticky-header.header-menu-style-background.sticky-menu-color-custom .main-nav .main-navigation ul.top-navigation .menu-wrap-sub,
+      .sticky-header.header-menu-style-default.sticky-menu-color-custom .main-nav .main-navigation ul.top-navigation .menu-wrap-sub{
+        background-color: #fff;
+        border-color: {{settings.header_sticky_menu_bg_color}};
+        color: #777;
+      } 
+    {%- endif -%}
+  </style>
+</header>

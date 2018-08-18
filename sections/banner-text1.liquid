@@ -1,0 +1,183 @@
+{% if section.blocks.size > 0 %}
+{% assign col = 12 | divided_by: section.blocks.size %}
+{% else %}
+{% assign col = 4 %}
+{% endif %}
+<style>
+  .banner_text_{{ section.id }} .banner_text_1 .content h3 a{color:{{section.settings.title_color}}}
+  .banner_text_{{ section.id }} .banner_text_1 .content span{color:{{section.settings.text_color}}}
+  .banner_text_{{ section.id }} .banner_text_1 .content {background-color:{{section.settings.bg_content_color}}}
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="banner-text-section">
+  <div class="banner_text_{{ section.id }}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="banner_text_1">
+      <div class="container">
+        <div class="row">
+          {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+          <div class="col-sm-{{col}}">
+            <div class="item">
+              <a href="{{ block.settings.banner_link }}">
+                {% if block.settings.banner_image != blank %}
+                {% assign img_url = block.settings.banner_image | img_url: '360x304' %}
+                {% else %}
+                {% assign img_url = 'img360x304.png' | asset_url %}
+                {% endif %}
+                <img src="{{ img_url }}"/>
+              </a>            
+              <div class="content">
+                {% if block.settings.banner_title != '' %}
+                <h3>
+                  <a href="{{block.settings.banner_link}}">
+                    {% if settings.language_enable %}
+                    <div class="lang1">{{ block.settings.banner_title | split: '[lang2]' | first }}</div>
+                    <div class="lang2">{{ block.settings.banner_title | split: '[lang2]' | last }}</div>
+                    {% else %}
+                    {{ block.settings.banner_title | split: '[lang2]' | first }}
+                    {% endif %}
+                  </a>
+                </h3>
+                {% endif %}
+                {% if block.settings.banner_content != '' %}
+                <span>
+                  {% if settings.language_enable %}
+                  <div class="lang1">{{ block.settings.banner_content | split: '[lang2]' | first }}</div>
+                  <div class="lang2">{{ block.settings.banner_content | split: '[lang2]' | last }}</div>
+                  {% else %}
+                  {{ block.settings.banner_content | split: '[lang2]' | first }}
+                  {% endif %}
+                </span> 
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <p>No Content</p>
+          {% endif %}
+        </div> 
+      </div> 
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Text 1",
+  "max_blocks": 4,
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+	{
+      "type": "header",
+      "content": "Content settings"
+    }, 
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+	  "default": "#050203"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+	  "default": "#7b7f83"
+    },
+    {
+      "type": "color",
+      "id": "bg_content_color",
+      "label": "Background Content Color",
+	  "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Banner Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Home Banner Image"
+        },
+        {
+          "type": "url",
+          "id": "banner_link",
+          "label": "Banner link"
+        },
+        {
+          "type":"text",
+          "id":"banner_title",
+          "label":"Banner Title"
+        },
+        {
+          "type":"html",
+          "id":"banner_content",
+          "label":"Banner Content"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Banner Text 1",
+    "category": "Banner",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "SUNGLASSES",
+		  "banner_content": "Lorem Ipsum is simply dummy<br>text of the printing and typesetting industry.<br>Lorem Ipsum has"
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "SHOES",
+		  "banner_content": "Lorem Ipsum is simply dummy<br>text of the printing and typesetting industry.<br>Lorem Ipsum has"
+        }  
+      },
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "WATCHES",
+		  "banner_content": "Lorem Ipsum is simply dummy<br>text of the printing and typesetting industry.<br>Lorem Ipsum has"
+        }  
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

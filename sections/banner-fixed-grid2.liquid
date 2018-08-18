@@ -1,0 +1,120 @@
+<div data-section-id="{{ section.id }}" data-section-type="banner-fixed-section">
+  <div class="banner-fixed-2-{{section.id}}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="banner_fixed_grid_2">
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-xs-6 column">
+            <a href="{{ section.settings.banner_link_1 }}" class="image-link">
+              {% if section.settings.banner_image_1 != blank %}
+              <img src="{{ section.settings.banner_image_1 | img_url: 'master' }}"/>
+              {% else %}
+              <img src="{{ 'image-baner273x240.png' | asset_url }}"/>
+              {% endif %}
+            </a>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-6 md-f-right column">
+            <a href="{{ section.settings.banner_link_2 }}" class="image-link">
+              {% if section.settings.banner_image_2 != blank %}
+              <img src="{{ section.settings.banner_image_2 | img_url: 'master' }}"/>
+              {% else %}
+              <img src="{{ 'image-baner273x240.png' | asset_url }}"/>
+              {% endif %}
+            </a>
+          </div>
+          <div class="col-md-6 col-sm-12 col-xs-12 column">
+            <a href="{{ section.settings.banner_link_3 }}" class="image-link">
+              {% if section.settings.banner_image_3 != blank %}
+              <img src="{{ section.settings.banner_image_3 | img_url: 'master' }}"/>
+              {% else %}
+              <img src="{{ 'image-baner562x240.png' | asset_url }}"/>
+              {% endif %}
+            </a>
+          </div>
+        </div> 
+      </div> 
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Fixed Grid 2",
+  "settings": [
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "color",
+        "id": "bg_section_color",
+        "label": "Section background color" 
+      }, 
+      {
+        "type": "text",
+        "id": "margin_top",
+        "label": "Section margin top",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "margin_bottom",
+        "label": "Section margin bottom",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "section_padding",
+        "label": "Section padding",
+        "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+      }, 
+    {
+      "type":"header",
+      "content":"Banner Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_1",
+      "label": "Banner Image 1"
+    },
+    {
+      "type": "url",
+      "id": "banner_link_1",
+      "label": "Banner link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_2",
+      "label": "Banner Image 2"
+    },
+    {
+      "type": "url",
+      "id": "banner_link_2",
+      "label": "Banner link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_3",
+      "label": "Banner Image 3"
+    },
+    {
+      "type": "url",
+      "id": "banner_link_3",
+      "label": "Banner link 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Fixed Grid 2",
+      "category": "Banner",
+      "settings": { 
+
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

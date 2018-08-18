@@ -1,0 +1,36 @@
+{% comment %}
+This snippet is used to showcase each collection during the loop,
+'for product in collection.products' in list-collections.liquid.
+{% endcomment %}
+
+
+
+{% comment %}
+Use capture to put the collection title in a variable that is used in liquid filters
+{% endcomment %}
+
+{% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+<div class="product-top">
+  <a href="{{ collection.url }}" title="{{ collection_title }}">
+    {% if collection.image %}
+    {{ collection.image.src | collection_img_url: '400x400', crop: 'center' | img_tag: collection_title }}
+    {% else %}
+    {{ collection.products.first.featured_image | product_img_url: '400x400', crop: 'center' | img_tag: collection_title }}
+    {% endif %}
+  </a>
+  <span class="thumb-info-title">
+    <h3 class="sub-title thumb-info-inner">
+      {% if settings.language_enable %}
+      <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" {% if settings.language_enable %}data-translate="collections.general.link_title|title:{{collection_title}}" translate-item="title"{% endif %}>
+        <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+        <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+      </a>
+      {% else %}
+      <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" {% if settings.language_enable %}data-translate="collections.general.link_title|title:{{collection_title}}" translate-item="title"{% endif %}>
+        {{ collection.title }}
+      </a>
+      {% endif %}
+    </h3>
+    <span class="thumb-info-type" {% if settings.language_enable %}data-translate="collections.general.items_with_count|count:{{collection.all_products_count}}"{% endif %}>{{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}</span>
+  </span>
+</div>

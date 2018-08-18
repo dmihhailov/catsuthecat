@@ -1,0 +1,484 @@
+<!-- style sheets -->
+<style>
+  .owl-dots{
+  	margin-top:10px;
+  }
+  .slideshow_thumbnails.slideshow-section .slideshow .content.content-{{ section.id }} h2{
+    color: {{ section.settings.text_content_slide }};
+  }
+  .slideshow_thumbnails.slideshow-section .slideshow .content.content-{{ section.id }} .button a{
+    background-color: {{ section.settings.bg_button_content }};
+    color: {{ section.settings.text_button_content }};
+  }
+</style>
+<!-- end style sheets -->
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  {% if section.blocks.size > 0 %}
+  <div class="slideshow_thumbnails slideshow-section {% if section.settings.slide_fullscreen == '1' %}full-screen-slider{% endif %}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="data-slideshow"  
+         data-auto="{{ section.settings.auto_speed }}"
+         data-paging="{{ section.settings.slide_pagination }}"
+         data-nav="{{ section.settings.slide_navigation }}"
+         data-transition="{{ section.settings.slide_transition }}"
+         data-prev='{{ section.settings.slide_nav_prev }}' 
+         data-parallax="true"
+         data-next='{{ section.settings.slide_nav_next }}' style="display: none;"></div>
+    <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel" data-slider-id="{{ section.id }}">
+      {% for block in section.blocks %}
+      <div class="item">
+        <a href="{{ block.settings.link }}" style="position:absolute;height:100%;width:100%;z-index:2"></a>
+        {% if block.settings.bg_image != blank %}
+        {% assign bg_img_url = block.settings.bg_image | img_url: '1920x945' %}
+        {% else %}
+        {% assign bg_img_url = 'img1920x945.png' | asset_url %}
+        {% endif;%}
+        <div class="slideshow_background" {% if block.settings.background_image_use == '1'%} style="width:100%;height:100%;background: url({{ bg_img_url }}) center center no-repeat;background-size: cover;"{% endif %}></div>
+        <ul class="scene" style="width:100%;height:100%:">
+          {% if block.settings.layer_image_1 != blank%}
+          {% assign img_url = block.settings.layer_image_1 | img_url: 'master' %}
+          {% else %}
+          {% assign img_url = 'bg1920x945.png' | asset_url %}
+          {% endif %}
+          <li class="layer" data-depth="0.05">
+            <img src="{{ img_url }}" alt="" />
+          </li>
+          {% if block.settings.layer_image_2 != blank%}
+          <li class="layer" data-depth="0.06">
+            <img src="{{ block.settings.layer_image_2 | img_url: 'master' }}" style="position:absolute;top:40%;left:35%" alt="" />
+          </li>
+          {% endif %}
+          {% if block.settings.layer_image_3 != blank%}
+          <li class="layer" data-depth="0.07">
+            <img src="{{ block.settings.layer_image_3 | img_url: 'master' }}" class="animation-spin" style="position:absolute;top:20%;left:50%" alt="" />
+          </li>
+          {% endif %}
+          {% if block.settings.layer_image_4 != blank%}
+          <li class="layer" data-depth="0.10">
+            <img src="{{ block.settings.layer_image_4 | img_url: 'master' }}" class="animation-wave" style="position:absolute;top:50%;left:80%" alt="" />
+          </li>
+          {% endif %}
+          {% if block.settings.layer_image_5 != blank%}
+          <li class="layer" data-depth="0.15">
+            <img src="{{ block.settings.layer_image_5 | img_url: 'master' }}" style="position:absolute;top:70%;left:55%" alt="" />
+          </li>
+          {% endif %} 
+        </ul>
+        <div class="content content-{{ section.id }}"> 
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ block.settings.content | split: '[lang2]' | first }}
+          {% endif %} 
+          {% if block.settings.button_content != '' %}
+          <div class="button" style="position:relative;z-index:3;">
+            <a href="{{ block.settings.link }}"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.button_content | split: '[lang2]' | first }}</span>
+              <span class="lang2">{{ block.settings.button_content | split: '[lang2]' | last }}</span>
+              {% else %}
+              {{ block.settings.button_content | split: '[lang2]' | first }}
+              {% endif %} 
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {%if block.type == 'video' %}
+        <div class="video-wrap">
+          {% if block.settings.ico_slide_video_overlay != 'none' %}
+          <div class="video-overlay overlay-{{ block.settings.ico_slide_video_overlay }}" style="opacity: 1;"></div>
+          {% endif %}
+          <video class="video" poster="{{ slide_img | asset_url }}" autoplay {% if block.settings.ico_slide_video_loop == 'loop' %}loop=""{% endif %} {% if block.settings.ico_slide_video_mute == 'mute' %}muted=""{% endif %} preload="auto" data-width="0" data-height="0">
+            {% if block.settings.ico_slide_video contains '.mp4' %}     
+            <source src="{{ block.settings.ico_slide_video }}" type="video/mp4">
+            {% else %}
+            <source src="{{ block.settings.ico_slide_video }}" type="video/webm">
+            {% endif %}
+          </video>
+          <div class="content content-{{ section.id }}"> 
+          {% if settings.language_enable %}
+          <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ block.settings.content | split: '[lang2]' | first }}
+          {% endif %} 
+          {% if block.settings.button_content != '' %}
+          <div class="button" style="position:relative;z-index:3;">
+            <a href="{{ block.settings.link }}"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.button_content | split: '[lang2]' | first }}</span>
+              <span class="lang2">{{ block.settings.button_content | split: '[lang2]' | last }}</span>
+              {% else %}
+              {{ block.settings.button_content | split: '[lang2]' | first }}
+              {% endif %} 
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="owl-thumbs" data-slider-id="{{ section.id }}">
+      {% for block in section.blocks %}
+      {% if block.settings.thumb_image != blank %}
+      	{% if block.settings.thumb_image_use == '1' %}
+      	{% assign thumb_image = block.settings.thumb_image | img_url: '180x130' %}
+      	{% else %}
+      	<style>
+          .owl-thumbs{
+          	display:none;
+          }
+      	</style>
+      	{% endif %}
+      {% else %}
+      	{% assign thumb_image = 'img-thumb180x130.png' | asset_url %}
+      {% endif;%}
+      <button class="owl-thumb-item"><img src="{{ thumb_image }}"></button> 
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "Slideshow & Thumbnail",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "text_content_slide",
+      "label": "Text Content Slide Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_button_content",
+      "label": "Background Button Content Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_button_content",
+      "label": "Text Button Content Color",
+      "default" : "#000"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "slide_fullscreen",
+      "label": "Fullscreen",
+      "info": "Choose if you would like the slider to be window height.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    }, 
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "select",
+      "id": "slide_navigation",
+      "label": "Navigation",
+      "info": "Choose if you would like to display the left\/right arrows on the slider.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "slide_pagination",
+      "label": "Pagination",
+      "info": "Choose if you would like to display the slider pagination.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "select",
+          "id": "background_image_use",
+          "label": "Background Image Use?",
+          "info": "Choose if you would like to display background image.",
+          "options": [
+            {
+              "value": "1",
+              "label": "Yes"
+            },
+            {
+              "value": "0",
+              "label": "No"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "thumb_image",
+          "label": "Thumbnail Image"
+        },
+        {
+          "type": "select",
+          "id": "thumb_image_use",
+          "label": "Thumb Image Use?",
+          "info": "Choose if you would like to display thumb image.",
+          "options": [
+            {
+              "value": "1",
+              "label": "Yes"
+            },
+            {
+              "value": "0",
+              "label": "No"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "layer_image_1",
+          "label": "Layer Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "layer_image_2",
+          "label": "Layer Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "layer_image_3",
+          "label": "Layer Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "layer_image_4",
+          "label": "Layer Image 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "layer_image_5",
+          "label": "Layer Image 5"
+        },  
+        {
+          "type": "html",
+          "id": "content",
+          "label": "Content",
+          "default": "<h2>Running<br/>shoes</h2>"
+        },  
+        {
+          "type": "text",
+          "id": "button_content",
+          "label": "Button content",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide link"
+        }
+      ]
+    },
+	{
+  "type": "video",
+  "name": "Video slide",
+  "settings": [
+  {
+  "type": "text",
+  "id": "ico_slide_video",
+  "label": "Background Video .mp4 or .webm URL",
+  "info": "provide the video .mp4, .webm url for the background"
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_loop",
+  "label": "Video Loop",
+  "info": "Choose if you would like the slide background video to play once, or loop.",
+  "options": [
+  {
+  "value": "loop",
+  "label": "Loop"
+  },
+  {
+  "value": "",
+  "label": "Single play"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_mute",
+  "label": "Video mute",
+  "info": "Choose if you would like the slide background video to be muted, or not.",
+  "options": [
+  {
+  "value": "mute",
+  "label": "Mute"
+  },
+  {
+  "value": "volume",
+  "label": "Volume"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_overlay",
+  "label": "Video overlay",
+  "info": "Choose if you would like to show an overlay style over the video.",
+  "options": [
+  {
+  "value": "none",
+  "label": "None"
+  },
+  {
+  "value": "lightgrid",
+  "label": "Lightgrid"
+  }
+  ]
+  },
+	{
+          "type": "html",
+          "id": "content",
+          "label": "Content",
+          "default": "<h2>Running<br/>shoes</h2>"
+        },  
+        {
+          "type": "text",
+          "id": "button_content",
+          "label": "Button content",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide link"
+        }
+  ]
+  }
+  ],
+  "presets": [{
+    "name": "Slideshow With Thumbnail",
+    "category": "Slideshow",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image"
+      },
+      {
+        "type": "image"
+      },
+      {
+        "type": "image"
+      }
+    ]
+  }]
+}
+{% endschema %}
+{% stylesheet %}
+
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

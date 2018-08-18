@@ -1,0 +1,224 @@
+<!-- /templates/customers/addressess.liquid --> 
+{% include 'breadcrumb' %}
+{% paginate customer.addresses by 5 %}
+<div class="container">
+  <div class="row">
+    <div class="account-dashboard address-form">
+      <div class="col-sm-12">
+      <div class="page-title">
+        <h2><span {% if settings.language_enable %}data-translate="customer.addresses.title"{% endif %}>{{ 'customer.addresses.title' | t }}</span> | <span {% if settings.language_enable %}data-translate="customer.account.title"{% endif %}>{{ 'customer.account.title' | t }}</span></h2>
+        <p><a href="#" class="btn-button bordered uppercase" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;" {% if settings.language_enable %}data-translate="customer.addresses.add_new"{% endif %}>{{ 'customer.addresses.add_new' | t }}</a></p> 
+      </div> 
+      </div>
+      <div class="col-sm-12">
+        <div class="my-address">
+          <div id="AddAddress" class="form-vertical" style="display: none;">
+            {% form 'customer_address', customer.new_address %} 
+            <h3 {% if settings.language_enable %}data-translate="customer.addresses.add_new"{% endif %}>{{ 'customer.addresses.add_new' | t }}</h3>
+            <div class="form-edit">
+              <ul class="form-list">
+                <li> 
+                  <label for="AddressFirstNameNew" {% if settings.language_enable %}data-translate="customer.addresses.first_name"{% endif %}>{{ 'customer.addresses.first_name' | t }}</label>
+                  <input type="text" id="AddressFirstNameNew" class="input-full" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words">
+                </li>
+                <li>
+                  <label for="AddressLastNameNew" {% if settings.language_enable %}data-translate="customer.addresses.last_name"{% endif %}>{{ 'customer.addresses.last_name' | t }}</label>
+                  <input type="text" id="AddressLastNameNew" class="input-full" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words"> 
+                </li>
+                <li>
+                  <label for="AddressCompanyNew" {% if settings.language_enable %}data-translate="customer.addresses.company"{% endif %}>{{ 'customer.addresses.company' | t }}</label>
+                  <input type="text" id="AddressCompanyNew" class="input-full" name="address[company]" value="{{ form.company }}" autocapitalize="words">
+                </li>
+                <li> 
+                  <label for="AddressAddress1New" {% if settings.language_enable %}data-translate="customer.addresses.address1"{% endif %}>{{ 'customer.addresses.address1' | t }}</label>
+                  <input type="text" id="AddressAddress1New" class="input-full" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words">
+                </li>
+                <li> 
+                  <label for="AddressAddress2New" {% if settings.language_enable %}data-translate="customer.addresses.address2"{% endif %}>{{ 'customer.addresses.address2' | t }}</label>
+                  <input type="text" id="AddressAddress2New" class="input-full" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words">
+                </li>
+                <li>  
+                  <label for="AddressCityNew" {% if settings.language_enable %}data-translate="customer.addresses.city"{% endif %}>{{ 'customer.addresses.city' | t }}</label>
+                  <input type="text" id="AddressCityNew" class="input-full" name="address[city]" value="{{ form.city }}" autocapitalize="words">
+                </li>
+                <li> 
+                  <label for="AddressCountryNew" {% if settings.language_enable %}data-translate="customer.addresses.country"{% endif %}>{{ 'customer.addresses.country' | t }}</label>
+                  <select id="AddressCountryNew" class="input-full" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+                </li>
+                <li>
+                  <div class="grid__item" id="AddressProvinceContainerNew" style="display:none">
+                    <label for="AddressProvinceNew" {% if settings.language_enable %}data-translate="customer.addresses.province"{% endif %}>{{ 'customer.addresses.province' | t }}</label>
+                    <select id="AddressProvinceNew" class="input-full" name="address[province]" data-default="{{ form.province }}"></select>
+                  </div> 
+                </li>
+                <li> 
+                  <label for="AddressZipNew" {% if settings.language_enable %}data-translate="customer.addresses.zip"{% endif %}>{{ 'customer.addresses.zip' | t }}</label>
+                  <input type="text" id="AddressZipNew" class="input-full" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters"> 
+                </li>
+                <li> 
+                  <label for="AddressPhoneNew" {% if settings.language_enable %}data-translate="customer.addresses.phone"{% endif %}>{{ 'customer.addresses.phone' | t }}</label>
+                  <input type="tel" id="AddressPhoneNew" class="input-full" name="address[phone]" value="{{ form.phone }}"> 
+                </li> 
+              </ul>
+              <div class="button-set">  
+                <p>
+                  {{ form.set_as_default_checkbox }}
+                  <label for="address_default_address_new" class="inline" {% if settings.language_enable %}data-translate="customer.addresses.set_default"{% endif %}>{{ 'customer.addresses.set_default' | t }}</label>
+                </p> 
+                <p>
+                  <input type="submit" class="btn-button bordered uppercase" {% if settings.language_enable %}data-translate="customer.addresses.add"{% endif %} value="{{ 'customer.addresses.add' | t }}">
+                  <a href="#" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;" {% if settings.language_enable %}data-translate="customer.addresses.cancel"{% endif %}>{{ 'customer.addresses.cancel' | t }}</a>
+                </p> 
+              </div>
+            </div> 
+            {% endform %}
+          </div>
+        </div>
+        <div class="my-address">   
+          {% for address in customer.addresses %} 
+            <h3>
+              {{ address.first_name | capitalize }} {{ address.last_name | capitalize }}
+              {% if address == customer.default_address %}<span style="float: none;" {% if settings.language_enable %}data-translate="customer.addresses.default"{% endif %}>({{ 'customer.addresses.default' | t }})</span>{% endif %} 
+              <span class="actions">
+                {{ 'customer.addresses.edit' | t | edit_customer_address_link: address.id }} |
+                {{ 'customer.addresses.delete' | t | delete_customer_address_link: address.id }}
+              </span> 
+            </h3> 
+          {% if settings.language_enable %}
+          <script>
+            $(".actions").find("a:eq(0)").attr("data-translate","customer.addresses.edit");
+            $(".actions").find("a:eq(1)").attr("data-translate","customer.addresses.delete");
+          </script>
+          {% endif %}
+          	<div class="content">
+              <p>
+                {{ address.company }}<br>
+                {{ address.street }}<br>
+                {{ address.city | capitalize }}<br>
+                {% if address.province_code %}
+                  {{ address.province_code | upcase }}<br>
+                {% endif %}
+                {{ address.zip | upcase }}<br>
+                {{ address.country }}<br>
+                {{ address.phone }}
+              </p>
+            </div>
+            <div id="EditAddress_{{ address.id }}" class="form-vertical" style="display:none;">
+              {% form 'customer_address', address %}
+
+                <h4 {% if settings.language_enable %}data-translate="customer.addresses.edit_address"{% endif %}>{{ 'customer.addresses.edit_address' | t }}</h4>
+				<div class="form-edit"> 
+                  <ul class="form-list"> 
+                    <li> 
+                      <label for="AddressFirstName_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.first_name"{% endif %}>{{ 'customer.addresses.first_name' | t }}</label>
+                      <input type="text" id="AddressFirstName_{{ form.id }}" class="input-full" name="address[first_name]" value="{{ form.first_name }}" autocapitalize="words">
+                    </li>
+                    <li> 
+                      <label for="AddressLastName_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.last_name"{% endif %}>{{ 'customer.addresses.last_name' | t }}</label>
+                      <input type="text" id="AddressLastName_{{ form.id }}" class="input-full" name="address[last_name]" value="{{ form.last_name }}" autocapitalize="words">
+                    </li>
+                    <li>
+                      <label for="AddressCompany_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.company"{% endif %}>{{ 'customer.addresses.company' | t }}</label>
+                      <input type="text" id="AddressCompany_{{ form.id }}" class="input-full" name="address[company]" value="{{ form.company }}" autocapitalize="words">
+                    </li>
+                    <li>
+                      <label for="AddressAddress1_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.address1"{% endif %}>{{ 'customer.addresses.address1' | t }}</label>
+                      <input type="text" id="AddressAddress1_{{ form.id }}" class="input-full" name="address[address1]" value="{{ form.address1 }}" autocapitalize="words">
+                    </li>
+                    <li>
+                      <label for="AddressAddress2_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.address2"{% endif %}>{{ 'customer.addresses.address2' | t }}</label>
+                      <input type="text" id="AddressAddress2_{{ form.id }}" class="input-full" name="address[address2]" value="{{ form.address2 }}" autocapitalize="words">
+                    </li>
+                    <li>
+                      <label for="AddressCity_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.city"{% endif %}>{{ 'customer.addresses.city' | t }}</label>
+                      <input type="text" id="AddressCity_{{ form.id }}" class="input-full" name="address[city]" value="{{ form.city }}" autocapitalize="words">
+                    </li>
+                    <li>
+                      <label for="AddressCountry_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.country"{% endif %}>{{ 'customer.addresses.country' | t }}</label>
+                      <select id="AddressCountry_{{ form.id }}" class="input-full" name="address[country]" data-default="{{ form.country }}">{{ country_option_tags }}</select>
+                    </li>
+                    <li>
+                      <div id="AddressProvinceContainer_{{ form.id }}" style="display:none">
+                        <label for="AddressProvince_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.province"{% endif %}>{{ 'customer.addresses.province' | t }}</label>
+                        <select id="AddressProvince_{{ form.id }}" class="input-full" name="address[province]" data-default="{{ form.province }}"></select>
+                      </div>
+                    </li>
+                    <li> 
+                      <label for="AddressZip_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.zip"{% endif %}>{{ 'customer.addresses.zip' | t }}</label>
+                      <input type="text" id="AddressZip_{{ form.id }}" class="input-full" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters">
+                    </li>
+                    <li> 
+                      <label for="AddressPhone_{{ form.id }}" {% if settings.language_enable %}data-translate="customer.addresses.phone"{% endif %}>{{ 'customer.addresses.phone' | t }}</label>
+                      <input type="tel" id="AddressPhone_{{ form.id }}" class="input-full" name="address[phone]" value="{{ form.phone }}">
+                    </li>
+                    <li> 
+                  </ul>
+                  <div class="button-set">  
+                    <p>
+                      {{ form.set_as_default_checkbox }}
+                      <label for="address_default_address_{{ form.id }}" class="inline" {% if settings.language_enable %}data-translate="customer.addresses.set_default"{% endif %}>{{ 'customer.addresses.set_default' | t }}</label>
+                    </p> 
+                    <p>
+                      <input type="submit" class="btn-button bordered uppercase" {% if settings.language_enable %}data-translate="customer.addresses.update"{% endif %} value="{{ 'customer.addresses.update' | t }}"> 
+                      <a href="#" onclick="Shopify.CustomerAddress.toggleForm({{ form.id }}); return false;" {% if settings.language_enable %}data-translate="customer.addresses.cancel"{% endif %}>{{ 'customer.addresses.cancel' | t }}</a> 
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+              {% endform %}
+            </div>
+			<p style="padding: 0 20px;"><a href="/account" {% if settings.language_enable %}data-translate="customer.account.return"{% endif %}>{{ 'customer.account.return' | t }}</a></p>
+          {% endfor %}
+
+          {% if paginate.pages > 1 %}
+            <hr>
+            <div class="pagination">
+              {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+            </div>
+          {% endif %}
+        </div>
+      </div> 
+    </div>
+  </div>   
+</div>
+<script>
+  // Initialize observers on address selectors
+  new Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', {
+    hideElement: 'AddressProvinceContainerNew'
+  });
+
+  // Setup province selector on each customer address
+  {% for address in customer.addresses %}
+    new Shopify.CountryProvinceSelector('AddressCountry_{{ address.id }}', 'AddressProvince_{{ address.id }}', {
+      hideElement: 'AddressProvinceContainer_{{ address.id }}'}
+    );
+  {% endfor %}
+
+  // Modified contents of customer_area.js (global asset)
+  Shopify.CustomerAddress = {
+    toggleForm: function(id) {
+      var editEl = document.getElementById('EditAddress_'+id);
+      editEl.style.display = editEl.style.display == 'none' ? '' : 'none';
+      return false;
+    },
+
+    toggleNewForm: function() {
+      var el = document.getElementById('AddAddress');
+      el.style.display = el.style.display == 'none' ? '' : 'none';
+      return false;
+    },
+
+    destroy: function(id, confirm_msg) {
+      var msg = "{{ 'customer.addresses.delete_message' | t}}";
+      {% if settings.enable_multilang %}
+      if (translator.isLang2())
+        var msg = lang2.customer.addresses.delete_message;      
+      {% endif %}
+      if (confirm(msg)) {
+        Shopify.postLink('/account/addresses/'+id, {'parameters': {'_method': 'delete'}});
+      } 
+    }
+  }
+</script>
+
+{% endpaginate %}

@@ -1,0 +1,246 @@
+<div class="banner_fixed_grid banner_fixed_grid_{{section.id}}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+  <div class="container">
+    <div class="row" style="margin:0 -10px;">
+      <div class="col-sm-3 col-xs-6" style="padding:0 10px;padding-bottom:20px;">
+        <div class="b-left banner-item">
+          <a class="image-link" href="{{section.settings.banner_left_link_1}}">
+            {% if section.settings.banner_left_1 != blank %}
+            {% assign image_url = section.settings.banner_left_1 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x308.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-left banner-item">
+          <a class="image-link" href="{{section.settings.banner_left_link_2}}">
+            {% if section.settings.banner_left_2 != blank %}
+            {% assign image_url = section.settings.banner_left_2 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x421.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-left banner-item">
+          <a class="image-link" href="{{section.settings.banner_left_link_3}}">
+            {% if section.settings.banner_left_3 != blank %}
+            {% assign image_url = section.settings.banner_left_3 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x246.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 sm-f-right" style="padding:0 10px;padding-bottom:20px;">
+        <div class="b-right banner-item">
+          <a class="image-link" href="{{section.settings.banner_right_link_1}}">
+            {% if section.settings.banner_right_1 != blank %}
+            {% assign image_url = section.settings.banner_right_1 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x216.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-right banner-item">
+          <a class="image-link" href="{{section.settings.banner_right_link_2}}">
+            {% if section.settings.banner_right_2 != blank %}
+            {% assign image_url = section.settings.banner_right_2 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x523.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-right banner-item">
+          <a class="image-link" href="{{section.settings.banner_right_link_3}}">
+            {% if section.settings.banner_right_3 != blank %}
+            {% assign image_url = section.settings.banner_right_3 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img270x246.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="sm-clearer"></div>
+      <div class="col-sm-6" style="padding:0 10px;padding-bottom:20px;"> 
+        <div class="b-center banner-item">
+          <a class="image-link" href="{{section.settings.banner_main_link_1}}">
+            {% if section.settings.banner_main_1 != blank %}
+            {% assign image_url = section.settings.banner_main_1 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img560x361.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-center banner-item">
+          <a class="image-link" href="{{section.settings.banner_main_link_2}}">
+            {% if section.settings.banner_main_2 != blank %}
+            {% assign image_url = section.settings.banner_main_2 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img560x295.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+        <div class="b-center banner-item">
+          <a class="image-link" href="{{section.settings.banner_main_link_3}}">
+            {% if section.settings.banner_main_3 != blank %}
+            {% assign image_url = section.settings.banner_main_3 | img_url: 'master' %}
+            {% else %}
+            {% assign image_url = 'img560x294.png' | asset_url %}
+            {% endif %}
+            <img src="{{ image_url }}" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    .banner_fixed_grid_{{section.id}} {
+      background-color: {{section.settings.bg_section_color}};
+    }
+  </style>
+</div>
+{% schema %}
+  {
+    "name": "Banner Fixed Grid",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "color",
+        "id": "bg_section_color",
+        "label": "Section background color" 
+      }, 
+      {
+        "type": "text",
+        "id": "margin_top",
+        "label": "Section margin top",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "margin_bottom",
+        "label": "Section margin bottom",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "section_padding",
+        "label": "Section padding",
+        "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+      }, 
+      {
+        "type": "header",
+        "content": "Banner Settings"
+      }, 
+      {
+        "type": "image_picker",
+        "id": "banner_left_1",
+        "label": "Banner Left 1"
+      },  
+      {
+        "type": "url",
+        "id": "banner_left_link_1",
+        "label": "Banner Left Link 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_left_2",
+        "label": "Banner Left 2"
+      },  
+      {
+        "type": "url",
+        "id": "banner_left_link_2",
+        "label": "Banner Left Link 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_left_3",
+        "label": "Banner Left 3"
+      },  
+      {
+        "type": "url",
+        "id": "banner_left_link_3",
+        "label": "Banner Left Link 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_right_1",
+        "label": "Banner Right 1"
+      },  
+      {
+        "type": "url",
+        "id": "banner_right_link_1",
+        "label": "Banner Right Link 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_right_2",
+        "label": "Banner Right 2"
+      }, 
+      {
+        "type": "url",
+        "id": "banner_right_link_2",
+        "label": "Banner Right Link 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_right_3",
+        "label": "Banner Right 3"
+      }, 
+      {
+        "type": "url",
+        "id": "banner_right_link_3",
+        "label": "Banner Right Link 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_main_1",
+        "label": "Banner Main 1"
+      }, 
+      {
+        "type": "url",
+        "id": "banner_main_link_1",
+        "label": "Banner Main Link 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_main_2",
+        "label": "Banner Main 2"
+      }, 
+      {
+        "type": "url",
+        "id": "banner_main_link_2",
+        "label": "Banner Main Link 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_main_3",
+        "label": "Banner Main 3"
+      },
+      {
+        "type": "url",
+        "id": "banner_main_link_3",
+        "label": "Banner Main Link 3"
+      }
+	], 
+  	"presets": [{
+      "name": "Banner Fixed Grid",
+      "category": "Banner"
+  	}]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

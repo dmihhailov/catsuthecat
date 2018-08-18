@@ -1,0 +1,34 @@
+<!-- /snippets/collection-sorting.liquid -->
+<div class="collection-sorting-row"> 
+  {% if settings.collection_infinite_scrolling != blank %}
+    {% if paginate.next %}    
+      <div class="infinite-loader">
+        <span class="loading" style="display: none;">
+          <i class="ajax-loader small animate-spin"></i><span {% if settings.enable_multilang %}data-translate="collections.general.loading"{% endif %}>{{ 'collections.general.loading' | t}} ...</span>
+        </span>
+        <a href="{{ paginate.next.url }}" class="btn-load-more" style="display: inline;" {% if settings.enable_multilang %}data-translate="collections.general.show_more"{% endif %}>{{ 'collections.general.show_more' | t}} ...</a> 
+      </div>
+    {% endif %}
+   {% else %}
+    {% if paginate.pages > 1 %} 
+      <div class="pagenav-wrap">
+        <div class="pagination">
+          {% include 'pagination-page' %}
+        </div>
+      </div>
+    {% endif %} 
+  {% endif %} 
+  <div class="limited_wrap">
+    <div class="limited-view select-new">
+      <div class="select-inner">
+        <span {% if settings.language_enable %}data-translate="collections.limiter.title"{% endif %}>{{ 'collections.limiter.title' | t }}: </span>
+        <select name="limiter" class="field bootstrap-select">
+          <option value="{{settings.collection_products_count}}" {% if template == 'collection' %}selected="selected"{% endif %}>{{settings.collection_products_count}}</option>
+          <option value="22" {% if template == 'collection.22' %}selected="selected"{% endif %}>22</option>
+          <option value="44" {% if template == 'collection.44' %}selected="selected"{% endif %}>44</option>
+          <option value="all" {% if template == 'collection.all' %}selected="selected"{% endif %} {% if settings.language_enable %}data-translate="collections.limiter.limit_all"{% endif %}>{{ 'collections.limiter.limit_all' | t }}</option> 
+        </select> 
+      </div>
+    </div> 
+  </div> 
+</div>   

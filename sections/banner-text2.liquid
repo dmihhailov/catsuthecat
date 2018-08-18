@@ -1,0 +1,148 @@
+{% if section.blocks.size > 0 %}
+{% assign col = 12 | divided_by: section.blocks.size %}
+{% else %}
+{% assign col = 4 %}
+{% endif %}
+<style>
+  .banner_text_{{ section.id }}.banner_text_2 a.image-link span.category-title{color:{{section.settings.title_color}};background-color:{{section.settings.bg_color}};}
+  .banner_text_{{ section.id }}.banner_text_2 a.image-link span.category-title:before{border-right-color:{{section.settings.bg_color}};border-top-color:{{section.settings.bg_color}};} 
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="banner-section">
+  <div class="banner_text_{{ section.id }} banner_text_2" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row"> 
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        <div class="col-sm-{{col}} col-xs-12" style="padding-bottom:15px;">
+          <a href="{{ block.settings.banner_link }}" class="image-link">
+            {% if block.settings.banner_image != blank %}
+            <img src="{{ block.settings.banner_image | img_url: 'master' }}" alt=""/>
+            {% else %}
+            <img src="{{ 'home-banner370x254.png' | asset_url }}" alt=""/>
+            {% endif %}
+            <span class="category-title">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.banner_title | split: '|' | first }}</span>
+              <span class="lang2">{{ block.settings.banner_title | split: '|' | last }}</span>
+              {% else %}
+              {{ block.settings.banner_title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No Content</p>
+        {% endif %}
+      </div> 
+    </div> 
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Text 2",
+  "max_blocks": 4,
+  "settings": [
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "color",
+        "id": "bg_section_color",
+        "label": "Section background color" 
+      }, 
+      {
+        "type": "text",
+        "id": "margin_top",
+        "label": "Section margin top",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "margin_bottom",
+        "label": "Section margin bottom",
+        "info": "40px"
+      },
+      {
+        "type": "text",
+        "id": "section_padding",
+        "label": "Section padding",
+        "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+      }, 
+	{
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Title Color",
+	  "default": "#3f4658"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+	  "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image Banner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image"
+        },
+        {
+          "type":"text",
+          "id":"banner_title",
+          "label":"Banner Title",
+		  "default": "Banner Title"
+        },
+        {
+          "type": "url",
+          "id": "banner_link",
+          "label": "Banner link"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Banner Text 2",
+    "category": "Banner",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "SUNGLASSES" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "WOMAN DRESSES" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "banner_title": "WOMAN BAGS" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

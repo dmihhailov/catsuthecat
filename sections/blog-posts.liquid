@@ -1,0 +1,390 @@
+<!-- style sheets -->
+<style>
+  .blog_article .item .row.row-{{ section.id }} .post-date .day{
+    background-color: {{ section.settings.posts_bg_day }};
+    color: {{ section.settings.posts_day_color }} !important;
+  }
+  .main-container .blog_article .item.blog_post_type_1 .post-content .post-date{
+    background-color: {{ section.settings.posts_bg_day }};
+  }
+  .blog_article .item .row.row-{{ section.id }} .postTitle h2 a,
+  .main-container .blog_article .item.blog_post_type_1 .post-content .postTitle h2 a{
+    color: {{ section.settings.posts_title_color }};
+  } 
+  .blog_article .item .row.row-{{ section.id }} .postContent,
+  .main-container .blog_article .item.blog_post_type_1 .post-content .postContent{
+    color: {{ section.settings.posts_desc_color }} !important;
+  }
+  .blog_article .item .row.row-{{ section.id }} .post-date .month{
+    background-color: {{ section.settings.posts_bg_month }};
+    color: {{ section.settings.posts_month_color }} !important;
+  }
+  .blog_article .item .row.row-{{ section.id }} a.readmore,
+  .main-container .blog_article .item.blog_post_type_1 .post-content .readmore{
+    color: {{ section.settings.posts_readmore_color }};
+    background-color: {{ section.settings.background_button_color }};
+  }
+  .blog_article .item .row.row-{{ section.id }} a.readmore:hover,
+  .main-container .blog_article .item.blog_post_type_1 .post-content .readmore:hover{
+    color: {{ section.settings.button_text_hover_color }};
+    background-color: {{ section.settings.background_hover_button_color }};
+  }
+  .box_blog_post,
+  .blog_article h3.title-widget span.inner{
+    background-color: {{section.settings.bg_section_color}};
+  }
+</style>
+<!-- end style sheets -->
+<div data-section-id="{{ section.id }}" data-section-type="blog-posts-section">
+  <div id="blog-posts-{{ section.id }}" class="box_blog_post" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="blog_article">
+        {% if section.settings.title != blank %}
+        <h3 class="title-widget {% if section.settings.title_type == '1' %}type_1{% endif %}" style="color: {{section.settings.title_section_color}};">
+          <span class="inner">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </h3>
+        {% endif %}
+        {%- assign blog = blogs[section.settings.blog] -%}
+        {% unless blog.empty? %}
+        <div class="latest_news owl-top-narrow">
+          <div class="recent-posts">
+            <div class="data-carousel"  
+                 data-auto="{{ section.settings.blog_autoplay }}"
+                 data-items="{{ section.settings.blog_column }}"
+                 data-1200="{{ section.settings.blog_column }}"
+                 data-992="2"
+                 data-768="1"
+                 data-640="1"
+                 data-480="1"
+                 data-320="1"
+                 data-paging="{{ section.settings.blog_show_paging }}"
+                 data-nav="{{ section.settings.blog_show_nav }}"
+                 data-margin="{{ section.settings.blog_item_margin }}"
+                 data-prev='{{ section.settings.blog_nav_prev }}' 
+                 data-next='{{ section.settings.blog_nav_next }}' style="display: none;"></div> 
+            <div class="owl-carousel">
+              {% for article in blog.articles limit:settings.blog_article_limit %}
+              <div class="item {% if section.settings.type_blog_post == '1' %}blog_post_type_1{% endif %} {% if section.settings.type_blog_post == '2' %}blog_post_type_2{% endif %}">
+                {% if section.settings.type_blog_post == '1' %}
+                <div class="post-image">
+                  {% if article.image %}
+                  <a href="{{ article.url }}" class="article-image">
+                    <img src="{{ article | img_url: '225x' }}" width="225" />
+                  </a>
+                  {% endif %}
+                </div>
+                <div class="post-content">
+                  <div class="postTitle">
+                    <h2>
+                      <a href="{{ article.url }}">
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                        {% else %}
+                        {{ article.title | split: '|' | first }}
+                        {% endif %}
+                      </a>
+                    </h2> 
+                  </div>
+                  <div class="post-date">
+                    <span class="day">{{ article.published_at | date: '%d' }}</span>
+                    <span class="month">{{ article.published_at | date: '%b' }}</span>
+                  </div>                  
+                  <div class="postContent">
+                    {% if settings.language_enable %}
+                    <p class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 7}}</p>
+                    <p class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 7}}</p>
+                    {% else %}
+                    {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 7}}
+                    {% endif %} 
+                  </div>
+                  <a class="readmore" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}
+                  </a>
+                </div>
+                {% else %}
+                <div class="row row-{{ section.id }}">
+                  <div class="col-sm-5">
+                    <div class="post-image">
+                      {% if article.image %}
+                      <a href="{{ article.url }}" class="article-image">
+                        <img src="{{ article | img_url: '300x' }}" />
+                      </a>
+                      {% endif %}
+                      {% if section.settings.type_blog_post == '2' %}
+                      <div class="post-date">
+                        <span class="day">{{ article.published_at | date: '%d' }}</span>
+                        <span class="month">{{ article.published_at | date: '%b' }}</span>
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="col-sm-7">
+                    <div class="post-date">
+                      <span class="day">{{ article.published_at | date: '%d' }}</span>
+                      <span class="month">{{ article.published_at | date: '%b' }}</span>
+                    </div>
+                    <div class="postTitle">
+                      <h2>
+                        <a href="{{ article.url }}">
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                          {% else %}
+                          {{ article.title | split: '|' | first }}
+                          {% endif %}
+                        </a>
+                      </h2> 
+                    </div>
+                    <div class="postContent">
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 10}}</span>
+                      <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 10}}</span>
+                      {% else %}
+                      {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 10}}
+                      {% endif %} 
+                    </div>
+                    <a class="readmore" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+                  </div>
+                </div>
+                {% endif %}
+              </div> 
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Blog Posts",
+  "class": "blog-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" ,
+      "default": "#ffffff"
+    }, 
+    {
+      "type": "color",
+      "id": "title_section_color",
+      "label": "Title Section Color",
+      "default":"#000"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "posts_title_color",
+      "label": "Title Color",
+      "default":"#000"
+    }, 
+    {
+      "type": "color",
+      "id": "posts_day_color",
+      "label": "Post Day Color",
+      "default":"#3f4658"
+    },
+    {
+      "type": "color",
+      "id": "posts_bg_day",
+      "label": "Background Post Day Color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "color",
+      "id": "posts_month_color",
+      "label": "Posts Month Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "posts_bg_month",
+      "label": "Background Post Month Color",
+      "default": "#3f4658"
+    }, 
+    {
+      "type": "color",
+      "id": "posts_desc_color",
+      "label": "Content Color",
+      "default": "#777"
+    },
+    {
+      "type": "color",
+      "id": "posts_readmore_color",
+      "label": "Button text color",
+      "default": "#0088cc"
+    },
+    {
+      "type": "color",
+      "id": "button_text_hover_color",
+      "label": "Button Text Hover Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "background_button_color",
+      "label": "Button Background Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "background_hover_button_color",
+      "label": "Button Background Hover Color",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Config"
+    },
+    {
+      "type": "select",
+      "id": "type_blog_post",
+      "label": "Blog Post Type",
+      "options":[
+        {
+          "value": "0",
+          "label": "Type 1"
+        },
+        {
+          "value": "1",
+          "label": "Type 2"
+        },
+        {
+          "value": "2",
+          "label": "Type 3"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "title_type",
+      "label": "Title Type",
+      "options":[
+        {
+          "value": "0",
+          "label": "default"
+        },
+        {
+          "value": "1",
+          "label": "Type 1"
+        }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Blog Posts"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "post_limit",
+      "label": "Number of article to show",
+      "default": "4"
+    },   
+    {
+      "type": "text",
+      "id": "blog_column",
+      "label": "Columns",
+      "default": "2"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "blog_nav_next",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "blog_item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Posts",
+      "category": "Blog",
+      "settings": {
+        "blog": "News" 
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

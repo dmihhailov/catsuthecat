@@ -1,0 +1,179 @@
+<div data-section-id="{{ section.id }}" data-section-type="filter-products-section">
+  <div id="filter-products-{{ section.id }}" class="group_product" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">
+      <div class="row">
+        {% for block in section.blocks %}
+        <div class="col-sm-4 one-product">
+          <h4>
+            <span> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ block.settings.group_product_title | split: '|' | first }}</span>
+              <span class="lang2">{{ block.settings.group_product_title | split: '|' | last }}</span>
+              {% else %}
+              {{ block.settings.group_product_title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </h4>
+          <div class="category-products">
+            {% assign limit = section.settings.group_product_limit %}  
+            {%- assign name_collection = block.settings.collection -%}
+            {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+            {%- assign collection = collections[name_collection] -%} 
+            <div class="data-carousel"             
+                 data-auto="{{ section.settings.group_product_autoplay }}"
+                 data-nav="{{ section.settings.group_product_show_nav }}"
+                 data-prev='{{ section.settings.group_product_nav_prev}}'
+                 data-next='{{ section.settings.group_product_nav_next}}'
+                 data-paging="{{ section.settings.group_product_show_paging }}" style="display: none;"></div>
+            {% if collection.products.size == 0 %}
+            <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+            {% else %}
+            <div class="products-grid owl-carousel {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %}"> 
+              {% for product in collection.products limit: section.settings.group_product_limit %}  
+              <div class="item product">
+                {% include 'owl-lazyload-product-grid-item' %}
+              </div> 
+              {% endfor %}  
+            </div>
+            {% endif %}
+          </div>      
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Group Products Slider",
+  "settings":
+  [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+	{
+      "type": "header",
+      "content": "Slide Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "group_product_limit",
+      "label": "Number of products to show",
+      "default": "3"
+    }, 
+    {
+      "type": "text",
+      "id": "group_product_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "group_product_show_paging",
+      "label": "Show Paging"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "group_product_show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "group_product_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-left-open\"><\/i>"
+    },
+    {
+      "type": "text",
+      "id": "group_product_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-right-open\"><\/i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Group Products",
+      "settings": [
+        {
+          "type": "text",
+          "id": "group_product_title",
+          "label": "Group Product title",
+		  "default": "Group Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }        
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Group Products Slider",
+    "category": "Products",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "product",
+		"settings": {
+          "group_product_title": "FEATURED" 
+        } 
+      },
+      {
+        "type": "product",
+		"settings": {
+          "group_product_title": "SALES" 
+        } 
+      },
+      {
+        "type": "product",
+		"settings": {
+          "group_product_title": "NEW ARRIVALS" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

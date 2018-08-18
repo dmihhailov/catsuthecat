@@ -1,0 +1,365 @@
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  {%- case section.settings.slide_layout -%}
+    {%- when 'fullscreen' -%}
+  	{%- assign layout = 'full-screen-slider' -%}
+    {%- when 'fullwidth' -%}
+    {%- assign layout = 'full-width' -%} 
+    {%- else -%}
+  	{%- assign layout = 'container' -%}
+  {%- endcase -%} 
+  {% if section.blocks.size > 0 %}
+  <div class="slideshow-background slideshow-section {{layout}}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="data-slideshow"  
+         data-auto="{{ section.settings.auto_speed }}"
+         data-paging="{{ section.settings.show_paging }}"
+         data-nav="{{ section.settings.show_nav }}"
+         data-transition="{{ section.settings.slide_transition }}"
+         data-prev='{{ section.settings.nav_prev }}' 
+         data-next='{{ section.settings.nav_next }}' style="display: none;"></div>
+    <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel">
+      {% for block in section.blocks %}
+      {% if block.settings.background_image != blank %}
+      {% assign background_image = block.settings.background_image | img_url: 'master' %}
+      {% else %}
+      {% assign background_image = 'bg1920x500.png' | asset_url %}
+      {% endif;%}
+      <div class="item" {% if block.settings.background_image_use == '1' and section.settings.slide_layout != 'default' %}style="background: url({{ background_image }}) center center no-repeat;background-size: cover;"{%endif%}>
+        <div class="{% if section.settings.slide_layout != 'default' %}container{% endif %}" style="position:relative;height:100%;">
+          <a href="{{ block.settings.link_image_slider }}" style="position:absolute;left:0;top:0;height:100%;width:100%;z-index:2;"></a>
+          {%- if section.settings.slide_layout != 'fullscreen' -%}
+          	{%- if section.settings.slide_layout == 'fullwidth' -%}
+              {% if block.settings.image != blank %}
+                {% if block.settings.image_use == '1' %}
+                	{% assign image_url = block.settings.image | img_url: 'master' %}
+                {%else%}
+                	{% assign image_url = 'bg_transparent.png' | asset_url %}
+                {%endif%} 
+              {% else %}
+              	{% assign image_url = 'bg_transparent.png' | asset_url %}
+              {% endif;%}
+          	{%- else -%}
+              {% if block.settings.image != blank %}
+                {% if block.settings.image_use == '1' %}
+                	{% assign image_url = block.settings.image | img_url: 'master' %}
+                {%else%}
+                	{% assign image_url = 'img1170x500.png' | asset_url %}
+              	{%endif%} 
+              {% else %}
+              	{% assign image_url = 'img1170x500.png' | asset_url %}
+              {% endif;%}
+          	{%- endif -%} 
+            <img src="{{ image_url }}"/> 
+          {%- endif -%}
+          {% if settings.language_enable %}
+          <div class="content_slideshow">
+            <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+            <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+          </div>
+          {% else %}
+          <div class="content_slideshow">
+          	{{ block.settings.content | split: '[lang2]' | first }}
+          </div>
+          {% endif %}
+          <div style="clear:both;"></div>
+        </div>
+        {%if block.type == 'video' %}
+        <div class="video-wrap">
+          {% if block.settings.ico_slide_video_overlay != 'none' %}
+          <div class="video-overlay overlay-{{ block.settings.ico_slide_video_overlay }}" style="opacity: 1;"></div>
+          {% endif %}
+          <video class="video" poster="{{ slide_img | asset_url }}" autoplay {% if block.settings.ico_slide_video_loop == 'loop' %}loop=""{% endif %} {% if block.settings.ico_slide_video_mute == 'mute' %}muted=""{% endif %} preload="auto" data-width="0" data-height="0">
+            {% if block.settings.ico_slide_video contains '.mp4' %}     
+            <source src="{{ block.settings.ico_slide_video }}" type="video/mp4">
+            {% else %}
+            <source src="{{ block.settings.ico_slide_video }}" type="video/webm">
+            {% endif %}
+          </video>
+          {% if settings.language_enable %}
+          <div class="content_slideshow">
+            <div class="lang1">{{ block.settings.content | split: '[lang2]' | first }}</div>
+            <div class="lang2">{{ block.settings.content | split: '[lang2]' | last }}</div>
+          </div>
+          {% else %}
+          <div class="content_slideshow">
+          	{{ block.settings.content | split: '[lang2]' | first }}
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.copyright !='' %}
+    <div class="copyright-text">
+      {% if settings.language_enable %}
+      <div class="lang1">{{ section.settings.copyright | split: '|' | first }}</div>
+      <div class="lang2">{{ section.settings.copyright | split: '|' | last }}</div>
+      {% else %}
+      {{ section.settings.copyright | split: '|' | first }}
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "Slideshow", 
+  "settings": [   
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "select",
+      "id": "slide_layout",
+      "label": "Layout",
+      "info": "slider will be shown as a background image if the site has fullscreen layout.",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "fullscreen",
+          "label": "FullScreen"
+        },
+        {
+          "value": "fullwidth",
+          "label": "Fullwidth"
+        }
+      ],
+      "default": "fullwidth"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    },
+    {
+      "type":"text",
+      "id":"copyright",
+      "label":"Copy Right slideshow"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        }, 
+        {
+          "type": "select",
+          "id": "background_image_use",
+          "label": "Background Image Use?",
+          "info": "Choose if you would like to display background image.",
+          "options": [
+            {
+              "value": "1",
+              "label": "Yes"
+            },
+            {
+              "value": "0",
+              "label": "No"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }, 
+        {
+          "type": "select",
+          "id": "image_use",
+          "label": "Image Use?",
+          "info": "Choose if you would like to display image.",
+          "options": [
+            {
+              "value": "1",
+              "label": "Yes"
+            },
+            {
+              "value": "0",
+              "label": "No"
+            }
+          ],
+          "default": "0"
+        },
+        {
+          "type": "url",
+          "id": "link_image_slider",
+          "label": "Link Image Slider"
+        },
+        {
+          "type": "html",
+          "id": "content",
+          "label": "Content Slide",
+          "default": "<div class=\"slide-1 content\" style=\"position: absolute; top: 35%; width:100%;\">\r<div class=\"container\" style=\"text-align: left;\">\r<div class=\"text-content\" style=\"display: inline-block;\">\r<em style=\"font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;\">NEW ARRIVALS</em>\r<h2 style=\"color: #fff; line-height: 1;font-weight:800;margin:0;\">Fashion</h2>\r<p><span style=\"color: #fff; vertical-align: top; font-weight: 300;\">Up to <b style=\"font-weight:800;\">70% OFF</b> in the new collection.</span></p>\r<a href=\"#\" class=\"btn btn-default\" style=\"background-color: #fff; color: #333; vertical-align: top; font-weight: 600;\">SHOP NOW</a>\r</div>\r</div>\r</div>"
+        }
+      ]
+    },
+      {
+  "type": "video",
+  "name": "Video slide",
+  "settings": [
+  {
+  "type": "text",
+  "id": "ico_slide_video",
+  "label": "Background Video .mp4 or .webm URL",
+  "info": "provide the video .mp4, .webm url for the background"
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_loop",
+  "label": "Video Loop",
+  "info": "Choose if you would like the slide background video to play once, or loop.",
+  "options": [
+  {
+  "value": "loop",
+  "label": "Loop"
+  },
+  {
+  "value": "",
+  "label": "Single play"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_mute",
+  "label": "Video mute",
+  "info": "Choose if you would like the slide background video to be muted, or not.",
+  "options": [
+  {
+  "value": "mute",
+  "label": "Mute"
+  },
+  {
+  "value": "volume",
+  "label": "Volume"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_overlay",
+  "label": "Video overlay",
+  "info": "Choose if you would like to show an overlay style over the video.",
+  "options": [
+  {
+  "value": "none",
+  "label": "None"
+  },
+  {
+  "value": "lightgrid",
+  "label": "Lightgrid"
+  }
+  ]
+  },
+  {
+          "type": "html",
+          "id": "content",
+          "label": "Content Slide",
+          "default": "<div class=\"slide-1 content\" style=\"position: absolute; top: 35%; width:100%;\">\r<div class=\"container\" style=\"text-align: left;\">\r<div class=\"text-content\" style=\"display: inline-block;\">\r<em style=\"font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;\">NEW ARRIVALS</em>\r<h2 style=\"color: #fff; line-height: 1;font-weight:800;margin:0;\">Fashion</h2>\r<p><span style=\"color: #fff; vertical-align: top; font-weight: 300;\">Up to <b style=\"font-weight:800;\">70% OFF</b> in the new collection.</span></p>\r<a href=\"#\" class=\"btn btn-default\" style=\"background-color: #fff; color: #333; vertical-align: top; font-weight: 600;\">SHOP NOW</a>\r</div>\r</div>\r</div>"
+        }
+  ]
+  }
+  ],
+  "presets": [{
+    "name": "Slideshow",
+    "category": "Slideshow",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image",
+		"settings": {
+		  "background_image_use": "1",
+		  "image_use": "0",
+          "content": "<div class=\"slide-1 content\" style=\"position: absolute; top: 35%; width:100%;\">\r<div class=\"container\" style=\"text-align: left;\">\r<div class=\"text-content\" style=\"display: inline-block;\">\r<em style=\"font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;\">NEW ARRIVALS</em>\r<h2 style=\"color: #fff; line-height: 1;font-weight:800;margin:0;\">Fashion</h2>\r<p><span style=\"color: #fff; vertical-align: top; font-weight: 300;\">Up to <b style=\"font-weight:800;\">70% OFF</b> in the new collection.</span></p>\r<a href=\"#\" class=\"btn btn-default\" style=\"background-color: #fff; color: #333; vertical-align: top; font-weight: 600;\">SHOP NOW</a>\r</div>\r</div>\r</div>" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+		  "background_image_use": "1",
+		  "image_use": "0",
+          "content": "<div class=\"slide-2 content\" style=\"position: absolute; top: 35%; width:100%;\">\r<div class=\"container\" style=\"text-align: left;\">\r<div class=\"text-content\" style=\"display: inline-block;\">\r<em style=\"font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;\">EXCLUSIVE</em>\r<h2 style=\"color: #fff; line-height: 1;font-weight:800;margin:0;\">Sunglasses</h2>\r<p style=\"text-align:right;\"><span style=\"color: #fff; vertical-align: top; font-weight: 300;\">Incredible prices</span></p>\r<a href=\"#\" style=\"float:right; color: #fff; vertical-align: top; font-weight: 400;\">SHOP NOW</a>\r</div>\r</div></div>" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

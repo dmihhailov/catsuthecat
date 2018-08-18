@@ -1,0 +1,94 @@
+<div class="category-products"> 
+  {% assign limit = settings.sidebar_product_limit %}   
+  {%- assign name_collection = settings.sidebar_product -%}
+  {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+  {%- assign collection_best = collections[name_collection] -%} 
+  <div class="data-carousel" 
+       data-items="1"
+       data-auto="5000"
+       data-414="1"
+       data-768="1"
+       data-992="1"
+       data-paging="false"
+       data-nav="true"
+       data-loop="true"
+       data-prev='<i class="icon-left-open"></i>'
+       data-next='<i class="icon-right-open"></i>' style="display: none;"></div>
+  <div class="products-grid small-list carousel-init owl-carousel owl-list"> 
+    {% for product in collection_best.products limit: settings.sidebar_product_limit %} 
+    {% assign on_sale = false %}
+    {% if product.compare_at_price_min > product.price_min %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    {% assign row  = forloop.index | modulo:3 %}
+    {% if row == 1 %}
+    <div class="item">
+      {% endif %}  
+      <div class="item-area">
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="product-image-area">
+              <a href="{{ product.url | within: collection }}" class="product-image">
+                <img src="{{ product.featured_image.src | img_url: '150x150' }}" alt="{{ product.featured_image.alt | escape }}" class="img-responsive main">
+              </a> 
+            </div>
+          </div>
+          <div class="details-area col-xs-6">
+            <h2 class="product-name">
+              <a href="{{ product.url | within: collection }}" title="{{ product.title }}"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ product.title | split: '|' | first }}</span>
+                <span class="lang2">{{ product.title | split: '|' | last }}</span>
+                {% else %}
+                {{ product.title | split: '|' | first }}
+                {% endif %}
+              </a>
+            </h2>
+            <div class="ratings">
+              <div class="rating-box">
+                <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> 
+              </div>
+            </div> 
+            <div class="price-box">
+              <div class="price"> 
+                {% if on_sale %}
+                {% if product.price_varies %}
+                {% assign sale_price = product.price | money %}
+                <span class="money">
+                  {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                </span>
+                {% else %} 
+                <div class="special-price">
+                  <span class="money">{{ product.price | money }}</span>
+                </div>
+                {% endif %}
+                {% else %}
+                {% if product.price_varies %}
+                {% assign price = product.price | money %}
+                <span class="money">{{ 'products.general.from_text_html' | t: price: price }}</span>
+                {% else %}
+                <span class="money">
+                  {{ product.price | money }}
+                </span>
+                {% endif %}
+                {% endif %}
+                {% if sold_out %}
+                <span class="money">{{ 'products.product.sold_out' | t }}</span>
+                {% endif %}
+                {% if on_sale %} 
+                <div class="compare-price">
+                  <span class="money">{{ product.compare_at_price | money }}</span>
+                </div>
+                {% endif %} 
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if row == 0 or forloop.last %}
+    </div>
+    {% endif %}
+    {% endfor %} 
+  </div>
+</div>

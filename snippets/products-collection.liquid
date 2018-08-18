@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+  <div class="products-collection">
+    {% if settings.products_collection_title != '' %}
+    <h3 class="title-widget">
+      <span class="inner"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ settings.products_collection_title | split: '|' | first }}</span>
+        <span class="lang2">{{ settings.products_collection_title | split: '|' | last }}</span>
+        {% else %}
+        {{ settings.products_collection_title | split: '|' | first }}
+        {% endif %}
+      </span>
+    </h3>
+    {% endif %}
+    <div class="category-products">
+      {% assign carousel = settings.products_collection_carousel %} 
+      {% assign limit = settings.products_collection_limit %} 
+      {% if settings.products_collection_column != '5' and settings.products_collection_column != '7' %}
+      {% assign col = 12 | divided_by: settings.products_collection_column %}
+      {% else %}
+      {% assign col = settings.products_collection_column %}
+      {% endif %}
+      {% assign collection = collections[settings.products_slide_collection] %}   
+      <div class="data-carousel" 
+           data-items="{{ settings.products_collection_column }}"
+           data-auto="{{ settings.products_collection_autoplay }}"
+           data-paging="{{ settings.products_collection_show_paging }}"
+           data-nav="{{ settings.products_collection_show_nav }}"
+           data-prev='{{ settings.products_collection_nav_prev }}'
+           data-next='{{ settings.products_collection_nav_next }}' style="display: none;"></div>
+      <div class="products-grid {% if carousel %} owl-carousel {% else %} grid-product-masonry {% endif %}"> 
+        {% for product in collection.products limit: settings.products_collection_limit %}  
+        <div class="item product {% if carousel %} effect-pageLeft {% else %} col-sm-{{ col }} {% endif %}" data-order="{{ forloop.index | plus:1 }}">
+        {% include 'product-grid-item' %}
+        </div> 
+        {% endfor %} 
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

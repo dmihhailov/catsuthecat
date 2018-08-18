@@ -1,0 +1,251 @@
+<div data-section-id="{{ section.id }}" data-section-type="products-banner-section">
+  <style>
+    #products-banner-{{ section.id }}.collection_banner .row{
+      background-color: {{ section.settings.bg_content_color }};
+    }
+    #products-banner-{{ section.id }}.collection_banner h3.fullwidth-filter-title{
+      color: {{ section.settings.title_color }};
+    }
+    #products-banner-{{ section.id }}.collection_banner p.fullwidth-filter-description{
+      color: {{ section.settings.text_color }};
+    }
+  </style>
+  <div id="products-banner-{{ section.id }}" class="collection_banner" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="row" style="margin:0;">
+      <div class="col-sm-6 half-content {% if section.settings.banner_position == 'left' %}left-bn{% endif%}{% if section.settings.banner_position == 'right' %}right-bn{% endif%} {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}" style="padding:4% 6% 1.5%;position:relative;text-align:left;{% if section.settings.banner_position == 'right' %}float:right;{%endif%}">
+        {% if section.settings.title != '' %}
+        <h3 class="fullwidth-filter-title">
+          <span class="inner"> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </h3>
+        {% endif %}
+        {% if section.settings.banner_text != '' %}
+        <p class="fullwidth-filter-description">
+          <span> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.banner_text | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.banner_text | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.banner_text | split: '|' | first }}
+            {% endif %}
+          </span>
+        </p>
+        {% endif %}
+        <div class="category-products">  
+          {% assign limit = section.settings.limit %}     
+          {%- assign name_collection = section.settings.products_collection -%}
+          {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+          {%- assign collection = collections[name_collection] -%} 
+          {% if collection.products.size == 0 %}
+          <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+          {% else %}
+          <div class="data-carousel"             
+               data-auto="{{ section.settings.autoplay }}"
+               data-items="{{ section.settings.column }}"
+               data-1200="{{ section.settings.column }}"
+               data-992="2"
+               data-768="2"
+               data-640="2"
+               data-480="2"
+               data-320="2"
+               data-paging="{{ section.settings.show_paging }}"
+               data-margin='{{ section.settings.item_margin }}'  style="display: none;"></div>
+          <div class="products-grid owl-carousel {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %}"> 
+            {% for product in collection.products limit: section.settings.limit %}  
+            <div class="item product">
+              {% include 'owl-lazyload-product-grid-item' %}
+            </div> 
+            {% endfor %}  
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-sm-6" style="padding:0;">
+        {% if section.settings.banner_image != blank %}
+        {% assign image_url = section.settings.banner_image | img_url: '950x800' %}
+        {% else %}
+        {% assign image_url = 'img950x800.png' | asset_url %}
+        {% endif;%}
+        <div class="half-image" style="background: url({{ image_url }}) center center / cover no-repeat; width: 100%; {% if section.settings.banner_position == 'right' %}min-height: 611px;{% else %}min-height: 654px;{%endif%}">
+          <img src="{{ image_url }}" alt="" style="width:100%;visibility:hidden;" />
+        </div>
+        <div class="collection-banner-ct">
+        <div class="banner-ct-area">
+          <span class="text"> 
+            {% if settings.language_enable %}
+            <div class="lang1">{{ section.settings.collection_banner_content | split: '|' | first }}</div>
+            <div class="lang2">{{ section.settings.collection_banner_content | split: '|' | last }}</div>
+            {% else %}
+            {{ section.settings.collection_banner_content | split: '|' | first }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div> 
+</div> 
+{% schema %}
+{
+  "name": "Products Slider & Banner",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type":"header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bg_content_color",
+      "label": "Background Content Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type":"header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "banner_position",
+      "label": "Banner Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "label": "right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Collection Title",
+      "default": "Amazing New<br>Collection"
+    },  
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Collection Text",
+      "default": "Yes, this is our new collection, check it<br>out our new arrivals."
+    }, 
+    {
+      "type": "collection",
+      "id": "products_collection",
+      "label": "Products Collection"
+    },
+    {
+      "type": "text",
+      "id": "limit",
+      "label": "Number of products to show",
+      "default": "4"
+    },  
+    {
+      "type": "text",
+      "id": "column",
+      "label": "Products per row",
+      "default": "2"
+    },    
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    },  
+    {
+      "type": "checkbox",
+      "id": "move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "text",
+      "id": "item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+    "type": "textarea",
+    "id": "collection_banner_content",
+    "label": "Title Banner"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Slider With Banner",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

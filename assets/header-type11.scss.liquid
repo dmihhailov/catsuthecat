@@ -1,0 +1,142 @@
+.header-container.type11{
+  border: 0; 
+  &.sticky-header {
+    .header-wrapper {
+      position: fixed;
+      top: 0;
+      margin: 0;
+      padding: 7px 0;
+      .main-nav.container {
+        margin: 0 auto;
+      }
+    } 
+  }
+  .top-links-icon {
+    display: block;
+    margin-right: 5px;
+  }
+  .header { 
+    display: block;
+    vertical-align: middle;
+    padding: 28px 0;
+    text-align: center;
+    .site-logo {
+      float: none;
+      .logo { 
+        display: inline-block;
+        padding: 0 15px;
+        margin: 0;
+      }
+    } 
+  }  
+  .cart-area {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin: 0;
+    float: right;
+    height: 25px;
+    margin-left: 5px;
+  }
+  .mini-cart {
+    display: inline-block;
+    position: static;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    .icon-cart-header {
+      height: 25px;
+      padding: 5px 0;
+      line-height: 15px;
+      i {
+        font-size: 15px;
+      } 
+    }
+  }  
+  .search-area {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    margin-right: 10px;
+    float: left;
+    height: 25px;
+    z-index: 2;
+    .search-icon {
+      display: block;
+      line-height: 15px;
+      padding: 5px 0;
+      font-size: 11px;
+      width: auto;
+      text-transform: uppercase;
+    } 
+  }
+  .header-wrapper {
+    border: 0;
+    display: block;
+    padding: 10px 0;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+  } 
+  .main-nav { 
+    margin: 0;
+    height: 30px; 
+    ul.top-navigation { 
+      >li {
+        pointer-events: all;
+        >a {
+          padding-top: 9px;
+          padding-bottom: 9px; 
+        } 
+        &.fl-right {
+          margin-right: 0;
+          margin-left: 3px; 
+        } 
+      }
+    }
+  }
+}
+@media (max-width:1199px){
+  .header-container.type11 {
+    &.sticky-header {
+      .top-links-container {
+        padding: 0;
+      }
+      .header{
+        padding: 10px 0;
+      }
+      .header .site-logo .logo img{
+        height: 30px;
+      }
+    }
+    .header-wrapper{
+      display: none;
+    }
+    .menu-icon{
+      display: inline-block;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      margin-right: 8px;
+      font-size: 15px;
+      line-height: 25px;
+      >a {
+        margin-right: 15px;
+        i {
+          font-size: 15px;
+        }
+      }
+    }
+    .search-area.show-icon.show-left {
+      .search-extended { 
+        left: -14px;
+        width: 325px;
+        min-width: 100%;
+        &:before {
+          left: 25px;
+        }
+      }
+    }
+  } 
+} 

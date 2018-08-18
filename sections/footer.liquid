@@ -1,0 +1,2369 @@
+{% assign delayTime = settings.time_lazy_load | times : 4 %} 
+<footer class="footer-wrapper {% if section.settings.fixed_position_footer_enabled == 'yes' %}fixed-position{% endif %}">
+  {% if section.settings.footer_top_enabled == 'yes' %}
+  <div class="footer-top">
+    {% if section.settings.footer_top_style == "1" %}
+    <div class="level0 container">
+      {% if section.settings.footer_top_custom_enable == blank %}
+      <div class="col-md-6 a-left-sm">
+        {% if settings.language_enable %}
+        <span class="lang1">{{ section.settings.footer_top_custom_1 | split: '[lang2]' | first }}</span>
+        <span class="lang2">{{ section.settings.footer_top_custom_1 | split: '[lang2]' | last }}</span>
+        {% else %}
+        {{ section.settings.footer_top_custom_1 | split: '[lang2]' | first }}
+        {% endif %}  
+      </div>
+      <div class="col-md-6 a-right-sm">
+        <div style="float:left;">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.footer_top_custom_2 | split: '[lang2]' | first }}</span>
+          <span class="lang2">{{ section.settings.footer_top_custom_2 | split: '[lang2]' | last }}</span>
+          {% else %}
+          {{ section.settings.footer_top_custom_2 | split: '[lang2]' | first }}
+          {% endif %}           
+        </div>
+        <div>
+          {% include 'footer_top_subscrible' %}
+        </div>
+      </div>
+      {% endif %}
+      {% if section.settings.footer_top_custom_enable != blank %}
+      <div>
+        {% if settings.language_enable %}
+        <div class="lang1">{{ section.settings.footer_top_custom | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ section.settings.footer_top_custom | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ section.settings.footer_top_custom | split: '[lang2]' | first }}
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    {% if section.settings.footer_top_style == "2" %}
+    <div class="footer_2 container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="footer-top-inner">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="block" style="margin-bottom: 15px;">
+                  <div class="block-title footer-block-title">
+                    <h3>
+                      <span>
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ section.settings.footer_newsletter_heading | split: '|' | first }}</span>
+                        <span class="lang2">{{ section.settings.footer_newsletter_heading | split: '|' | last }}</span>
+                        {% else %}
+                        {{ section.settings.footer_newsletter_heading | split: '|' | first }}
+                        {% endif %}
+                        <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+                      </span>                    
+                    </h3>
+                  </div>
+                  <div class="block-content">
+                    <p>{% if settings.language_enable %}
+                      <span class="lang1">{{ section.settings.footer_newsletter_content | split: '[lang2]' | first }}</span>
+                      <span class="lang2">{{ section.settings.footer_newsletter_content | split: '[lang2]' | last }}</span>
+                      {% else %}
+                      {{ section.settings.footer_newsletter_content | split: '[lang2]' | first }}
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="block-content" style="width:100%;float:right;margin:38px 0px;">  
+                  {% if settings.newsletter_form_action != blank %}
+                  {% assign form_action = settings.newsletter_form_action %}
+                  {% else %}
+                  {% assign form_action = '#' %}
+                  {% endif %} 
+                  <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+                    <div class="input-group">                        
+                      <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                      <button type="submit" class="btn-button" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.subscribe"{% endif %}>{{ 'general.newsletter_form.subscribe' | t }}</button>
+                    </div> 
+                  </form>
+                  {% if section.settings.footer_top_custom != '' %}
+                  <div>
+                    {% if settings.language_enable %}
+                    <div class="lang1">{{ section.settings.footer_top_custom | split: '[lang2]' | first }}</div>
+                    <div class="lang2">{{ section.settings.footer_top_custom | split: '[lang2]' | last }}</div>
+                    {% else %}
+                    {{ section.settings.footer_top_custom | split: '[lang2]' | first }}
+                    {% endif %}
+                  </div>
+                  {% endif %}                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% if section.settings.footer_middle_enabled == 'yes' %}
+  <div class="footer-middle">
+    <div class="level0 container">
+      {% if section.settings.footer_ribbon_enabled == 'yes' %}
+      <div class="footer-ribbon">
+        <span>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.footer_ribbon_text | split: '|' | first }}</span>
+          <span class="lang2">{{ section.settings.footer_ribbon_text | split: '|' | last }}</span>
+          {% else %}
+          {{ section.settings.footer_ribbon_text | split: '|' | first }}
+          {% endif %}
+        </span>
+      </div>
+      {% endif %}
+      <div class="row">
+        {% if section.settings.footer_middle_column_1 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_1_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_1_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_1_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_1_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_1_heading | split: '|' | first }}
+                  {% endif %}
+                  <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+                </span>
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_1 == 'custom_block' %}
+            {% if section.settings.column_content_1 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist1] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}            
+            {% if section.settings.column_content_1 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_1_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_1_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_1_custom | split: '|' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_1 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist1] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_1 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_1 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_1 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+          <div style="clear:both;"></div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_column_2 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_2_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_2_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_2_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_2_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_2_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_2 == 'custom_block' %}
+            {% if section.settings.column_content_2 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist2] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}            
+            {% if section.settings.column_content_2 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_2_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_2_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_2_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_2 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist2] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_2 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_2 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_2 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_column_3 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_3_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_3_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_3_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_3_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_3_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_3 == 'custom_block' %}
+            {% if section.settings.column_content_3 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist3] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}            
+            {% if section.settings.column_content_3 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_3_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_3_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_3_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.column_content_3 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist3] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if section.settings.footer_middle_column_3 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_3 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_3 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_column_4 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_4_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_4_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_4_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_4_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_4_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_4 == 'custom_block' %}
+            {% if section.settings.column_content_4 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist4] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}           
+            {% if section.settings.column_content_4 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_4_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_4_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_4_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.column_content_4 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist4] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if section.settings.footer_middle_column_4 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_4 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_4 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_column_5 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_5_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_5_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_5_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_5_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_5_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_5 == 'custom_block' %}
+            {% if section.settings.column_content_5 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist5] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}           
+            {% if section.settings.column_content_5 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_5_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_5_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_5_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.column_content_5 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist5] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if section.settings.footer_middle_column_5 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_5 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_5 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_column_6 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_column_6_size }} info-footer">
+          <div class="widget-wrapper">
+            {% if section.settings.footer_column_6_heading != '' %}
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_6_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_6_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_6_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% endif %}
+            {% if section.settings.footer_middle_column_6 == 'custom_block' %}
+            {% if section.settings.column_content_6 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_linklist6] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-right-dir theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}           
+            {% if section.settings.column_content_6 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_column_6_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_column_6_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_column_6_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.column_content_6 == 'collection_product' %}
+            <div class="bestseller">
+              <div class="sidebar-content block-content">
+                <div class="category-products"> 
+                  {% assign limit = 3 %}  
+                  {% assign collectionBestseller = collections[section.settings.collection_product_linklist6] %} 
+                  {% include 'collection-product' %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if section.settings.footer_middle_column_6 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_6 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_column_6 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div> 
+  </div>
+  {% endif %}
+  {% if section.settings.footer_middle_2_enabled == 'yes' %}
+  <div class="footer-middle footer-middle-2">
+    <div class="container">
+      <div class="row show-grid">
+        {% if section.settings.footer_middle_2_column_1 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_2_column_1_size }} info-footer">
+          <div class="widget-wrapper">
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_2_1_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_2_1_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_2_1_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% if section.settings.footer_middle_2_column_1 == 'custom_block' %}
+            {% if section.settings.column_content_2_1 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_2_linklist1] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-angle-right theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_2_1 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_2_column_1_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_2_column_1_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_2_column_1_custom | split: '|' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_1 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_1 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_1 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_2_column_2 != 'do_not_show' %}
+        <div class="col-md-{{ section.settings.footer_middle_2_column_2_size }} info-footer">
+          <div class="widget-wrapper">
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_2_2_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_2_2_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_2_2_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% if section.settings.footer_middle_2_column_2 == 'custom_block' %}
+            {% if section.settings.column_content_2_2 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_2_linklist2] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-angle-right theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_2_2 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_2_column_2_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_2_column_2_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_2_column_2_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_2 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_2 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_2 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_2_column_3 != 'do_not_show' %}               
+        <div class="col-md-{{ section.settings.footer_middle_2_column_3_size }} info-footer">
+          <div class="widget-wrapper">
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_2_3_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_2_3_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_2_3_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% if section.settings.footer_middle_2_column_3 == 'custom_block' %}
+            {% if section.settings.column_content_2_3 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_2_linklist3] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-angle-right theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_2_3 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_2_column_3_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_2_column_3_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_2_column_3_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_3 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_3 == 'twitter_widget' %}
+            {% include 'twitter_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_3 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.footer_middle_2_column_4 != 'do_not_show' %} 
+        <div class="col-md-{{ section.settings.footer_middle_column_4_size }} info-footer">
+          <div class="widget-wrapper">
+            <div class="footer-block-title">
+              <h3> 
+                <span>
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ section.settings.footer_column_2_4_heading | split: '|' | first }}</span>
+                  <span class="lang2">{{ section.settings.footer_column_2_4_heading | split: '|' | last }}</span>
+                  {% else %}
+                  {{ section.settings.footer_column_2_4_heading | split: '|' | first }}
+                  {% endif %}
+                </span>
+                <!--span class="mobile-button visible-xs active">accordion-footer</span-->
+              </h3> 
+            </div> 
+            {% if section.settings.footer_middle_2_column_4 == 'custom_block' %}
+            {% if section.settings.column_content_2_4 == 'linkslist' %}
+            <div class="custom-footer-content">
+              {% assign list = linklists[section.settings.footer_column_2_linklist4] %}
+              <ul class="footer-list">
+                {% for link in list.links %}
+                <li class="theme-color">
+                  <i class="icon-angle-right theme-color"></i>
+                  <a href="{{ link.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {% if section.settings.column_content_2_4 == 'static_block_id' %}
+            <div class="block_content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.footer_middle_2_column_4_custom | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.footer_middle_2_column_4_custom | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.footer_middle_2_column_4_custom | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_4 == 'facebook_widget' %}
+            {% include 'facebook_feeds' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_4 == 'twitter_widget' %}
+            {% include 'twitter_feed' %}
+            {% endif %}
+            {% if section.settings.footer_middle_2_column_4 == 'newsletter_subscribe' %}
+            {% include 'footer_newsletter_subscribe' %}
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div> 
+  </div>
+  {% endif %}
+  {% if section.settings.footer_bottom_enabled == 'yes' %}
+  <div class="footer-bottom">   
+    <div class="container">
+      {% if section.settings.show_logo_bottom %}
+      {% if section.settings.footer_logo != blank %}
+      {% assign logo = section.settings.footer_logo | img_url: '68x' %}
+      {% else %}
+      {% assign logo = 'logo-footer.png' | asset_url %}
+      {% endif %}
+      <a class="footer_bottom_logo" href="/">
+        <img src="{{ logo }}"/> 
+      </a>
+      {% endif %}
+      {% if section.settings.footer_bottom_socialicons == 'yes' %}
+      <div class="social-icons">
+        {% if settings.language_enable %}
+        <div class="lang1">{{ section.settings.socialicons_content | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ section.settings.socialicons_content | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ section.settings.socialicons_content | split: '[lang2]' | first }}
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if section.settings.footer_bottom_custom_block == 'yes' %}
+      <div class="custom-block custom-block-1">
+        {% if settings.language_enable %}
+        <div class="lang1">{{ section.settings.footer_bottom_custom_block_id | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ section.settings.footer_bottom_custom_block_id | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ section.settings.footer_bottom_custom_block_id | split: '[lang2]' | first }}
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if section.settings.footer_bottom_custom_block_2 == 'yes' %}
+      <div class="custom-block f-right">
+        {% if settings.language_enable %}
+        <div class="lang1">{{ section.settings.footer_bottom_custom_block_id_2 | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ section.settings.footer_bottom_custom_block_id_2 | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ section.settings.footer_bottom_custom_block_id_2 | split: '[lang2]' | first }}
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if section.settings.copyrights != '' %}
+      <address>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ section.settings.copyrights | split: '|' | first }}</span>
+        <span class="lang2">{{ section.settings.copyrights | split: '|' | last }}</span>
+        {% else %}
+        {{ section.settings.copyrights | split: '|' | first }}
+        {% endif %}
+      </address>
+      {% endif %}     
+    </div>     
+  </div>
+  {% endif %}
+  {%- if settings.scroll_top_use != blank -%}
+  <div id="back-top" class="hidden-phone">
+    <a href="#top">
+      <div class="sticker-wrapper">
+        <div class="sticker">
+          <i class="icon-up-open"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+  {%- endif -%}
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "select",
+      "id": "fixed_position_footer_enabled",
+      "label": "Enable Fixed Position Footer",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "info":"It will leave only Footer Bottom Area as Fixed Position on the ONLY HOMEPAGE.",
+      "default": "yes"
+    },
+    {
+      "type": "header",
+      "content": "Footer - Top"
+    },
+    {
+      "type": "select",
+      "id": "footer_top_enabled",
+      "label": "Show Footer Top",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "select",
+      "id": "footer_top_style",
+      "label": "Footer Top Style",
+      "options":[
+        {
+          "value": "1",
+          "label":"Style 1"
+        },
+        {
+          "value": "2",
+          "label": "Style 2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "footer_top_block",
+      "label": "Block",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "html",
+      "id": "footer_top_custom_1",
+      "label": "Custom Block 1"
+    },
+    {
+      "type": "html",
+      "id": "footer_top_custom_2",
+      "label": "Custom Block"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_top_custom_enable",
+      "label": "Custom Block top Enable"
+    },
+    {
+      "type": "html",
+      "id": "footer_top_custom",
+      "label": "Custom Block top"
+    },
+    {
+      "type": "text",
+      "id": "footer_newsletter_heading",
+      "label": "Footer 2 Newsletter Heading"
+    },
+    {
+      "type": "html",
+      "id": "footer_newsletter_content",
+      "label": "Footer 2 Newsletter Content"
+    },
+    {
+      "type": "header",
+      "content": "Footer - Middle"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_enabled",
+      "label": "Show Footer Middle",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "select",
+      "id": "footer_ribbon_enabled",
+      "label": "Show Footer Ribbon",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "text",
+      "id": "footer_ribbon_text",
+      "label": "Ribbon Text",
+      "default": "Ribbon Text"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_1",
+      "label": "Column 1",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_1_heading",
+      "label": "Heading Column 1"
+    },
+    {
+      "type": "select",
+      "id": "column_content_1",
+      "label": "Column Content 1",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist1",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_column_1_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist1",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_1_size",
+      "label": "Column 1 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+
+    {
+      "type": "select",
+      "id": "footer_middle_column_2",
+      "label": "Column 2",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_2_heading",
+      "label": "Heading Column 2"
+    },
+    {
+      "type": "select",
+      "id": "column_content_2",
+      "label": "Column Content 2",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist2",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_column_2_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist2",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_2_size",
+      "label": "Column 2 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+
+    {
+      "type": "select",
+      "id": "footer_middle_column_3",
+      "label": "Column 3",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_3_heading",
+      "label": "Heading Column 3"
+    },
+    {
+      "type": "select",
+      "id": "column_content_3",
+      "label": "Column Content 3",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist3",
+      "label": "Link list:"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_middle_column_3_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist3",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_3_size",
+      "label": "Column 3 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_4",
+      "label": "Column 4",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_4_heading",
+      "label": "Heading Column 4"
+    },
+    {
+      "type": "select",
+      "id": "column_content_4",
+      "label": "Column Content 4",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist4",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_column_4_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist4",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_4_size",
+      "label": "Column 4 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_5",
+      "label": "Column 5",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_5_heading",
+      "label": "Heading Column 5"
+    },
+    {
+      "type": "select",
+      "id": "column_content_5",
+      "label": "Column Content 5",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist5",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_column_5_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist5",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_5_size",
+      "label": "Column 5 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_6",
+      "label": "Column 6",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_6_heading",
+      "label": "Heading Column 6"
+    },
+    {
+      "type": "select",
+      "id": "column_content_6",
+      "label": "Column Content 6",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        },
+        {
+          "value": "collection_product",
+          "label": "Collection Product"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_linklist6",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_column_6_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "collection",
+      "id": "collection_product_linklist6",
+      "label": "collection product:"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_column_6_size",
+      "label": "Column 6 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Footer - Middle - 2nd Row"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_enabled",
+      "label": "Show Footer Middle 2nd Row",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_1",
+      "label": "Column 1",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_2_1_heading",
+      "label": "Heading Column 1"
+    },
+    {
+      "type": "select",
+      "id": "column_content_2_1",
+      "label": "Column Content 1",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_2_linklist1",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_2_column_1_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_1_size",
+      "label": "Column 1 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_2",
+      "label": "Column 2",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_2_2_heading",
+      "label": "Heading Column 2"
+    },
+    {
+      "type": "select",
+      "id": "column_content_2_2",
+      "label": "Column Content 2",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_2_linklist2",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_2_column_2_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_2_size",
+      "label": "Column 2 Size",
+      "options": [
+        {
+          "value": "0",
+          "label": ""
+        },
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_3",
+      "label": "Column 3",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_2_3_heading",
+      "label": "Heading Column 3"
+    },
+    {
+      "type": "select",
+      "id": "column_content_2_3",
+      "label": "Column Content 3",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_2_linklist3",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_2_column_3_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_3_size",
+      "label": "Column 3 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_4",
+      "label": "Column 4",
+      "options": [
+        {
+          "value": "do_not_show",
+          "label": "Do not show"
+        },
+        {
+          "value": "custom_block",
+          "label": "Custom Block"
+        },
+        {
+          "value": "newsletter_subscribe",
+          "label": "Newsletter Subscribe"
+        },
+        {
+          "value": "facebook_widget",
+          "label": "Facebook Widget"
+        },
+        {
+          "value": "twitter_widget",
+          "label": "Twitter Widget"
+        }
+      ],
+      "default": "do_not_show"
+    },
+    {
+      "type": "text",
+      "id": "footer_column_2_4_heading",
+      "label": "Heading Column 4"
+    },
+    {
+      "type": "select",
+      "id": "column_content_2_4",
+      "label": "Column Content 4",
+      "options": [
+        {
+          "value": "linkslist",
+          "label": "Linkslist"
+        },
+        {
+          "value": "static_block_id",
+          "label": "Custom Block"
+        }
+      ],
+      "default": "linkslist"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_column_2_linklist4",
+      "label": "Link list:"
+    },
+    {
+      "type": "html",
+      "id": "footer_middle_2_column_4_custom",
+      "label": "Custom Block"
+    },
+    {
+      "type": "select",
+      "id": "footer_middle_2_column_4_size",
+      "label": "Column 4 Size",
+      "options": [
+        {
+          "value": "1",
+          "label": "1/12"
+        },
+        {
+          "value": "2",
+          "label": "2/12"
+        },
+        {
+          "value": "3",
+          "label": "3/12"
+        },
+        {
+          "value": "4",
+          "label": "4/12"
+        },
+        {
+          "value": "5",
+          "label": "5/12"
+        },
+        {
+          "value": "6",
+          "label": "6/12"
+        },
+        {
+          "value": "7",
+          "label": "7/12"
+        },
+        {
+          "value": "8",
+          "label": "8/12"
+        },
+        {
+          "value": "9",
+          "label": "9/12"
+        },
+        {
+          "value": "10",
+          "label": "10/12"
+        },
+        {
+          "value": "11",
+          "label": "11/12"
+        },
+        {
+          "value": "12",
+          "label": "12/12"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Footer - Bottom"
+    },
+    {
+      "type": "select",
+      "id": "footer_bottom_enabled",
+      "label": "Show Footer Bottom",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo_bottom",
+      "label": "Display Logo?",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Logo Image Src for Footer"
+    },
+    {
+      "type": "select",
+      "id": "footer_bottom_socialicons",
+      "label": "Show Social Icons",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "html",
+      "id": "socialicons_content",
+      "label": "Socialicons Content"
+    },
+    {
+      "type": "text",
+      "id": "copyrights",
+      "label": "Copyrights Text",
+      "default": "&copy;Copyright 2015 by SW-THEMES. All Rights Reserved."
+    },
+    {
+      "type": "select",
+      "id": "footer_bottom_custom_block",
+      "label": "Show Custom Block(before copyright text)",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "html",
+      "id": "footer_bottom_custom_block_id",
+      "label": "Custom Block"
+    },
+    {
+      "type": "select",
+      "id": "footer_bottom_custom_block_2",
+      "label": "Show Custom Block(after copyright text)",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "html",
+      "id": "footer_bottom_custom_block_id_2",
+      "label": "Custom Block"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+

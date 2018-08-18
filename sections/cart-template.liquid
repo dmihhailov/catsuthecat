@@ -1,0 +1,190 @@
+<div class="page-width" data-section-id="{{ section.id }}" data-section-type="cart-template"> 
+  <div class="container">
+    <div class="row">
+      {% if cart.item_count > 0 %}
+      <div class="checkout-cart"> 
+        <div class="page-title title-buttons">
+          <h1 {% if settings.language_enable %}data-translate="cart.general.title"{% endif %}>{{ 'cart.general.title' | t }}</h1>
+          <form action="/cart" method="post">
+            <ul class="checkout-types">
+              <li>
+                <input type="submit" name="checkout" class="btn-button bordered" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} value="{{ 'cart.general.checkout' | t }}">
+              </li>
+            </ul> 
+          </form>
+        </div> 
+        <div class="cart-inner"> 
+          <form action="/cart" method="post" novalidate class="cart table-wrap">
+            <div class="col-sm-12 col-md-8 col-lg-9">
+              <div class="cart-table-wrap">
+                <table class="data-table full cart-table">
+                  <thead>
+                    <th rowspan="1"></th>
+                    <th rowspan="1" class="hidden-phone"></th>
+                    <th rowspan="1" class="text-left" {% if settings.language_enable %}data-translate="cart.label.product"{% endif %}>{{ 'cart.label.product' | t }}</th>
+                    <th rowspan="1" class="text-left" {% if settings.language_enable %}data-translate="cart.label.price"{% endif %}>{{ 'cart.label.price' | t }}</th>
+                    <th rowspan="1" class="text-left" {% if settings.language_enable %}data-translate="cart.label.quantity"{% endif %}>{{ 'cart.label.quantity' | t }}</th> 
+                  </thead>               
+                  <tbody>
+                    {% for item in cart.items %}
+                    <tr>
+                      <td class="action-td"><a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove-item"><i class="icon-cancel"></i></a></td>
+                      <td class="text-left pr-img-td" data-label="{{ 'customer.order.product' | t }}">
+                        <a href="{{ item.url | within: collections.all }}">
+                          <img class="cart__image" src="{{ item | img_url: '100x100', scale: 2 }}" alt="{{ item.title | escape }}">
+                        </a>
+                      </td>
+                      <td class="text-left product-name-td">
+                        <h5 class="product-name"> 
+                          <a href="{{ item.url }}"> 
+                            {% if settings.language_enable %}
+                            <div class="lang1">{{ item.product.title | split: '|' | first }}</div>
+                            <div class="lang2">{{ item.product.title | split: '|' | last }}</div>
+                            {% else %}
+                            {{ item.product.title | split: '|' | first }}
+                            {% endif %} 
+                          </a>
+                          {% unless item.variant.title contains 'Default' %}
+                          <div class="cart__meta-text">
+                            {% for option in item.product.options %}
+                            {{ option }}: {{ item.variant.options[forloop.index0] }}<br/>
+                            {% endfor %}
+                          </div>
+                          {% endunless %} 
+                        </h5>       
+                        {% comment %}
+                        Optional, loop through custom product line items if available
+
+                        Line item properties come in as having two parts. The first part will be passed with the default form,
+                        but p.last is the actual custom property and may be blank. If it is, don't show it.
+
+                        For more info on line item properties, visit:
+                        - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                        {% endcomment %}
+                        {%- assign property_size = item.properties | size -%}
+                        {% if property_size > 0 %}
+                        <div class="cart__meta-text">
+                          {% for p in item.properties %}
+                          {% unless p.last == blank %}
+                          {{ p.first }}:
+
+                          {% comment %}
+                          Check if there was an uploaded file associated
+                          {% endcomment %}
+                          {% if p.last contains '/uploads/' %}
+                          <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                          {% else %}
+                          {{ p.last }}
+                          {% endif %}
+                          {% endunless %}
+                          {% endfor %}
+                        </div>
+                        {% endif %}
+                      </td>
+                      <td data-label="{{ 'cart.label.price' | t }}">
+                        <span class="cart-price">
+                          <span class="money">{{ item.price | money }}</span>
+                        </span>
+                        {% for discount in item.discounts %}
+                        <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
+                        {% endfor %}
+                      </td>
+                      <td class="a-center product-qty last" data-label="{{ 'cart.label.quantity' | t }}">
+                        <div class="reduced items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty > 1 ) result.value--;return false;">
+                          -
+                        </div>
+                        <input type="text" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0"> 
+                        <div class="increase items" onclick="var result = document.getElementById('updates_{{ item.id }}'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;">
+                          +
+                        </div>
+                        <div class="cart-actions">
+                          <a href="{{ item.url }}" class="edit-item"><i class="icon-pencil"></i></a>                    
+                        </div>
+                      </td> 
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="10">
+                        <a href="/" type="submit" class="btn-button"><span {% if settings.language_enable %}data-translate="cart.general.continue"{% endif %}>{{ 'cart.general.continue' | t }}</span></a>
+                        <button type="submit" class="btn-button btn-update tiny"><span {% if settings.language_enable %}data-translate="cart.general.update"{% endif %}>{{ 'cart.general.update' | t }}</span></button>                   
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              {% if section.settings.cart_notes_enable %}
+              <div class="grid__item medium-up--one-half">
+                <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                <textarea name="note" id="CartSpecialInstructions" class="cart__note">{{ cart.note }}</textarea>
+              </div>
+              {% endif %}
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-3">
+              <div class="checkout-info">
+                <div class="shipping">
+                  <h2 class="closed"><a href="#collapse-shipping" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-shipping" {% if settings.language_enable %}data-translate="cart.shipping.title"{% endif %}>{{'cart.shipping.title' | t}}</a></h2>
+                  <div id="collapse-shipping" class="shipping-form collapse">
+                    {% include 'shipping-calculator' %}
+                  </div>
+                </div>
+              </div>
+              <div class="totals">  
+                <h2><span {% if settings.language_enable %}data-translate="cart.general.carttotals"{% endif %}>{{ 'cart.general.carttotals' | t }}</span></h2>
+                <div class="totals-content">
+                  <table id="shopping-cart-totals-table"> 
+                    <tfoot> 
+                      <tr>
+                        <td class="a-right" colspan="1">
+                          <strong {% if settings.language_enable %}data-translate="cart.general.grandtotal"{% endif %}>{{ 'cart.general.grandtotal' | t }}</strong>
+                        </td>
+                        <td class="a-right">
+                          <strong><span class="price"><span class="money">{{ cart.total_price | money }}</span></span></strong>
+                        </td>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr>
+                        <td class="a-right" colspan="1" {% if settings.language_enable %}data-translate="cart.general.subtotal"{% endif %}>{{ 'cart.general.subtotal' | t }}</td>
+                        <td class="a-right">
+                          <span class="price"><span class="money">{{ cart.total_price | money }}</span></span>    
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ul class="checkout-types">
+                    <li>
+                      <input type="submit" name="checkout" class="btn-button" {% if settings.language_enable %}data-translate="cart.general.checkout"{% endif %} value="{{ 'cart.general.checkout' | t }}">
+                    </li>
+                  </ul> 
+                </div>
+              </div>        
+            </div> 
+          </form>
+        </div> 
+      </div>
+      {% else %} 
+      <div class="checkout-cart">
+        <h2 {% if settings.language_enable %}data-translate="cart.general.title"{% endif %}>{{ 'cart.general.title' | t }}</h2>
+        <p {% if settings.language_enable %}data-translate="cart.general.empty"{% endif %}>{{ 'cart.general.empty' | t }}</p>
+        <p {% if settings.language_enable %}data-translate="cart.general.continue_browsing_html"{% endif %}>{{ 'cart.general.continue_browsing_html' | t }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>  
+</div>
+<style>.mini-cart .cart-wrapper {display:none !important;}</style>
+{% schema %}
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enable",
+        "label": "Enable cart notes",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

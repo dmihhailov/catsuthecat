@@ -1,0 +1,125 @@
+.header-container.type2{   
+  &.sticky-header {
+    .header-wrapper { 
+      .main-nav.container {
+        margin: 0 auto; 
+      }
+    }
+  }
+  .header {
+    .custom-block {
+      margin-right: 10px;
+      line-height: 1;
+      div >* {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      span.split {
+        height: 14px;
+        width: 1px;
+        border-right: 1px solid #eee;
+        margin: 0 13px;
+      }
+      a {
+        font-size: 12px;
+      }
+    }
+  } 
+  .top-select:first-child > a {
+    padding-left: 0;
+  } 
+  .mini-cart {
+    position: relative;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    left: 0;
+    @media(min-width: 992px){
+      top: -3px !important; 
+    }
+    .widget-design-3 .cart-wrapper {
+      margin-top: 10px;
+    }
+  } 
+  .search-area{ 
+    position: static;
+    margin: 0; 
+  }   
+} 
+@media (max-width:1199px){ 
+  .header-container.type2 .header .search-extended {
+    width: auto;
+  } 
+}
+@media(max-width: 991px) {
+  .header-container.type2 {
+    .logo {
+      margin: 24px 40px 24px 0;
+    }
+    .search-area {
+      position: relative;
+      left: 0;
+      top: 0;
+      float: right;
+      margin: 24px 10px;
+      z-index: 3;
+      .search-icon {
+        display: block;
+        line-height: 37px;
+      }
+      .search-extended {
+        display: none;
+        width: 0;
+        margin: 0;
+        &.show {
+          display: block;
+        } 
+      }
+    }
+    .cart-area {
+      float: right;
+      position: static;
+      margin: 24px 0;
+    }
+    .menu-icon {
+      width: 30px;
+      text-align: center;
+      line-height: 37px;
+      height: auto;
+      padding: 0;
+      display: block;
+      float: right;
+      margin: 24px 5px;
+    }
+    .mini-cart {top: 0;margin-left: 0!important;}
+    .header .custom-block {
+      display: none;
+    } 
+    &.sticky-header {
+      .top-links-container {
+        display: none;
+      }
+      .logo img {
+        -webkit-transform: scale(.8);
+        -moz-transform: scale(.8);
+        -ms-transform: scale(.8);
+        -o-transform: scale(.8);
+        transform: scale(.8);
+        max-width: 100%;
+        margin-left: -8px;
+        max-height: 40px;
+      }
+      .logo, .search-area, .cart-area, .menu-icon {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        height: 37px;
+      }
+      .mini-cart {
+        top: 0;
+        .cart-design-5 .icon-cart-header i {
+          font-size: 23px;
+        }
+      }
+    }
+  }
+}  

@@ -1,0 +1,100 @@
+{% unless settings.shipping_calculator == 'Disabled' %}
+<div id="shipping-calculator-wrapper" class="shipping-calculator-wrapper"> 
+  <div id="shipping-calculator" class="cart-items clearfix">
+    <div class="cart-item">
+      <div id="wrapper-resquest">
+        <p {% if settings.language_enable %}data-translate="cart.shipping.title_form"{% endif %}>{{'cart.shipping.title_form' | t}}</p>
+        <ul class="form-list">
+        <li>
+          <label for="address_country" class="control-label"><span {% if settings.language_enable %}data-translate="cart.shipping.country"{% endif %}>{{'cart.shipping.country' | t}}</span><em>*</em></label>
+          <select id="address_country" class="btn-block" name="address[country]" data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% elsif settings.shipping_calculator_default_country != '' %}{{ settings.shipping_calculator_default_country }}{% endif %}">{{ country_option_tags }}</select>
+        </li>
+        <li id="address_province_container" style="display:none;">
+          <label for="address_province" id="address_province_label" class="control-label" {% if settings.language_enable %}data-translate="cart.shipping.state"{% endif %}>{{'cart.shipping.state' | t}}</label>
+          <select id="address_province" class="btn-block address_form" name="address[province]" data-default="{% if shop.customer_accounts_enabled and customer and customer.default_address.province != '' %}{{ customer.default_address.province }}{% endif %}"></select>
+        </li>
+        <li class="group-input">   
+          <label {% if settings.language_enable %}data-translate="cart.shipping.zip"{% endif %}>{{ 'cart.shipping.zip' | t }}</label>
+          <input class="input-full" type="text" name="address[zip]" id="address_zip"{% if shop.customer_accounts_enabled and customer %} value="{{ customer.default_address.zip }}"{% endif %} />
+          <span class="highlight"></span>
+          <span class="bar"></span>
+        </li>
+        </ul>
+        <div class="buttons-set">
+          <input type="button" class="btn-button bordered get-rates" {% if settings.language_enable %}data-translate="cart.shipping.submit_button"{% endif %} value="{{'cart.shipping.submit_button' | t}}" />
+        </div>
+      </div>
+      <div id="wrapper-response" class="control-group"></div>
+    </div>
+  </div>
+  
+  <script id="shipping-calculator-response-template" type="text/x-jquery-tmpl">
+  {% raw %}
+  <p id="shipping-rates-feedback" class="{{if success}}success{{else}}error{{/if}}">
+  {{if success}}
+    {{if (multi_language && translator.current_lang == 2) }}
+      {{if rates.length > 1}}
+      ${window.lang2.cart.general.shipping_calculator_success_many_rates.there_are} ${rates.length} ${window.lang2.cart.general.shipping_calculator_success_many_rates.shipping_rates_available_for} ${address}${window.lang2.cart.general.shipping_calculator_success_many_rates.starting_at} {{html Shopify.Cart.ShippingCalculator.formatRate(rates[0].price)}}.
+      {{else}}
+        {{if rates.length == 1}}
+        ${window.lang2.cart.general.shipping_calculator_success_one_rate} ${address}.
+        {{else}}
+        ${window.lang2.cart.general.shipping_calculator_success_no_rate}
+        {{/if}}
+      {{/if}}
+    {{else}} 
+      {{if rates.length > 1}}
+      {% endraw %}{{'cart.general.shipping_calculator_success_many_rates.there_are' |t}}{%raw%} ${rates.length} {%endraw%}{{'cart.general.shipping_calculator_success_many_rates.shipping_rates_available_for' |t}}{%raw%} ${address}{%endraw%}{{'cart.general.shipping_calculator_success_many_rates.starting_at' |t}}{%raw%} {{html Shopify.Cart.ShippingCalculator.formatRate(rates[0].price)}}.
+      {{else}}
+        {{if rates.length == 1}}
+        {%endraw%}{{'cart.general.shipping_calculator_success_one_rate' |t}}{%raw%} ${address}.
+        {{else}}
+        {%endraw%}{{'cart.general.shipping_calculator_success_no_rate' |t}}{%raw%}
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{else}}
+    {{if (multi_language && translator.current_lang == 2) }}
+      ${window.lang2.cart.general.shipping_calculator_error_message}
+    {{else}}
+      ${errorFeedback}
+    {{/if}}
+  {{/if}}
+  </p>
+  <ul id="shipping-rates">
+    {{each( index, rate ) rates}}
+    <li>${rate.name} {{if (multi_language && translator.current_lang == 2) }}${window.lang2.cart.general.shipping_calculator_success_at}{{else}}{%endraw%}{{'cart.general.shipping_calculator_success_at' |t}}{%raw%}{{/if}} {{html Shopify.Cart.ShippingCalculator.formatRate(rate.price)}}</li>
+    {{/each}}
+  </ul>
+  {% endraw %} 
+  </script>
+
+  <!--[if lte IE 8]> 
+  <style> #shipping-calculator { display: none; } </style> 
+  <![endif]--> 
+  
+  {{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }} 
+  {{ '/services/javascripts/countries.js' | script_tag }}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'jquery.cart.min.js' | asset_url | script_tag }}
+  
+  <script>
+    var submitButton = '{{'cart.shipping.submit_button' | t}}';
+    var submitButtonDisabled = '{{'cart.shipping.submit_button_when_calculating' | t}}' ;
+    {% if settings.language_enable %}
+    if (translator.isLang2()) {
+      submitButton = window.lang2.cart.shipping.submit_button;
+      submitButtonDisabled = window.lang2.cart.shipping.submit_button_when_calculating;
+    }
+    {% endif %}
+    Shopify.Cart.ShippingCalculator.show( {
+      submitButton: submitButton, 
+      submitButtonDisabled: submitButtonDisabled
+      {% if shop.customer_accounts_enabled and customer %},
+      customerIsLoggedIn: true{% endif %},
+      moneyFormat: {{ shop.money_with_currency_format | json }}
+    } );
+
+  </script>
+</div>
+{% endunless %}

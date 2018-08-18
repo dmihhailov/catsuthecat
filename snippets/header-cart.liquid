@@ -1,0 +1,13 @@
+<div class="cart-design-{{settings.shoping_cart_design}} widget-design-{{settings.shoping_cart_widget_design}}">
+  <a href="javascript:;" class="icon-cart-header">
+    <i class="icon-mini-cart"></i><span class="cart-total"><span class="cart-qty">{{ cart.item_count }}</span><span {% if settings.language_enable %}data-translate="cart.header.total_numb"{% endif %}>{{ 'cart.header.total_numb' | t }}</span></span>
+  </a> 
+  <div class="cart-wrapper theme-border-color"> 
+    <div class="cart-inner">
+      <div class="cartloading" style="display: none;"><div class="spinner"><div class="circle"></div></div></div>
+      <div class="cart-inner-content">
+        {% include 'widget-shopping-cart' %}
+      </div>
+    </div>
+  </div>
+</div>

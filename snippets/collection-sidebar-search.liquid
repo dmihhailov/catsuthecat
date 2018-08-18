@@ -1,0 +1,61 @@
+<div class="mobile-canvas-overlay close-mobile-canvas"></div>
+<div class="block-main-canvas">
+  <div class="canvas-icon visible-sm visible-xs"><a href="javascript:void(0)"><i class="fa fa-sliders"></i></a></div>
+  <div class="canvas-inner">
+    <div class="block block-nav sidebar-cate-toogle">
+      <div class="block-title">
+        <span {% if settings.language_enable %}data-translate="collections.sidebar.categories"{% endif %}>{{ 'collections.sidebar.categories' | t }}</span>
+        <span class="collapse">
+          <i class="icon-up-dir"></i>
+          <i class="icon-down-dir"></i>
+        </span>
+      </div>
+      <div class="sidebar-content block-content">
+        {% include 'menu-category' %}
+      </div>
+    </div>
+    {% if settings.sidebar_collection_user != blank %}
+    <div class="block bestseller sidebar-cate-toogle">
+      <div class="block-title"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ settings.sidebar_collection_title | split: '|' | first }}</span>
+        <span class="lang2">{{ settings.sidebar_collection_title | split: '|' | last }}</span>
+        {% else %}
+        {{ settings.sidebar_collection_title | split: '|' | first }}
+        {% endif %}
+      </div>
+      <div class="sidebar-content block-content">
+        {% include 'bestseller-collection' %}
+      </div>
+    </div>
+    {% endif %}
+    <div class="html_sidebar">
+      {% if settings.language_enable %}
+      <div class="lang1">{{ settings.html_siderbar_collection| split: '|' | first }}</div>
+      <div class="lang2">{{ settings.html_siderbar_collection | split: '|' | last }}</div>
+      {% else %}
+      {{ settings.html_siderbar_collection | split: '|' | first }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  jQuery(function($){   
+    $('.canvas-icon, .close-mobile-canvas').click(function(event) { 
+      if(!$('body').hasClass('mobile-canvas-shown')) {
+        $('body').addClass('mobile-canvas-shown', function() { 
+          setTimeout(function(){
+            $(document).one("click",function(e) {
+              var target = e.target;
+              if (!$(target).is('.block-main-canvas .block') && !$(target).parents().is('.block-main-canvas .canvas-inner')) {
+                $('body').removeClass('mobile-canvas-shown');
+              }
+            });  
+          }, 111);
+        });
+      } else{
+        $('body').removeClass('mobile-canvas-shown');
+      }
+    }); 
+  });
+</script>

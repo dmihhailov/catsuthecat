@@ -1,0 +1,420 @@
+<div data-section-id="{{ section.id }}" data-section-type="main-block-section">
+  <!-- style sheets -->
+  <style>
+    .main-section-three.section-main .sidebar-section-main .home-side-menu-type2.block-{{ section.id }} h2{
+      color: {{ section.settings.title_sidebar_menu }};
+    }
+    .section-main .sidebar-section-main .home-side-menu-type2.block-{{ section.id }} .sidebar-content ul.nav-accordion a{
+      color: {{ section.settings.items_content_sidebar_menu }};
+    }
+  </style>
+  <!-- end style sheets -->
+  <div id="main-block-{{ section.id }}" class="main_section_three" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-lg-2-4 sidebar-section-main">
+          {% if section.settings.sidebar_menu_enable != blank %}
+          <div class="home-side-menu-type2 block block-{{ section.id }} block-nav sidebar-cate-toogle" style="margin-bottom:20px;">
+            <h2>
+              <i class="icon-menu"></i>
+              <span>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.sidebar_menu_title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.sidebar_menu_title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.sidebar_menu_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h2>
+            <div class="sidebar-content block-content">
+              {%- assign list = linklists[section.settings.sidebar_menu] -%} 
+              <ul id="categories_nav" class="nav-accordion nav-categories">
+                {% for link in list.links %}
+                {% assign child_list_handle = link.title | handleize %}  
+                {% if linklists[child_list_handle].links != blank %}
+                <li class="level0 level-top parent {% if forloop.index == list.links.size %}last{% endif %}">
+                  <a href="{{ link.url }}" class="level-top">
+                    <span> 
+                      {% if settings.language_enable %}
+                      <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                      <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                      {% else %}
+                      {{ link.title | split: '|' | first }}
+                      {% endif %}
+                    </span>
+                  </a>
+                  <ul class="level0"> 
+                    {% for childlink in linklists[child_list_handle].links %}  
+                    {% assign grand_child_list_handle = childlink.title | handle %}
+                    {% if linklists[grand_child_list_handle].links != blank %} 
+                    <li class="level1 parent {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                      <a href="{{ childlink.url }}">
+                        <span> 
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first }}
+                          {% endif %}
+                        </span>
+                      </a>
+                      <ul class="level1">
+                        {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                        <li class="level2 {% if forloop.index == linklists[grand_child_list_handle].links.size %}last{% endif %}">
+                          <a href="{{ grand_child_link.url }}" class="site-nav__link"> 
+                            {% if settings.language_enable %}
+                            <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+                            <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+                            {% else %}
+                            {{ grand_child_link.title | split: '|' | first }}
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                    {% else %}
+                    <li class="level1 {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+                      <a href="{{ childlink.url }}">
+                        <span> 
+                          {% if settings.language_enable %}
+                          <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+                          <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+                          {% else %}
+                          {{ childlink.title | split: '|' | first }}
+                          {% endif %}
+                        </span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                  </ul>
+                </li>
+                {% else %}
+                <li class="level0 level-top {% if forloop.index == list.links.size %}last{% endif %}">
+                  <a href="{{ link.url }}" class="level-top"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ link.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ link.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ link.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+          {% if section.settings.html_enable != blank %}
+          <div class="featured-box-2">
+            {% if settings.language_enable %}
+            <div class="lang1">{{ section.settings.html_content_1 | split: '[lang2]' | first }}</div>
+            <div class="lang2">{{ section.settings.html_content_1 | split: '[lang2]' | last }}</div>
+            {% else %}
+            {{ section.settings.html_content_1 | split: '[lang2]' | first }}
+            {% endif %}
+          </div>
+          <div class="featured-box-2">
+            {% if settings.language_enable %}
+            <div class="lang1">{{ section.settings.html_content_2 | split: '[lang2]' | first }}</div>
+            <div class="lang2">{{ section.settings.html_content_2 | split: '[lang2]' | last }}</div>
+            {% else %}
+            {{ section.settings.html_content_2 | split: '[lang2]' | first }}
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-sm-9 col-lg-9-6">
+          <div class="products-collection {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">    
+            {% if section.settings.collection_title != '' %}
+            <h3 class="title-widget">
+              <span class="inner"> 
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.collection_title | split: '|' | first }}</span>
+                <span class="lang2">{{ section.settings.collection_title | split: '|' | last }}</span>
+                {% else %}
+                {{ section.settings.collection_title | split: '|' | first }}
+                {% endif %}
+              </span>
+            </h3>
+            {% endif %}
+            {% if section.settings.collection_carousel == blank %}
+            <div class="row" style="margin-left:-10px;margin-right:-10px;">
+              {% endif %}
+              <div class="category-products products-spacing-{{section.settings.space_product}}"> 
+                {% assign carousel = section.settings.collection_carousel %} 
+                {% assign limit = section.settings.collection_limit %}   
+                {%- assign name_collection = section.settings.collection -%}
+                {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+                {%- assign collection = collections[name_collection] -%}  
+                <div class="data-carousel"             
+                     data-auto="{{ section.settings.collection_autoplay }}"
+                     data-items="{{ section.settings.collection_column }}"
+                     data-1200="{{ section.settings.collection_column }}"
+                     data-1024="4"
+                     data-992="4"
+                     data-768="3"
+                     data-640="2"
+                     data-480="2"
+                     data-320="1"
+                     data-nav="{{ section.settings.collection_product_show_nav }}"
+                     data-prev='{{ section.settings.collection_product_nav_prev}}'
+                     data-next='{{ section.settings.collection_product_nav_next}}'
+                     data-paging="{{ section.settings.collection_show_paging }}"
+                     data-margin='{{ section.settings.collection_item_margin }}' style="display: none;"></div>
+                {% if carousel %}
+                <div class="products-grid owl-carousel {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %} {% if section.settings.hide_wishlist_quickview != blank %}hide_wishlist_quickview{% endif %}"> 
+                  {% for product in collection.products limit: section.settings.collection_limit %}  
+                  <div class="item product">
+                    {% include 'owl-lazyload-product-grid-item' %}
+                  </div> 
+                  {% endfor %}  
+                </div>
+                {% else %}
+                <ul class="products-grid columns{{section.settings.collection_column}} {% if section.settings.collection_flex_grid != blank %}flex-grid{% endif %} {% if section.settings.move_actions != blank %}move-action{% endif %} {% if section.settings.hide_actions != blank %}hide-action{% endif %} {% if section.settings.hide_wishlist_quickview != blank %}hide_wishlist_quickview{% endif %}">
+                  {% for product in collection.products limit: section.settings.collection_limit %}  
+                  <li class="item product product-layout-grid">
+                    {% include 'lazyload-product-grid-item' %}
+                  </li> 
+                  {% endfor %} 
+                </ul>
+                {% endif %}
+              </div>
+              {% if section.settings.collection_carousel == blank %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Section Main 3",
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Sidebar Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_menu_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sidebar_menu_title",
+      "label": "Sidebar Menu Title",
+      "default": "MAIN MENU"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu",
+      "label": "Select Menu",
+	  "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Html Block"
+    },
+    {
+      "type": "checkbox",
+      "id": "html_enable",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "html_content_1",
+      "label": "Content 1",
+      "default": "<h3><i class='icon-star'></i> DEDICATED SERVICE</h3><p>Consult our specialists for help with an order, customization, or design advice.</p><a href='#'>Get in Touch &gt;</a>"
+    },
+    {
+      "type": "textarea",
+      "id": "html_content_2",
+      "label": "Content 2",
+      "default": "<h3><i class='icon-reply'></i> FREE RETURNS</h3><p>We stand behind our goods and services and want you to be satisfied with them.</p><a href='#'>Returns Policy &gt;</a>"
+    },
+    {
+      "type": "header",
+      "content": "Main Section"
+    },
+    {
+      "type": "text",
+      "id": "collection_title",
+      "label": "Collection Title",
+      "default": "FEATURED PRODUCTS"
+    },  
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "collection_limit",
+      "label": "Number of products to show",
+      "default": "8"
+    },  
+    {
+      "type": "text",
+      "id": "collection_column",
+      "label": "Products per row",
+      "default": "4"
+    },    
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "25",
+          "label": "25"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "10"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    }, 
+    {
+      "type": "checkbox",
+      "id": "hide_wishlist_quickview",
+      "label": "Hide Wishlist Quickview",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_flex_grid",
+      "label": "Flex Grid",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "move_actions",
+      "label": "Move Actions",
+      "info": "If yes, all of the action links that 'Add to Cart' button, 'Add to Compare' link and 'Add to Wishlist' link will be moved into the product image area.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_carousel",
+      "label": "Enable Carousel",
+      "info": "Use for only default layout and don't show more button."
+    },
+    {
+      "type": "text",
+      "id": "collection_autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_show_paging",
+      "label": "Show Paging"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "collection_product_show_nav",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collection_product_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-left-open\"><\/i>"
+    },
+    {
+      "type": "text",
+      "id": "collection_product_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-right-open\"><\/i>"
+    },
+    {
+      "type": "text",
+      "id": "collection_item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Section 3",
+      "category": "Main Section"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

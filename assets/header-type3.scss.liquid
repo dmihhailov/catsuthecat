@@ -1,0 +1,203 @@
+.header-container.type3{
+  border: 0;
+  .top-links-container {
+    span.split {
+      float: right;
+    }
+  }
+  .currency-wrapper, .language-wrapper, .compare-link {
+    float: right;
+  }
+  &.sticky-header {
+    .header-wrapper { 
+      .main-nav.container {
+        margin: 0 auto; 
+      }
+      .main-nav .main-top-nav { 
+        .top-navigation {
+          text-align: left;
+        }
+      } 
+    }
+  }
+  .header { 
+    .custom-block {
+      font-size: 11px;
+      margin-right: 15px; 
+    }
+  } 
+  .select-language, .setting-currency { 
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }  
+  .cart-area {
+    height: 67px;
+    margin-top: -33px;
+    right: 0;
+  }
+  .menu-area {
+    padding-right: 114px;
+    .links-area {
+      padding: 4px 0 8px;
+      display: inline-block;
+      .links {
+        float: none;
+        display: inline-block;
+        vertical-align: middle; 
+      }
+    }
+  } 
+  .search-area{ 
+    position: relative;
+    margin: 0;
+    z-index: 2;
+    left: 0; 
+    float:right;
+    padding: 5px 0;
+    margin-left: 10px;
+    height: auto; 
+  }
+  .header-wrapper {
+    margin-right: -114px;
+  } 
+  .main-nav { 
+    margin: 0; 
+    .main-top-nav {
+      border-radius: 0;
+      background-color: transparent;
+      text-align: right;
+    }  
+    .top-navigation {
+      padding-right: 78px;
+      text-align: right;
+      li > a {
+        padding-top: 9px;
+        padding-bottom: 9px;
+      }
+    }
+  }
+  &:not(.sticky-header) {
+    @media(min-width: 992px){
+      .mini-cart {
+        position: absolute;
+        margin: 0;
+        top: 50%;
+        right: 15px;
+        margin-top: -33px;
+        background-color: #f0f0f0;
+        border: 1px solid #e6e6e6;
+        .icon-cart-header {
+          position: relative;
+          width: 75px;
+          height: 65px;
+          padding: 0;
+          line-height: 65px;
+          text-align: center; 
+          .cart-total {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            margin-top: -4px;
+            left: 0;
+            padding: 0;
+            display: block;
+            line-height: 1;
+            .cart-qty {
+              display: block;
+              font-size: 14px;
+            }
+          }
+          span {
+            display: none; 
+          }
+        } 
+      }
+    }
+  }
+}
+@media (max-width: 991px){ 
+  .header-container.type3 {
+    .cart-area {
+      position: static;
+      float: right;
+      margin: 6px 0;
+      height: auto;
+      padding: 10px 0;
+    }
+    .menu-area {
+      padding: 0;
+      display: inline-block;
+      vertical-align: middle;
+      .links-area {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0;
+        position: relative;
+      }
+    }
+    .custom-block {
+      display: none;
+    }
+    .search-area {float: left;padding: 6px 0;}
+    .top-links-icon {
+      display: inline-block; 
+    }
+    .menu-area {
+      .links-area .links {
+        display: none;
+        position: absolute;
+        right: 0;
+        z-index: 9;
+        background-color: #fff!important;
+        border-radius: 3px;
+        margin: 0;
+        padding: 5px 0;
+        text-align: right;
+        border: 1px solid #ccc;
+        li {
+          border: 0;
+          padding: 0;
+          display: block;
+          a {
+            color: #777!important;
+            white-space: nowrap;
+            padding: 0 10px;
+            display: block;
+            transition: all .2s;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    .menu-icon {
+      display: inline-block;
+      height: auto;
+      padding: 0;
+      margin: 0 10px;
+    }
+    .site-logo .logo {
+      margin-right: 15px !important;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      img {max-width: 100px !important;}
+    } 
+    .mini-cart {
+      position: relative;
+      top: 0;
+      left: 0;
+      margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: transparent;
+      border: 0;
+      .icon-cart-header {
+        width: auto;
+        top: -3px;
+      }
+      .cart-wrapper:before {
+        right: 15px;
+      }
+    }
+  }  
+}

@@ -1,0 +1,80 @@
+<div class="onepage-cat category-list">
+  <ul>
+    {% for link in linklists[settings.opc_nav_linklist].links %}   
+    {% capture collection %}opc_collection_{{ forloop.index }}{% endcapture %}
+    {% capture use_icon_image %}opc_use_icon_image_{{ forloop.index }}{% endcapture %}
+    {% capture icon_image %}opc_icon_image_{{ forloop.index }}.png{% endcapture %}
+    {% capture font_icon %}opc_font_icon_{{ forloop.index }}{% endcapture %}
+    {% capture hover_bg_color %}opc_item_hover_bg_color_{{ forloop.index }}{% endcapture %}
+    {% capture content %}opc_content_{{ forloop.index }}{% endcapture %}
+    <li data-index="{{ forloop.index }}">
+      <a href="{{ link.url }}" data-link="{{ forloop.index }}">
+        <em class="onepage-category-icon"> 
+          {% if settings[use_icon_image] != blank %}
+          	<img src="{{ icon_image | asset_url }}" alt="">
+          {% else %}
+            {% if settings[font_icon] != '' %}
+            	{{settings[font_icon]}}
+            {% else %}
+          		<i class="icon-cat-default"></i>
+            {% endif %}
+          {% endif %}
+        </em> 
+        <span>
+          {% if settings.language_enable %}
+          <span class="lang1">{{ link.title | split: '|' | first }}</span>
+          <span class="lang2">{{ link.title | split: '|' | last }}</span>
+          {% else %}
+          {{ link.title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </a>
+    </li>  
+    {% endfor %}
+  </ul>
+  <style type="text/css">
+    {% for link in linklists[settings.opc_nav_linklist].links %}  
+    {% capture hover_bg_color %}opc_item_hover_bg_color_{{ forloop.index }}{% endcapture %}
+    .onepage-cat.category-list > ul > li > a[data-link="{{ forloop.index }}"]:hover,
+    .onepage-cat.category-list > ul > li > a[data-link="{{ forloop.index }}"].active{
+    background-color: {{settings[hover_bg_color]}};
+    }
+    .onepage-cat.category-list > ul > li > a[data-link="{{ forloop.index }}"]:hover:after,
+    .onepage-cat.category-list > ul > li > a[data-link="{{ forloop.index }}"].active:after{
+      border-left-color: {{settings[hover_bg_color]}};
+    } 
+    {% endfor %}
+  </style> 
+  <script type="text/javascript"> 
+    $(document).ready(function(){
+      $(".main-container").addClass("onepage-category");
+      $(".onepage-cat.category-list > ul > li > a").each(function(){
+        var href = $(this).attr("href");
+        if(href.indexOf(window.location.pathname) > -1)
+          $(this).addClass("active");
+      });
+      $(window).scroll(function(){
+        if($(".onepage-cat.category-list > ul").outerHeight() < $(this).innerHeight()) {
+          $(".onepage-cat.category-list > ul").removeClass("fixed-bottom");
+          if($(this).scrollTop() >= $(".onepage-cat.category-list").offset().top + 46) {
+            $(".onepage-cat.category-list > ul").addClass("fixed-top");
+          } else {
+            $(".onepage-cat.category-list > ul").removeClass("fixed-top");
+          }
+        } else {
+          $(".onepage-cat.category-list > ul").removeClass("fixed-top");
+          if($(this).scrollTop() >= $(".onepage-cat.category-list").offset().top + $(".onepage-cat.category-list > ul").height() + 46 - $(this).innerHeight()) {
+            $(".onepage-cat.category-list > ul").addClass("fixed-bottom");
+          } else {
+            $(".onepage-cat.category-list > ul").removeClass("fixed-bottom");
+          }
+        }
+        if(($(".onepage-cat.category-list > ul").hasClass("fixed-bottom") && ($(this).scrollTop() + $(window).innerHeight() >= $(".footer-wrapper").offset().top)) || ($(".onepage-cat.category-list > ul").hasClass("fixed-top") && ($(this).scrollTop() + $(window).innerHeight() >= $(".footer-wrapper").offset().top) && ($(".onepage-cat.category-list > ul").offset().top + $(".onepage-cat.category-list > ul").outerHeight() >= $(".footer-wrapper").offset().top) && ($(this).scrollTop() + $(".onepage-cat.category-list > ul").outerHeight() + 70 >= $(".footer-wrapper").offset().top))) {
+          $(".onepage-cat.category-list > ul").addClass("absolute-bottom");
+        } else {
+          $(".onepage-cat.category-list > ul").removeClass("absolute-bottom");
+        }
+      });
+    });
+  </script>
+</div>

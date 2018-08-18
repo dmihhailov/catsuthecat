@@ -1,0 +1,98 @@
+{%- layout none -%}
+{%- if canonical_url contains 'collections/all' -%}
+  {%- assign by_collection = false -%}
+{%- else -%}
+  {%- assign by_collection = true -%}
+{%- endif -%}
+{%- if canonical_url contains 'collections' and by_collection -%}
+  {%- if search.terms != blank and search.performed == true -%}
+    {%- assign product_search_handle = '' -%}
+    {%- assign collection_search = canonical_url | split:'/collections/' | last | split:'?q=' | first -%}
+    {%- paginate search.results by search.results_count -%}
+      {%- for item in search.results -%} 
+        {%- for collection in item.collections -%}
+          {%- if collection.handle == collection_search -%}
+            {%- assign product_search_handle = product_search_handle | append:item.handle | append:',' -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+    {%- assign arr_product_search_handle = product_search_handle | split:',' -%}
+	{%- if arr_product_search_handle.size == 0 -%}
+    <div class="autocomplete-suggestion" data-index="0">
+      <div class="suggestion-title no-found-msg" {% if settings.language_enable %}data-translate="general.search.not_found"{% endif %}>{{ 'general.search.not_found' | t }}</div>
+    </div>
+	{%- else -%}
+      {%- for handle_product in arr_product_search_handle limit:5-%}
+        {%- assign product = all_products[handle_product] -%}
+        {%- assign on_sale = false -%}
+        {%- if product.compare_at_price_min > product.price_min -%}
+        {%- assign on_sale = true -%}
+        {%- endif -%}
+        <div class="autocomplete-suggestion" data-index="{{forloop.index}}" onclick="window.location.href='{{ product.url | within: collection }}'"> 
+          <div class="suggestion-thumb">
+            <img width="120" src="{{ product.featured_image.src | img_url: '120x70' }}" alt="">
+          </div>
+          <div class="suggestion-title product-title">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ product.title | highlight: search.terms | split: '|' | first }}</span>
+            <span class="lang2">{{ product.title | highlight: search.terms | split: '|' | last }}</span>
+            {% else %}
+            {{ product.title | highlight: search.terms | split: '|' | first }}
+            {% endif %} 
+          </div> 
+          <div class="suggestion-price price">
+            {%- if on_sale -%} 
+            <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+            <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+            {%- else -%}
+            <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+            {%- endif -%}
+          </div>
+        </div>
+	  {%- endfor -%}
+ 		<div class="view-all-products" onclick="window.location.href='{{canonical_url}}'"><span>View all results</span></div>
+	{%- endif -%}
+  {%- endif -%}
+{%- else -%}
+  {%- paginate search.results by 5 -%}
+    {%- if search.terms != blank -%}
+      {%- if search.results_count == 0 or search.performed == false -%}
+        <div class="autocomplete-suggestion" data-index="0">
+          <div class="suggestion-title no-found-msg" {% if settings.language_enable %}data-translate="general.search.not_found"{% endif %}>{{ 'general.search.not_found' | t }}</div>
+        </div>
+      {%- else -%}
+        {%- for item in search.results -%} 
+          {%- assign product = item -%}
+          {%- assign on_sale = false -%}
+          {%- if product.compare_at_price_min > product.price_min -%}
+            {%- assign on_sale = true -%}
+          {%- endif -%}
+          <div class="autocomplete-suggestion" data-index="{{forloop.index}}" onclick="window.location.href='{{ product.url | within: collection }}'"> 
+            <div class="suggestion-thumb">
+              <img width="120" src="{{ product.featured_image.src | img_url: '120x70' }}" alt="">
+            </div>
+            <div class="suggestion-title product-title">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ product.title | highlight: search.terms | split: '|' | first }}</span>
+              <span class="lang2">{{ product.title | highlight: search.terms | split: '|' | last }}</span>
+              {% else %}
+              {{ product.title | highlight: search.terms | split: '|' | first }}
+              {% endif %} 
+            </div> 
+            <div class="suggestion-price price">
+              {%- if on_sale -%} 
+              <del><span class="shopify-Price-amount amount"><span class="money">{{ product.compare_at_price | money }}</span></span></del> 
+              <ins><span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span></ins>
+              {%- else -%}
+              <span class="shopify-Price-amount amount"><span class="money">{{ product.price | money }}</span></span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+        <div class="view-all-products" onclick="window.location.href='/search?q={{ search.terms }}&type=product'"><span {% if settings.language_enable %}data-translate="general.search.view_results"{% endif %}>{{ 'general.search.view_results' | t }}</span></div>
+      {%- endif -%} 
+	{%- endif -%}
+  {%- endpaginate -%}
+{%- endif -%} 

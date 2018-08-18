@@ -1,0 +1,57 @@
+<div class="item product">
+  <div class="item-area">
+    <div class="product-image-area">
+      <a href="{{ product.url | within: collection }}" class="product-image">
+        <img src="{{ product.featured_image.src | img_url: '100x100' }}" alt="{{ product.featured_image.alt | escape }}" class="img-responsive main">
+      </a> 
+    </div>
+    <div class="details-area">
+      <h2 class="product-name">
+        <a href="{{ product.url | within: collection }}" title="{{ product.title }}"> 
+          {% if settings.language_enable %}
+          <span class="lang1">{{ product.title | split: '|' | first }}</span>
+          <span class="lang2">{{ product.title | split: '|' | last }}</span>
+          {% else %}
+          {{ product.title | split: '|' | first }}
+          {% endif %}
+        </a>
+      </h2>
+      <div class="rating-box">
+        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> 
+      </div>
+      <div class="price-box">
+        <div class="price"> 
+          {% if on_sale %}
+          {% if product.price_varies %}
+          {% assign sale_price = product.price | money %}
+          <span class="money">
+            {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+          </span>
+          {% else %} 
+          <div class="special-price">
+            <span class="money">{{ product.price | money }}</span>
+          </div>
+          {% endif %}
+          {% else %}
+          {% if product.price_varies %}
+          {% assign price = product.price | money %}
+          <span class="money">{{ 'products.general.from_text_html' | t: price: price }}</span>
+          {% else %}
+          <span class="money">
+            {{ product.price | money }}
+          </span>
+          {% endif %}
+          {% endif %}
+          {% if sold_out %}
+          <span class="money">{{ 'products.product.sold_out' | t }}</span>
+          {% endif %}
+          {% if on_sale %} 
+          <div class="compare-price">
+            <span class="money">{{ product.compare_at_price | money }}</span>
+          </div>
+          {% endif %} 
+        </div> 
+      </div>
+    </div>
+  </div>
+</div> 

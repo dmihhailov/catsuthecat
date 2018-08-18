@@ -1,0 +1,135 @@
+<style>
+  .banner_fullwidth_{{section.id}} .banner_fullwidth h3{
+    color: {{ section.settings.text_color }};
+  }
+  .banner_fullwidth_{{section.id}} .banner_fullwidth a{
+    background-color: {{ section.settings.bg_color_button }};
+    color: {{ section.settings.text_button_color }};
+  } 
+  .banner_fullwidth_{{section.id}} .banner_fullwidth a{
+    color: {{ section.settings.text_button_color }};
+    background-color: {{ section.settings.bg_color_button }};
+  }
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="image-lazyload-section">
+  <div class="banner_fullwidth_{{section.id}}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    {% if section.settings.full_width_image != blank %}
+    {% assign full_width_image = section.settings.full_width_image | img_url: '1920x660' %}
+    {% else %}
+    {% assign full_width_image = 'img1920x660.png' | asset_url %}
+    {% endif;%}
+    <div class="banner_fullwidth" style="background-image:url({{ full_width_image }});background-position: center; background-repeat: no-repeat; background-size: cover;">
+      <h3>
+        {% if settings.language_enable %}
+        <span class="lang1">{{ section.settings.full_width_imag_content | split: '[lang2]' | first }}</span>
+        <span class="lang2">{{ section.settings.full_width_imag_content | split: '[lang2]' | last }}</span>
+        {% else %}
+        {{ section.settings.full_width_imag_content | split: '[lang2]' | first }}
+        {% endif %}
+      </h3>
+      <a href="{{ section.settings.full_width_imag_link }}"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ section.settings.full_width_imag_button | split: '|' | first }}</span>
+        <span class="lang2">{{ section.settings.full_width_imag_button | split: '|' | last }}</span>
+        {% else %}
+        {{ section.settings.full_width_imag_button | split: '|' | first }}
+        {% endif %} 
+      </a>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Fullwidth",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_button_color",
+      "label": "Text Button Color",
+      "default": "#000"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_color_button",
+      "label": "Background Button Color",
+      "default": "#fff"
+    },
+    {
+      "type":"header",
+      "content":"Full Width Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "full_width_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "html",
+      "id": "full_width_imag_content",
+      "label": "Content",
+      "default": "Explore the best of you."
+    },
+    {
+      "type": "text",
+      "id": "full_width_imag_button",
+      "label": "Button name",
+      "default": "Shop By Golf"
+    },
+    {
+      "type": "url",
+      "id": "full_width_imag_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [{
+    "name": "Banner Fullwidth",
+    "category": "Banner",
+    "settings": { 
+
+    }
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

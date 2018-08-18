@@ -1,0 +1,9 @@
+{% assign variant = product.selected_or_first_available_variant %}
+<button
+  class="btn btn-default btn-uw"
+  id="uw-add-to-list"
+  data-customer-id="{{ customer.id }}"
+  data-customer-email="{{ customer.email }}"
+  data-product-handle="{{ product.handle }}"
+  data-variant-id="{{ variant.id }}"
+  data-product-id="{{ product.id }}">Add to Wishlist</button>

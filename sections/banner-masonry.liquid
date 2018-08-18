@@ -1,0 +1,200 @@
+<div data-section-id="{{ section.id }}" data-section-type="banner-masonry-section">
+  <div id="banner-masonry-{{ section.id }}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="masonry-grid"> 
+      <div class="grid-sizer"></div>
+      {% for block in section.blocks %}
+      <div class="masonry-grid-item {% if block.settings.masonry_grid_item == 'w2' %}w2{% endif %}{% if block.settings.masonry_grid_item == 'w3' %}w3{% endif %}{% if block.settings.masonry_grid_item == 'w4' %}w4{% endif %}">
+        <a href="{{ block.settings.home_banner_link }}">
+          {% if block.settings.home_banner_image != blank %}
+          {% assign baner_url = block.settings.home_banner_image | img_url: 'master' %}
+          {% else %}  	
+          {% if block.settings.masonry_grid_item == 'w1' %}
+          {% assign baner_url = 'baner468x589.png' | asset_url  %}
+          {% endif %}
+          {% if block.settings.masonry_grid_item == 'w2'  %}
+          {% assign baner_url = 'baner943x589.png' | asset_url %}
+          {% endif %}
+          {% if block.settings.masonry_grid_item == 'w3' %}
+          {% assign baner_url = 'baner1417x243.png' | asset_url  %}
+          {% endif %}
+          {% if block.settings.masonry_grid_item == 'w4' %}
+          {% assign baner_url = 'baner1891x401.png' | asset_url  %}
+          {% endif %}
+          {% if block.settings.masonry_grid_item == 'w5' %}
+          {% assign baner_url = 'baner468x838.png' | asset_url  %}
+          {% endif %}
+          {% if block.settings.masonry_grid_item == 'w6' %}
+          {% assign baner_url = 'baner468x242.png' | asset_url  %}
+          {% endif %}
+          {% endif %}
+          <img src="{{ baner_url }}"/>
+        </a>
+      </div>
+      {% endfor %}
+    </div> 
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Masonry Grid",
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image Banner",
+      "settings": [
+        {
+          "type": "select",
+          "id": "masonry_grid_item",
+          "label": "Masonry Grid Item",
+          "options": [
+            {
+              "value": " ",
+              "label": " "
+            },
+            {
+              "value": "w1",
+              "label": "w1"
+            },
+            {
+              "value": "w2",
+              "label": "w2"
+            },
+            {
+              "value": "w3",
+              "label": "w3"
+            },
+            {
+              "value": "w4",
+              "label": "w4"
+            },
+            {
+              "value": "w5",
+              "label": "w5"
+            },
+            {
+              "value": "w6",
+              "label": "w6"
+            }
+          ],
+          "default": " "
+        },
+        {
+          "type": "image_picker",
+          "id": "home_banner_image",
+          "label": "Home Banner Image"
+        },
+        {
+          "type": "url",
+          "id": "home_banner_link",
+          "label": "Banner link"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Banner Masonry Grid",
+    "category": "Banner",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w2" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w1" 
+        }  
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w5" 
+        }  
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w3" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w4" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w5" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w1" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w2" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w6" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w6" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "masonry_grid_item": "w6" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,14 @@
+<div class="header_newsletter">
+  {% if settings.newsletter_form_action != blank %}
+  {% assign form_action = settings.newsletter_form_action %}
+  {% else %}
+  {% assign form_action = '#' %}
+  {% endif %} 
+  <form action="{{ form_action }}" method="post" target="_blank" name="mc-embedded-subscribe-form">
+    <div class="input-group"> 
+      <input id="fc-email" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}">
+      <button type="submit" class="btn-button" name="subscribe" {% if settings.language_enable %}data-translate="general.newsletter_form.ok"{% endif %}>{{ 'general.newsletter_form.ok' | t }}</button>
+    </div> 
+    <label id="fc-response" for="fc-email"></label>
+  </form>  
+</div>

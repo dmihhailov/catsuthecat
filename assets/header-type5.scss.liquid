@@ -1,0 +1,137 @@
+.header-container.type5{
+  border: 0; 
+  &.sticky-header {
+    .header-wrapper { 
+      .main-nav.container {
+        margin: 0 auto; 
+      } 
+    }
+    .main-nav { 
+      ul.top-navigation {
+        padding-right: 0;
+      }
+    }
+  }
+  .header { 
+    display: block;
+    vertical-align: middle;
+    padding: 28px 0;
+    text-align: center;
+    .site-logo { 
+      margin: 0;
+      float: none;
+      .logo {
+        display: inline-block;
+        padding: 0 15px;
+        margin:0;
+      }
+    }
+  }  
+  .custom-block {
+    display: inline-block;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    div >* {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    span.split {
+      height: 14px;
+      width: 1px;
+      border-right: 1px solid #ccc;
+      margin: 0 13px;
+    }
+    a {
+      font-size: 12px;
+      color: inherit;
+    }
+  }
+  .top-select:first-child > a {
+    padding-left: 0;
+  }  
+  .mini-cart {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    top: 0;
+    left: 0; 
+  }  
+  .search-area {
+    position: absolute;
+    margin: 0;
+    display: block;
+    float: none;
+    top: 50%;
+    left: 0;
+    height: 50px;
+    pointer-events: none;
+    margin-top: -25px;
+    z-index: 2; 
+  }
+  .search-icon {
+    display: block;
+    line-height: 50px;
+    pointer-events: all;
+    float: left;
+  }
+  .header-wrapper {
+    border: 0;
+    display: block;
+    padding: 10px 0;
+  } 
+  .main-nav { 
+    margin: 0;
+    height: 30px;
+    .main-top-nav {
+      border-radius: 0;
+      background-color: transparent;
+    } 
+    ul.top-navigation {
+      padding-right: 300px;
+      >li {
+        pointer-events: all;
+        >a {
+          padding-top: 9px; 
+          padding-bottom: 9px;  
+        } 
+        &.fl-right {
+          margin-right: 0;
+          margin-left: 3px; 
+        } 
+      }
+    }
+  }
+}
+@media (max-width:1199px){
+  .header-container.type5 {
+    .header-wrapper {
+      display: none;
+    }
+    .menu-icon {
+      display: inline-block;
+      height: auto;
+      padding: 0;
+      margin: 15px 10px;
+      float: left;
+    }
+    .search-area {
+      a.search-icon {
+        float: left;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .search-extended {
+        left: -10px;
+        &:before {
+          left: 5px;
+        }
+      }
+    }
+    .custom-block {
+      display: none;
+    }
+  } 
+}

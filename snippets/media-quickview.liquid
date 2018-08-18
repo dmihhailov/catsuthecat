@@ -1,0 +1,50 @@
+{% case settings.product_aspect_ratio %}
+{% when '1' %}
+{%- assign image_width = settings.product_ratio_width -%}
+{%- assign image_height = '' -%} 
+{% else %}
+{%- assign image_width = settings.product_ratio_width -%}
+{%- assign image_height = settings.product_ratio_height -%}
+{% endcase %}  
+{% capture image_size %}{{ image_width }}x{{ image_height }}{% endcapture %}   
+<div class="product-image {% if settings.media_slide_layout == 'verticle' %}product-image-verticle{% endif %} product-image-zoom zoom-available {% if product.images.size == 1 %}image-full{% endif%}">
+  <div class="product-image-gallery loading">
+    {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+    <img id="product-featured-image" class="gallery-image visible" src="{{ featured_image | product_img_url: image_size, crop: 'center' }}" data-zoom-image="{{ featured_image.src | img_url: 'master' }}"/>  
+  </div>
+</div>   
+{% if product.images.size >= 1 and settings.media_slide_layout == 'verticle' %}
+<div class="more-views-verticle"> 
+    <a class="more-views-prev more-views-nav" href="javascript:void(0)" id="carousel-up" style="display: block;">
+      <i class="icon-angle-up"></i>
+    </a>
+  	<div class="media-list">
+        <div id="more-slides" class="verticl-carousel product-image-thumbs"> 
+        {% for image in product.images %}
+        <a class="thumb-link" href="javascript:void(0);" data-image-index="{{ forloop.index }}" data-image="{{ image | product_img_url: image_size, crop: 'center' }}" data-zoom-image="{{ image | product_img_url:'master' }}"> 
+          <img class="img-responsive" src="{{ image.src | img_url: '150x150' }}" /> 
+        </a>  
+        {% endfor %}
+        </div>
+    </div> 
+    <a class="more-views-next more-views-nav" href="javascript:void(0)" id="carousel-down" style="display: block;">
+      <i class="icon-angle-down"></i>
+    </a>
+</div>
+{% endif %} 
+{% if product.images.size > 1 and settings.media_slide_layout == 'horizontal' %}
+<div class="more-views-horizontal">
+  <div class="row">
+    <div class="data-carousel" data-items="4" data-plus="false" data-auto="" data-320="3" data-480="3" data-640="4" data-768="3" data-992="4" data-1200="4" data-margin="0" data-paging="false" data-loop="false" data-nav="true" data-prev='<i class="icon-angle-left"></i>' data-next='<i class="icon-angle-right"></i>' style="display: none;"></div>
+    <div id="more-slides" class="product-image-thumbs carousel-init owl-carousel"> 
+      {% for image in product.images %}
+      <div class="item">
+        <a class="thumb-link" href="javascript:void(0);" data-image-index="{{ forloop.index }}" data-image="{{ image | product_img_url: image_size, crop: 'center' }}" data-zoom-image="{{ image | product_img_url:'master' }}"> 
+          <img class="img-responsive" src="{{ image.src | img_url: '150x150' }}" /> 
+        </a>  
+      </div> 
+      {% endfor %}
+    </div> 
+  </div>
+</div>
+{% endif %} 

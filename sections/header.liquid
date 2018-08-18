@@ -1,0 +1,495 @@
+{% if section.settings.sticky_header_on_mobile == 'enable' %}
+<style>
+  @media (max-width: 991px){
+
+    .header-container.sticky-header, .header-container.sticky-header.type12,
+    .template-index .header-container.sticky-header.type8{
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      box-shadow: 0 0 3px rgba(0,0,0,.3);
+      transition: all 0.3s;
+      bottom: auto;
+    }
+  } 
+</style>
+ {% endif %}
+<div data-section-id="{{ section.id }}" data-section-type="header-section">
+  {% if settings.show_notice == 'yes' %}
+  {% include 'top-newsletter' %}
+  {%endif%} 
+  <header class="main-section-header">
+    <div class="header-container {{section.settings.type}}">
+      {% if section.settings.type == 'type1' %}
+      {% include 'header_type1' %}
+      {% endif %}
+      {% if section.settings.type == 'type2' %}
+      {% include 'header_type2' %}
+      {% endif %}
+      {% if section.settings.type == 'type3' %}
+      {% include 'header_type3' %}
+      {% endif %} 
+      {% if section.settings.type == 'type4' %}
+      {% include 'header_type4' %}
+      {% endif %}
+      {% if section.settings.type == 'type5' %}
+      {% include 'header_type5' %}
+      {% endif %}
+      {% if section.settings.type == 'type6' %}
+      {% include 'header_type6' %}
+      {% endif %}
+      {% if section.settings.type == 'type7' %}
+      {% include 'header_type7' %}
+      {% endif %}
+      {% if section.settings.type == 'type8' %}
+      {% include 'header_type8' %}
+      {% endif %}
+      {% if section.settings.type == 'type9' %}
+      {% include 'header_type9' %}
+      {% endif %}
+      {% if section.settings.type == 'type10' %}
+      {% include 'header_type10' %}
+      {% endif %}
+      {% if section.settings.type == 'type11' %}
+      {% include 'header_type11' %}
+      {% endif %}
+      {% if section.settings.type == 'type12' %}
+      {% include 'header_type12' %}
+      {% endif %}
+      {% if section.settings.type == 'type13' %}
+      {% include 'header_type13' %}
+      {% endif %}
+      {% if section.settings.type == 'type14' %}
+      {% include 'header_type14' %}
+      {% endif %}
+      {% if section.settings.type == 'type15' %}
+      {% include 'header_type15' %}
+      {% endif %}
+      {% if section.settings.type == 'type16' %}
+      {% include 'header_type16' %}
+      {% endif %}
+      {% if section.settings.type == 'type17' %}
+      {% include 'header_type17' %}
+      {% endif %}
+      {% if section.settings.type == 'type18' %}
+      {% include 'header_type18' %}
+      {% endif %}
+      {% if section.settings.type == 'type19' %}
+      {% include 'header_type19' %}
+      {% endif %}
+      {% if section.settings.type == 'type20' %}
+      {% include 'header_type20' %}
+      {% endif %}
+      {% if section.settings.type == 'type21' %}
+      {% include 'header_type21' %}
+      {% endif %}
+      {% if section.settings.type == 'type22' %}
+      {% include 'header_type22' %}
+      {% endif %}
+      {% if section.settings.type == 'type23' %}
+      {% include 'header_type23' %}
+      {% endif %}
+      {% if section.settings.type == 'type24' %}
+      {% include 'header_type24' %}
+      {% endif %}
+      {% if section.settings.type == 'type25' %}
+      {% include 'header_type25' %}
+      {% endif %}
+      {% if section.settings.type == 'type26' %}
+      {% include 'header_type26' %}
+      {% endif %}
+      {% if section.settings.type == 'type27' %}
+      {% include 'header_type27' %}
+      {% endif %}
+      {% if section.settings.type == 'type28' %}
+      {% include 'header_type28' %}
+      {% endif %}
+      {% if section.settings.type == 'type29' %}
+      {% include 'header_type29' %}
+      {% endif %}
+      {% if section.settings.type == 'type30' %}
+      {% include 'header_type30' %}
+      {% endif %}
+    </div>
+    {% if section.settings.sticky_header_enable == 'enable'%}
+    <script type="text/javascript"> 
+      $(document).ready(function(){ 
+        var scrolled = false;
+        $(window).scroll(function(){
+          if(200 < $(window).scrollTop() && !scrolled){
+            $('.header-container').addClass('sticky-header');
+            $('.header-container .main-nav').addClass('container');
+            scrolled = true;
+          }
+          if(200>$(window).scrollTop() && scrolled){
+            $('.header-container').removeClass('sticky-header');
+            $('.header-container .main-nav').removeClass('container');
+            scrolled = false;
+          }
+        }) 
+      }); 
+    </script>
+    {% endif %}
+    <div class="mobile-nav">
+      {% include 'mobile-menu' %} 
+    </div>
+    <div class="mobile-nav-overlay"></div>
+  </header> 
+</div>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "select",
+      "id": "type",
+      "label": "Header Type",
+      "info": "choose header type",
+      "options": [
+        {
+          "value": "type1",
+          "label": "Header Type 1"
+        },
+        {
+          "value": "type2",
+          "label": "Header Type 2"
+        },
+        {
+          "value": "type3",
+          "label": "Header Type 3"
+        },
+        {
+          "value": "type4",
+          "label": "Header Type 4"
+        },
+        {
+          "value": "type5",
+          "label": "Header Type 5"
+        },
+        {
+          "value": "type6",
+          "label": "Header Type 6"
+        },
+        {
+          "value": "type7",
+          "label": "Header Type 7"
+        },
+        {
+          "value": "type8",
+          "label": "Header Type 8"
+        },
+        {
+          "value": "type9",
+          "label": "Header Type 9"
+        },
+        {
+          "value": "type10",
+          "label": "Header Type 10"
+        },
+        {
+          "value": "type11",
+          "label": "Header Type 11"
+        },
+        {
+          "value": "type12",
+          "label": "Header Type 12"
+        },
+        {
+          "value": "type13",
+          "label": "Header Type 13"
+        },
+        {
+          "value": "type14",
+          "label": "Header Type 14"
+        },
+        {
+          "value": "type15",
+          "label": "Header Type 15"
+        },
+        {
+          "value": "type16",
+          "label": "Header Type 16"
+        },
+        {
+          "value": "type17",
+          "label": "Header Type 17"
+        },
+        {
+          "value": "type18",
+          "label": "Header Type 18"
+        },
+        {
+          "value": "type19",
+          "label": "Header Type 19"
+        },
+        {
+          "value": "type20",
+          "label": "Header Type 20"
+        },
+        {
+          "value": "type21",
+          "label": "Header Type 21"
+        },
+        {
+          "value": "type22",
+          "label": "Header Type 22"
+        },
+        {
+          "value": "type23",
+          "label": "Header Type 23"
+        },
+        {
+          "value": "type24",
+          "label": "Header Type 24"
+        },
+        {
+          "value": "type25",
+          "label": "Header Type 25"
+        },
+        {
+          "value": "type26",
+          "label": "Header Type 26"
+        },
+        {
+          "value": "type27",
+          "label": "Header Type 27"
+        },
+        {
+          "value": "type28",
+          "label": "Header Type 28"
+        },
+        {
+          "value": "type29",
+          "label": "Header Type 29"
+        },
+        {
+          "value": "type30",
+          "label": "Header Type 30"
+        }
+      ],
+      "default": "type1"
+    },
+    {
+      "type": "url",
+      "id": "blog",
+      "label": "Blog link"
+    },
+    {
+      "type": "url",
+      "id": "daily_deal",
+      "label": "Daily Deal"
+    },
+    {
+      "type": "select",
+      "id": "language_flag",
+      "label": "Show Flags in Language Switcher",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "default": "yes"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_block",
+      "label": "Custom Block"
+    }, 
+    {
+      "type": "textarea",
+      "id": "custom_block_2",
+      "label": "Custom Block For Header Type 10"
+    },
+    {
+      "type": "text",
+      "id": "menu_title",
+      "label": "Menu Title For Header Type 10"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_use_image",
+      "label": "Use Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_width",
+      "label": "Logo Width"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo", 
+      "info": "Maximum logo dimensions are 450px wide by 200px high. The uploaded file will be resized to fit within those constraints."
+    },
+    {
+      "type": "header",
+      "content": "Logo Sticky"
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_sticky_use_image",
+      "label": "Use Logo Sticky"
+    },
+    {
+      "type": "text",
+      "id": "logo_sticky_width",
+      "label": "Logo Sticky Width"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_sticky",
+      "label": "Logo Sticky",
+      "info": "Maximum logo dimensions are 150px wide by 80px high. The uploaded file will be resized to fit within those constraints."
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_enable",
+      "label": "Enable sticky header",
+      "options": [
+        {
+          "value": "enable",
+          "label": "Enable"
+        },
+        {
+          "value": "disable",
+          "label": "Disable"
+        }
+      ],
+      "default": "enable"
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_on_mobile",
+      "label": "Sticky Header on Mobile",
+      "options": [
+        {
+          "value": "enable",
+          "label": "Enable"
+        },
+        {
+          "value": "disable",
+          "label": "Disable"
+        }
+      ],
+      "default": "enable"
+    },
+    {
+      "type" : "header",
+      "content" : "Top Link Menu"
+    },
+    {
+      "type" : "select",
+      "id" : "my_account_link",
+      "label" : "Enable My Account Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    },
+    {
+      "type" : "select",
+      "id" : "daily_deal_link",
+      "label" : "Enable Daily Deal Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    },
+    {
+      "type" : "select",
+      "id" : "my_wishlist_link",
+      "label" : "Enable My Wishlist Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    },
+    {
+      "type" : "select",
+      "id" : "my_compare_link",
+      "label" : "Enable Compare Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    },
+    {
+      "type" : "select",
+      "id" : "blog_link",
+      "label" : "Enable Blog Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    },
+    {
+      "type" : "select",
+      "id" : "login_link",
+      "label" : "Enable Login Link",
+      "options" : [
+        {
+          "value" : "enable",
+          "label" : "Enable"
+        },
+        {
+          "value" : "disable",
+          "label" : "Disable"
+        }
+      ],
+      "default" : "enable"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

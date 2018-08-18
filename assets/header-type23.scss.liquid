@@ -1,0 +1,213 @@
+.header-container.type23{
+  border: 0;
+  .top-links-container { 
+    border-bottom: 1px solid #f2f2f3;
+    padding: 0; 
+    span.split {
+      display: none;
+    }
+  }
+  &.sticky-header {
+    .header-wrapper { 
+      .main-nav.container {
+        margin: 0 auto; 
+      }
+      .main-nav .main-top-nav { 
+        .top-navigation  {
+          padding-right: 50px;
+        }
+      } 
+    }
+  }
+  .header { 
+    display: block;
+    vertical-align: middle;
+    padding: 15px 0;
+    .site-logo {
+      display: block; 
+      float: left;
+      .logo { 
+        display: block;
+        padding: 0 15px;
+        margin: 0 10px 0 0;
+      }
+    } 
+  } 
+  .language-wrapper, .currency-wrapper, .compare-link { 
+    margin-top: 7px;
+    a {font-weight: 500;}
+  } 
+  .menu-icon {
+    line-height: 50px;
+  }
+  .top-links-icon {
+    border-radius: 2px; 
+    border-radius: 0;
+    border: none;
+    float: right;
+    &:before{
+      content: '\e81c'; 
+    }
+    a{
+      font-weight: 400;
+      font-family: 'Poppins';
+      font-size: 13.03px;
+    }
+  }
+  .top-select:first-child > a {
+    padding-left: 0;
+  }  
+  .top-links-area {
+    padding: 7px 0px 5px 10px;
+    .links li {
+      border: none;
+      font-size: 1em;
+      font-weight: 500;
+      a {font-weight: inherit;}
+    }
+  }
+  .cart-area {
+    position: relative;
+    top: 0;
+    margin: 0;
+    float: right;
+    height: 50px;
+    right: 0;
+    padding: 5px 0;
+    z-index: 2;
+  }
+  .mini-cart {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    top: 0;
+    left: 0;
+    margin-right: 15px;
+    .icon-cart-header {
+      position: relative;
+      padding: 0 19px 0 0;
+      line-height: 37px; 
+      i {
+        font-size: 25px;
+        &:before{
+        	content: '\e87f';
+        }
+      }
+      .cart-total {
+        display: block;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        top: 50%;
+        margin-top: -8px;
+        .cart-qty {
+          position: absolute;
+          right: 19px;
+          width: 13px;
+          height: 13px;
+          display: block;
+          font-size: 9px;
+          color: #fff;
+          background-color: #B7597C;
+          text-align: center;
+          line-height: 14px;
+          border-radius: 20px !important;
+        }
+        span {
+          vertical-align: middle;
+          font-size: 11px;
+          line-height: 14px;
+          font-weight: 400;
+          display: none;
+        }
+      } 
+    }
+  } 
+  .search-area {
+    position: relative;
+    margin: 0;
+    display: block;
+    float: right;
+    top: 0;
+    left: 0;
+    height: 50px;
+    z-index: 2; 
+    margin-right: 15px;
+    .search-icon {
+      display: block;
+      line-height: 50px;
+      font-size: 22px;
+      i:before {
+        content: '\e884';
+      }
+    }
+  }
+  .header-wrapper {
+    border: 0;
+    padding: 10px 0;
+  } 
+  .main-nav { 
+    margin: 0;
+    height: 30px;
+    .main-top-nav {
+      border-radius: 0;
+      background-color: transparent;
+    } 
+    ul.top-navigation { 
+      text-align: right; 
+      padding-right: 135px;
+      >li {
+        >a {
+          padding-top: 9px;
+          padding-bottom: 9px;  
+        } 
+        &.fl-right {
+          margin-right: 0;
+          margin-left: 3px; 
+        }  
+        
+      }
+    }
+  }
+  .custom-block {
+    display: inline-block;
+    float: right;
+    line-height: 39px;
+    margin-top: 0;
+    padding: 0 20px;
+  }
+} 
+@media (max-width: 991px){  
+  .header-container.type23 {
+    &.sticky-header {
+      .top-links-container {display:none;}
+      .header {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+    }
+    .menu-icon{
+      margin-right: 20px;
+      float: right;
+      height: auto;
+    }
+  }
+}
+@media (max-width: 767px){ 
+  .header-container.type23 {
+    .custom-block{display:none;}
+    .site-logo .logo img {
+      -webkit-transform: scale(0.8);
+      -moz-transform: scale(0.8);
+      -ms-transform: scale(0.8);
+      -o-transform: scale(0.8);
+      transform: scale(0.8);
+      margin-left: -10px;
+    }
+    .search-area.show-icon .search-extended {
+      max-width: 320px;
+    }
+  }
+}

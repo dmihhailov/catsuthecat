@@ -1,0 +1,69 @@
+{% if settings.currency_enable %}
+
+{{ "/services/javascripts/currencies.js" | script_tag }}
+{{ "jquery.currencies.min.js" | asset_url | script_tag }}
+
+<script type="text/javascript">
+  var shopCurrency = '',
+      defaultCurrency = '',
+      cookieCurrency = '';
+  currenciesCallback(); 
+  function currenciesCallback (){
+    {% if settings.currency_format %}
+    Currency.format = '{{ settings.currency_format }}';
+    {% endif %}
+     
+    shopCurrency = '{{ shop.currency }}';
+       
+    Currency.money_with_currency_format[shopCurrency] = {{ shop.money_with_currency_format | strip_html | json }};
+    Currency.money_format[shopCurrency] = {{ shop.money_format | strip_html | json }};
+     
+    defaultCurrency = '{{ settings.default_currency }}' || shopCurrency;
+     
+    cookieCurrency = Currency.cookie.read();
+     
+    jQuery('span.money span.money').each(function() {
+      jQuery(this).parents('span.money').removeClass('money');
+    });
+     
+    jQuery('span.money').each(function() {
+      jQuery(this).attr('data-currency-{{ shop.currency }}', jQuery(this).html());
+    }); 
+    if (cookieCurrency == null) {
+      if (shopCurrency !== defaultCurrency) {
+        Currency.convertAll(shopCurrency, defaultCurrency);
+      }
+      else {
+        Currency.currentCurrency = defaultCurrency;
+      }
+      Currency.cookie.write(defaultCurrency); 
+    } else if (cookieCurrency === shopCurrency) {
+      Currency.currentCurrency = shopCurrency;
+    } else {
+      Currency.convertAll(shopCurrency, cookieCurrency);
+      jQuery('.setting-currency li a').each(function(i,e){
+        if(jQuery(e).data('currency') == cookieCurrency) {
+        	jQuery(e).parent().addClass('selected');
+          	jQuery('.currency-wrapper .current-currency').html(cookieCurrency);
+        }else{
+        	jQuery(e).parent().removeClass('selected');
+        }
+      }); 
+    }  
+    jQuery('.setting-currency li a').on('click', function(e){
+      e.preventDefault();
+      jQuery('.setting-currency li').removeClass('selected');
+      jQuery(this).parent().addClass('selected');
+	  var newCurrency = jQuery(this).attr('data-currency');
+      jQuery('.currency-wrapper .current-currency').html(newCurrency);
+      Currency.convertAll(Currency.currentCurrency, newCurrency); 
+    });
+  } 
+  function currenciesCallbackSpecial(id){
+    jQuery(id).each(function() {  
+      jQuery(this).attr('data-currency-{{ shop.currency }}', jQuery(this).html());
+    });
+    Currency.convertAll(shopCurrency, Currency.cookie.read(), id, '{{ settings.currency_format }}');
+  }
+</script>
+{% endif %}

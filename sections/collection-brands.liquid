@@ -1,0 +1,196 @@
+<div data-section-id="{{ section.id }}" data-section-type="brands-slider-section">
+  <div id="brands-slider-{{ section.id }}" class="box_feature_brand" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container featured-brands">
+      <div class="box_brand">
+        {%- if section.settings.title != '' -%}
+        <h3 class="title-widget" style="margin: 20px 0 10px;color: {{section.settings.title_color}};">
+          <span class="inner">
+            {% if settings.language_enable %}
+            <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+            <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+            {% else %}
+            {{ section.settings.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </h3> 
+        {%- endif -%}
+        <div class="brands-slider owl-no-narrow">
+          <div class="data-carousel"  
+               data-auto="{{ section.settings.autoplay }}"
+               data-items="{{ section.settings.columns }}"
+               data-1200="{{ section.settings.columns }}"
+               data-992="5"
+               data-768="3"
+               data-640="3"
+               data-480="2"
+               data-paging="{{ section.settings.paging }}"
+               data-nav="{{ section.settings.navigation }}"
+               data-margin="{{ section.settings.margin }}"
+               data-prev='{{ section.settings.prev }}' 
+               data-next='{{ section.settings.next }}' style="display: none;"></div>
+        </div>
+        <div class="owl-carousel carousel-init">
+          {% for block in section.blocks %}
+          <div class="item">
+            <a href="{{ block.settings.link }}">
+              {% if block.settings.image != blank %}
+              {% assign img_url = block.settings.image | img_url: '180x79' %}
+              {% else %}
+              {% assign img_url = 'img160x70.png' | asset_url %}
+              {% endif %}
+              <img src="{{ img_url }}" alt="{{ section.settings.image.alt }}" style="width:inherit;display: inline;"/>
+            </a>
+          </div>
+          {% endfor %}
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Brands",
+  "class": "index-section",
+  "settings": [    
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },   
+    {
+      "type": "header",
+      "content": "Brands Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#313131"
+    }, 
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+	  "default": "Featured Brands"
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay.",
+ 	  "default": "5000"
+    }, 
+    {
+      "type": "text",
+      "id": "columns",
+      "label": "Columns",
+      "default" : "7"
+    },
+    {
+      "type": "text",
+      "id": "margin",
+      "label": "Item Margin",
+	  "default": "20"
+    },
+    {
+      "type": "checkbox",
+      "id": "paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "next",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    } 
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Brand Image",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Brands",
+      "category": "Collection",
+      "settings": {  
+        "autoplay": "5000",
+		"navigation": true
+      }, 
+      "blocks": [
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        },
+        {
+          "type": "image" 
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,52 @@
+<div id="wishlist-box" class="box-popup animate-box">
+  <div class="box-inner">
+    <div class="item">
+      <div class="heading" {% if settings.language_enable %}data-translate="general.modal.add_to_wishlist_message"{% endif %}>{{ 'general.modal.add_to_wishlist_message' | t }}</div>
+      <div class="product-info">
+        <div class="img">
+          <div class="product-title"><a class="product-link" href="#"></a></div>
+          <a class="product-link" href="#"><img class="product-img" src="{{'noimage.jpg' | asset_url}}" alt="" width="90" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="action">  
+      <div class="action-content">
+        <a class="btn-button bordered" href="{{pages[settings.wishlist_page].url}}" {% if settings.language_enable %}data-translate="general.modal.go_to_wishlist"{% endif %}>{{ 'general.modal.go_to_wishlist' | t }}</a>
+        <button type="button" class="btn-button close-box bordered"><span {% if settings.language_enable %}data-translate="general.modal.continue_shopping"{% endif %}>{{ 'general.modal.continue_shopping' | t }}</span></button>      
+      </div>
+    </div>
+  </div>
+</div>
+<div id="cart-box" class="box-popup animate-box">
+  <div class="box-inner">
+    <div class="item">
+      <div class="heading" {% if settings.language_enable %}data-translate="general.modal.add_to_cart_message"{% endif %}>{{ 'general.modal.add_to_cart_message' | t }}</div>
+      <div class="product-info">
+        <div class="img">
+          <div class="product-title"><a class="product-link" href="#"></a></div>
+          <a class="product-link" href="#"><img class="product-img" src="{{'noimage.jpg' | asset_url}}" alt="" width="81px" /></a>
+        </div>            
+      </div>
+    </div>
+    <div class="action">  
+      <div class="action-content">
+        <a class="btn-button bordered" href="/cart" {% if settings.language_enable %}data-translate="general.modal.go_to_cart"{% endif %}>{{ 'general.modal.go_to_cart' | t }}</a>
+        <button type="button" class="btn-button close-box bordered"><span {% if settings.language_enable %}data-translate="general.modal.continue_shopping"{% endif %}>{{ 'general.modal.continue_shopping' | t }}</span></button>          
+      </div>
+    </div>
+  </div>
+</div>
+{%comment%} show error notice  {%endcomment%}
+<div id="error-notice" class="box-popup animate-box"> 
+  <div class="box-inner">
+    <div class="item">
+      <div class="heading"></div>
+      <div class="message"></div>
+    </div>
+    <div class="action">
+      <div class="cart">
+        <button type="button" class="btn-button close-box bordered" {% if settings.language_enable %}data-translate="general.modal.continue_shopping"{% endif %}>{{ 'general.modal.continue_shopping' | t }}</button>
+      </div>
+    </div>
+  </div>
+</div>

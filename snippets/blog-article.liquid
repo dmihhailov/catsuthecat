@@ -1,0 +1,74 @@
+<div class="blog-container">
+  <div class="row">
+    <div class="blog-homepage">
+      <h3 class="title-widget">
+        <span class="inner"> 
+          {% if settings.language_enable %}
+          <span class="lang1">{{ settings.home_blog_article_title | split: '|' | first }}</span>
+          <span class="lang2">{{ settings.home_blog_article_title | split: '|' | last }}</span>
+          {% else %}
+          {{ settings.home_blog_article_title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </h3>
+      <div class="blog-article-wrap">
+        <div class="data-carousel" 
+             data-items="{{ settings.home_blog_article_column }}"
+             data-auto="{{ settings.home_blog_article_autoplay }}"
+             data-paging="{{ settings.home_blog_article_show_paging }}"
+             data-nav="{{ settings.home_blog_article_show_nav }}"
+             data-prev='{{ settings.home_blog_article_nav_prev }}'
+             data-next='{{ settings.home_blog_article_nav_next }}' 
+             data-mobile="1" style="display: none;"></div>
+        <div class="owl-carousel owl-theme">
+          {% assign blog = blogs[settings.home_blog] %}
+          {% for article in blog.articles limit:settings.home_blog_article_limit %}  
+          <div class="blog item">
+            <div class="blog-item-wrapper">
+              {% if article.excerpt contains "<iframe" %}
+              {% assign src = article.excerpt | split: 'src="' %}
+              {% assign src = src[1] | split: '"' | first %}
+              {% if src %}
+              <div class="excerpt responsive-video">
+                <iframe width="100%" scrolling="no" frameborder="no" src="{{ src }}"></iframe>
+              </div>
+              {% endif %}
+              {% endif %}
+              {% if article.excerpt contains "<img" %}
+              {% assign src = article.excerpt | split: 'src="' %}
+              {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:' %}
+              {% if src %} 
+              <a href="{{ article.url }}" class="img-blog">
+                <img class="img-responsive" alt="{{article.title}}" src="{{ src }}" /> 
+              </a>
+              {% endif %}
+              {% endif %} 
+              <div class="main_content">
+                <h3>
+                  <a href="{{ article.url }}"> 
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ article.title | split: '|' | first }}</span>
+                    <span class="lang2">{{ article.title | split: '|' | last }}</span>
+                    {% else %}
+                    {{ article.title | split: '|' | first }}
+                    {% endif %}
+                  </a>
+                </h3>
+                <span class="content"> 
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ article.content | strip_html | split: '[lang2]' | first | truncatewords: 30}}</span>
+                  <span class="lang2">{{ article.content | strip_html | split: '[lang2]' | last | truncatewords: 30}}</span>
+                  {% else %}
+                  {{ article.content |strip_html | split: '[lang2]' | first | truncatewords: 30}}
+                  {% endif %} 
+                </span>
+                <a class="btn-button bordered uppercase" href="{{ article.url }}" {% if settings.language_enable %}data-translate="blogs.article.read_more"{% endif %}>{{ 'blogs.article.read_more' | t }}</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,358 @@
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  <div id="slideshow_slidebar_collection" class="main-slideshow" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row" style="margin:0 -10px;">
+        <div class="col-md-9 md-f-right" style="padding:0 10px;">
+          {% if section.blocks.size > 0 %}
+          <div class="slideshow-collection slideshow-section">
+            <div class="data-slideshow"
+                 data-rtl="true"
+                 data-auto="{{ section.settings.auto_speed }}"
+                 data-paging="{{ section.settings.slide_pagination }}"
+                 data-nav="{{ section.settings.slide_navigation }}"
+                 data-transition="{{ section.settings.slide_transition }}"
+                 data-prev='{{ section.settings.slide_nav_prev }}' 
+                 data-next='{{ section.settings.slide_nav_next }}' style="display: none;"></div>
+            <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel">
+              {% for block in section.blocks %}
+              {% if block.settings.background_image != blank %}
+              {% assign background_image = block.settings.background_image | img_url: 'master' %}
+              {% else %}
+              {% assign background_image = 'bg1140x500.png' | asset_url %}
+              {% endif;%}
+              <div class="item" style="{% if block.settings.background_image_use == '1' %}background: url({{background_image }}) center center no-repeat;background-size: cover;{%endif%}">
+                <div class="" style="position:relative">
+                  {% if block.settings.image != blank %}
+                  {% if block.settings.image_use == '1' %}
+                      {% assign image_url = block.settings.image | img_url: 'master' %}
+                  {%else%}
+                      {% assign image_url = 'img1140x500.png' | asset_url %}
+                  {%endif%} 
+                {% else %}
+                  {% assign image_url = 'img1140x500.png' | asset_url %}
+                {% endif;%}
+                <a href="{{ block.settings.link }}" style="position:absolute;width:100%;height:100%;z-index:2;"></a>
+                <img src="{{ image_url }}" alt="{{block.settings.image.alt}}"/>
+                  <div class="content"> 
+                    <div class="content-area">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content_slider | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content_slider | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content_slider | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {%if block.type == 'video' %}
+                <div class="video-wrap">
+                  {% if block.settings.ico_slide_video_overlay != 'none' %}
+                  <div class="video-overlay overlay-{{ block.settings.ico_slide_video_overlay }}" style="opacity: 1;"></div>
+                  {% endif %}
+                  <video class="video" poster="{{ slide_img | asset_url }}" autoplay {% if block.settings.ico_slide_video_loop == 'loop' %}loop=""{% endif %} {% if block.settings.ico_slide_video_mute == 'mute' %}muted=""{% endif %} preload="auto" data-width="0" data-height="0">
+                    {% if block.settings.ico_slide_video contains '.mp4' %}     
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/mp4">
+                    {% else %}
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/webm">
+                    {% endif %}
+                  </video>
+                  <div class="content"> 
+                    <div class="content-area">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content_slider | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content_slider | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content_slider | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %} 
+        </div>
+        <div class="col-md-3" style="padding:0 10px;">
+          <div class="side-custom-menu custom-menu-{{ section.id }} category-menu-style-{{settings.category_menu_style}}">
+            <h2>
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.sidebar_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.sidebar_title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.sidebar_title | split: '|' | first }}
+              {% endif %}
+            </h2>
+            {% include 'side-menu' %} 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+{% schema %}
+{
+  "name": "Slideshow & Sidebar Menu", 
+  "settings": [  
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Sidebar Menu"
+    }, 
+    {
+      "type": "text",
+      "id": "sidebar_title",
+      "label": "Title",
+      "default": "Top Categories"
+    },
+    {
+      "type": "header",
+      "content": "Slideshow Settings"
+    },
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "select",
+      "id": "slide_navigation",
+      "label": "Navigation",
+      "info": "Choose if you would like to display the left\/right arrows on the slider.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "slide_pagination",
+      "label": "Pagination",
+      "info": "Choose if you would like to display the slider pagination.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [ 
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+		{
+        "type": "select",
+        "id": "background_image_use",
+        "label": "Background Image Use?",
+        "info": "Choose if you would like to display background image.",
+        "options": [
+        {
+        "value": "1",
+        "label": "Yes"
+        },
+        {
+        "value": "0",
+        "label": "No"
+        }
+        ],
+        "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+		{
+        "type": "select",
+        "id": "image_use",
+        "label": "Image Use?",
+        "info": "Choose if you would like to display image.",
+        "options": [
+        {
+        "value": "1",
+        "label": "Yes"
+        },
+        {
+        "value": "0",
+        "label": "No"
+        }
+        ],
+        "default": "1"
+        },  
+        {
+          "type": "html",
+          "id": "content_slider",
+          "label": "Content Slider",
+          "default": "<h2 style='font-weight:600;line-height:1;color:#08c'>HUGE <b style='font-weight:800'>SALE</b></h2>"
+        }, 
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide link"
+        }
+      ]
+    },
+	{
+  "type": "video",
+  "name": "Video slide",
+  "settings": [
+  {
+  "type": "text",
+  "id": "ico_slide_video",
+  "label": "Background Video .mp4 or .webm URL",
+  "info": "provide the video .mp4, .webm url for the background"
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_loop",
+  "label": "Video Loop",
+  "info": "Choose if you would like the slide background video to play once, or loop.",
+  "options": [
+  {
+  "value": "loop",
+  "label": "Loop"
+  },
+  {
+  "value": "",
+  "label": "Single play"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_mute",
+  "label": "Video mute",
+  "info": "Choose if you would like the slide background video to be muted, or not.",
+  "options": [
+  {
+  "value": "mute",
+  "label": "Mute"
+  },
+  {
+  "value": "volume",
+  "label": "Volume"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_overlay",
+  "label": "Video overlay",
+  "info": "Choose if you would like to show an overlay style over the video.",
+  "options": [
+  {
+  "value": "none",
+  "label": "None"
+  },
+  {
+  "value": "lightgrid",
+  "label": "Lightgrid"
+  }
+  ]
+  },
+  {
+          "type": "html",
+          "id": "content_slider",
+          "label": "Content Slider",
+          "default": "<h2 style='font-weight:600;line-height:1;color:#08c'>HUGE <b style='font-weight:800'>SALE</b></h2>"
+        }
+  ]
+  }
+  ],
+  "presets": [{
+    "name": "Slideshow & SliderBar Menu",
+    "category": "Slideshow",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image"
+      }, 
+      {
+        "type": "image"
+      }, 
+      {
+        "type": "image"
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,519 @@
+{%- if section.blocks.size > 0 -%}
+{%- if settings.product_tab_style !='accordion' -%}
+<div class="product-tabs {{settings.product_tab_style}} {% if settings.custom_product_tab_right != blank %}col-sm-9{% else %} col-sm-12{% endif %}" style="padding:0px;">
+  <ul class="level0">
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'description' -%}
+    <li class="description_tab {% if forloop.first %}active{% endif %} level0">
+      <a class="level0" href="#product_tabs_description" role="tab" data-toggle="tab">
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%} 
+      </a>
+    </li>
+    {%- when 'review' -%}
+    <li class="reviews_tab {% if forloop.first %}active{% endif %} level0">
+      <a class="level0" href="#product_tabs_tabreviews" role="tab" data-toggle="tab" >
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%} 
+        {%- if block.settings.use_count_reviews -%} 
+        {%- assign reviews_counts = 0 -%}
+        {%- if product.metafields.spr.reviews -%}
+        {%- capture spr_data -%}{{ product.metafields.spr.reviews }}{%- endcapture -%}
+        {%- assign spr1 = spr_data | split: '<meta itemprop="reviewCount" content="' -%}
+        {%- assign spr2 = spr1[1] | split: '\">\n' | first -%} 
+        {%- assign reviews_counts = spr2 | first | plus:0 -%}
+        {%- endif -%}
+        {%- if reviews_counts <= 0 -%}
+        {%- assign spr_counts = "(0)" -%}
+        {%- else -%}
+        {%- capture spr_counts -%}({{reviews_counts}}){%- endcapture -%}   
+        {%- endif -%} 
+        {{spr_counts}}
+        {%- endif -%}
+      </a>
+    </li> 
+    {%- when 'additional' -%}
+    {%- if product.description contains '[additional]' -%}
+    <li class="additional_tab {% if forloop.first %}active{% endif %} level0">
+      <a class="level0" href="#product_tabs_additional" role="tab" data-toggle="tab"> 
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%}
+      </a>
+    </li> 
+    {%- endif -%}
+    {%- when 'size_chart' -%} 
+    {%- if block.settings.size_chart_image != blank or block.settings.code != '' -%}
+    <li class="size_chart_tab {% if forloop.first %}active{% endif %} level0">
+      <a class="level0" href="#product_tabs_size_chart" role="tab" data-toggle="tab"> 
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%}
+      </a>
+    </li>  
+    {%- endif -%}
+    {%- when 'html' -%} 
+    {%- if block.settings.code != '' -%}
+    <li class="html_tab {% if forloop.first %}active{% endif %} level0">
+      <a class="level0" href="#{{block.id}}" role="tab" data-toggle="tab"> 
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%}
+      </a>
+    </li> 
+    {%- endif -%} 
+    {%- endcase -%}
+    {%- endfor -%}
+  </ul> 
+  {%- if settings.product_tab_style == "horizontal" -%}
+  <div class="clearer"></div>
+  {%- endif -%}
+  {%- if settings.product_tab_style == "vertical" -%}
+  <div class="product-tab-content">
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'description' -%}
+    <div class="tab-content {% if forloop.first %}in active{% endif %} {% if settings.product_tab_style != "sticky" %}collapse{%endif%}" id="product_tabs_description">
+      <div class="product-tabs-content-inner clearfix"> 
+        {%- assign description = product.description -%}
+        {%- if description contains '[countdown]' -%}
+        {%- assign description = description | split:'[/countdown]' | last -%}  
+        {%- endif -%}
+        {%- if product.description contains '[shortdesc]' -%}
+        {%- assign description = description | split:'[/shortdesc]' | last -%}  
+        {%- endif -%}
+        {%- if product.description contains '[additional]' -%}
+        {%- assign description = description | split:'[/additional]' | last -%}  
+        {%- endif -%} 
+        {% if settings.language_enable %}
+        <div class="lang1">{{ description | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ description | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ description | split: '[lang2]' | first }}
+        {% endif %} 
+      </div>
+    </div>  
+    {%- when 'review' -%}
+    <div class="tab-content {% if forloop.first %}in active{% endif %} {% if settings.product_tab_style != "sticky" %}collapse{%endif%}" id="product_tabs_tabreviews">
+      <div class="product-tabs-content-inner clearfix">
+        <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+      </div>
+    </div>
+    {%- when 'additional' -%} 
+    {%- if product.description contains '[additional]' -%}
+    <div class="tab-content {% if forloop.first %}in active{% endif %} {% if settings.product_tab_style != "sticky" %}collapse{%endif%}" id="product_tabs_additional">
+      <div class="product-tabs-content-inner clearfix">
+        {%- if product.description contains '[additional]' -%} 
+        {%- assign get = product.description | split:'[/additional]' | first -%}   
+        {%- assign additional = get | split:'[additional]' | last -%} 
+        {%- if settings.language_enable -%}
+        <div class="lang1">{{ additional | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ additional | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ additional | split: '[lang2]' | first }}
+        {%- endif -%}  
+        {%- endif -%} 
+      </div>
+    </div> 
+    {%- endif -%}
+    {%- when 'size_chart' -%} 
+    {%- if block.settings.size_chart_image != blank or block.settings.code != '' -%}
+    <div class="tab-content {% if forloop.first %}in active{% endif %} {% if settings.product_tab_style != "sticky" %}collapse{%endif%}" id="product_tabs_size_chart">
+      <div class="product-tabs-content-inner clearfix">
+        {%- if block.settings.size_chart_image != blank -%}
+          <img src="{{ block.settings.size_chart_image | img_url: 'master' }}" class="img-responsive" />
+        {%- else -%}
+          {%- if settings.language_enable -%}
+          <div class="lang1">{{ block.settings.code | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.code | split: '[lang2]' | last }}</div>
+          {%- else -%}
+          {{ block.settings.code | split: '[lang2]' | first }}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div> 
+    {%- endif -%}
+    {%- when 'html' -%} 
+    {%- if block.settings.code != '' -%}
+    <div class="tab-content {% if forloop.first %}in active{% endif %} {% if settings.product_tab_style != "sticky" %}collapse{%endif%}" id="{{block.id}}">
+      <div class="product-tabs-content-inner clearfix"> 
+        {%- if settings.language_enable -%}
+        <div class="lang1">{{ block.settings.code | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ block.settings.code | split: '[lang2]' | last }}</div>
+        {%- else -%}
+        {{ block.settings.code | split: '[lang2]' | first }}
+        {%- endif -%}
+      </div>
+    </div> 
+    {%- endif -%} 
+    {%- endcase -%}
+    {%- endfor -%}
+    {% if settings.product_tab_style == "vertical" %}
+  </div>
+  {%- endif -%}
+</div>
+{%- if settings.product_tab_style == "sticky" -%}
+<script type="text/javascript">
+  $(function(){
+    var sticky_tabs;
+    var is_sticky = false; 
+    $(".product-tabs > ul > li > a").off("click").on("click", function(){  
+      $($(this).attr('href')).scrollToMe();
+    });
+    $(window).scroll(function(){
+      if($(window).scrollTop() >= $(".product-tabs").offset().top){
+        if(!is_sticky){
+          sticky_tabs = $(".product-tabs.sticky > ul").clone().detach();
+          $(sticky_tabs).addClass("sticky-tab");
+          $(".product-tabs.sticky").before('<div class="product-tabs-container"><div class="container"></div></div>');
+          $(".product-tabs-container > .container").append(sticky_tabs);
+          $(".sticky-tab > li > a").off("click").on("click", function(){
+            $($(this).attr('href')).scrollToMe();
+          }); 
+          if($('.sticky-header').length > 0) { 
+            $(".product-tabs-container").addClass("has-sticky-header"); 
+          }
+          if($('.sticky-product').length > 0) { 
+            $(".product-tabs-container").addClass("has-sticky-product");
+          } 
+          is_sticky = true;
+        }
+      } else {
+        $(".product-tabs-container").remove();
+        is_sticky = false;
+      }
+    });
+  });
+</script>
+{%- endif -%}
+{%- if settings.custom_product_tab_right != blank -%}
+<div class="col-sm-3">
+  <div class="custom-block-tab-right">
+    <div class="block bestseller  bestseller-custom-tab sidebar-cate-toogle">
+      <div class="block-title"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ settings.product_custom_tab_title | split: '|' | first }}</span>
+        <span class="lang2">{{ settings.product_custom_tab_title | split: '|' | last }}</span>
+        {% else %}
+        {{ settings.product_custom_tab_title | split: '|' | first }}
+        {% endif %}
+      </div>
+      <div class="sidebar-content block-content">
+        {% include 'bestseller-product-custom-tab' %}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+{%- endif -%}
+{%- if settings.product_tab_style =='accordion' -%}
+<div class="product-tab-accordion {% if settings.custom_product_tab_right != blank %}col-sm-9{% else %} col-sm-12{% endif %}" style="padding: 0px;">
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'description' -%}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#product_tabs_description" data-toggle="collapse" aria-expanded="false" aria-controls="product_tabs_description">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%} 
+        </a>
+      </h4>
+    </div>
+    <div class="tab-content {% if forloop.first %}in active{% endif %} first collapse" id="product_tabs_description">
+      <div class="product-tabs-content-inner clearfix"> 
+        {%- assign description = product.description -%}
+        {%- if description contains '[countdown]' -%}
+        {%- assign description = description | split:'[/countdown]' | last -%}  
+        {%- endif -%}
+        {%- if product.description contains '[shortdesc]' -%}
+        {%- assign description = description | split:'[/shortdesc]' | last -%}  
+        {%- endif -%}
+        {%- if product.description contains '[additional]' -%}
+        {%- assign description = description | split:'[/additional]' | last -%}  
+        {%- endif -%} 
+        {% if settings.language_enable %}
+        <div class="lang1">{{ description | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ description | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ description | split: '[lang2]' | first }}
+        {% endif %} 
+      </div>
+    </div>
+  </div>
+  {%- when 'review' -%}
+  <div class="panel panel-default panel-review-tab">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#product_tabs_tabreviews" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="product_tabs_tabreviews">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%} 
+          {%- if block.settings.use_count_reviews -%} 
+          {%- assign reviews_counts = 0 -%}
+          {%- if product.metafields.spr.reviews -%}
+          {%- capture spr_data -%}{{ product.metafields.spr.reviews }}{%- endcapture -%}
+          {%- assign spr1 = spr_data | split: '<meta itemprop="reviewCount" content="' -%}
+          {%- assign spr2 = spr1[1] | split: '\">\n' | first -%} 
+          {%- assign reviews_counts = spr2 | first | plus:0 -%}
+          {%- endif -%}
+          {%- if reviews_counts <= 0 -%}
+          {%- assign spr_counts = "(0)" -%}
+          {%- else -%}
+          {%- capture spr_counts -%}({{reviews_counts}}){%- endcapture -%}   
+          {%- endif -%} 
+          {{spr_counts}}
+          {%- endif -%}
+        </a>
+      </h4>
+    </div>
+    <div class="tab-content {% if forloop.first %}in active{% endif %} collapse" id="product_tabs_tabreviews">
+      <div class="product-tabs-content-inner clearfix">
+        <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+      </div>
+    </div>
+  </div>
+  {%- when 'additional' -%} 
+  {%- if product.description contains '[additional]' -%}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#product_tabs_additional" data-toggle="collapse" aria-expanded="false" aria-controls="product_tabs_additional">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%} 
+        </a>
+      </h4>
+    </div>
+    <div class="tab-content {% if forloop.first %}in active{% endif %} collapse" id="product_tabs_additional">
+      <div class="product-tabs-content-inner clearfix"> 
+        {%- if product.description contains '[additional]' -%} 
+        {%- assign get = product.description | split:'[/additional]' | first -%}   
+        {%- assign additional = get | split:'[additional]' | last -%} 
+        {%- if settings.language_enable -%}
+        <div class="lang1">{{ additional | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ additional | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ additional | split: '[lang2]' | first }}
+        {%- endif -%}  
+        {%- endif -%} 
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+  {%- when 'size_chart' -%} 
+  {%- if block.settings.size_chart_image != blank or block.settings.code != '' -%}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#product_tabs_size_chart" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="product_tabs_size_chart">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%}
+        </a>
+      </h4>
+    </div>
+    <div class="tab-content {% if forloop.first %}in active{% endif %} collapse" id="product_tabs_size_chart">
+      <div class="product-tabs-content-inner clearfix">
+        {%- if block.settings.size_chart_image != blank -%}
+          <img src="{{ block.settings.size_chart_image | img_url: 'master' }}" class="img-responsive" />
+        {%- else -%}
+          {%- if settings.language_enable -%}
+          <div class="lang1">{{ block.settings.code | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ block.settings.code | split: '[lang2]' | last }}</div>
+          {%- else -%}
+          {{ block.settings.code | split: '[lang2]' | first }}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div> 
+  </div>
+  {%- endif -%}
+  {%- when 'html' -%} 
+  {%- if block.settings.code != '' -%}
+  <div class="panel panel-default panel-custom-tab">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a href="#{{block.id}}" class="collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="{{block.id}}">
+          {%- if settings.language_enable -%}
+          <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+          {%- else -%}
+          {{ block.settings.title | split: '|' | first }}
+          {%- endif -%}
+        </a>
+      </h4>
+    </div>
+    <div class="tab-content {% if forloop.first %}in active{% endif %} collapse" id="{{block.id}}">
+      <div class="product-tabs-content-inner clearfix"> 
+        {%- if settings.language_enable -%}
+        <div class="lang1">{{ block.settings.code | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ block.settings.code | split: '[lang2]' | last }}</div>
+        {%- else -%}
+        {{ block.settings.code | split: '[lang2]' | first }}
+        {%- endif -%}
+      </div>
+    </div> 
+  </div>
+  {%- endif -%} 
+  {%- endcase -%}
+  {%- endfor -%}
+</div>
+{%- if settings.custom_product_tab_right != blank -%}
+<div class="col-sm-3">
+  <div class="custom-block-tab-right">
+    <div class="block bestseller  bestseller-custom-tab sidebar-cate-toogle">
+      <div class="block-title"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ settings.product_custom_tab_title | split: '|' | first }}</span>
+        <span class="lang2">{{ settings.product_custom_tab_title | split: '|' | last }}</span>
+        {% else %}
+        {{ settings.product_custom_tab_title | split: '|' | first }}
+        {% endif %}
+      </div>
+      <div class="sidebar-content block-content">
+        {% include 'bestseller-product-custom-tab' %}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+{%- endif -%}
+{%- endif -%}
+{% schema %}
+{
+  "name": "Product Page Tab",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Addtional tab: using shortcode [additional]content ...[/additional] on the product description."
+    }
+  ], 
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Description"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Reviews"
+        },  
+        {
+          "type": "checkbox",
+          "id": "use_count_reviews",
+          "label": "Show number count Reviews",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "additional",
+      "name": "Additional Information",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Additional Information"
+        }
+      ]
+    },
+    {
+      "type": "size_chart",
+      "name": "Size Chart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Size Chart"
+        },
+        {
+          "type": "image_picker",
+          "id": "size_chart_image",
+          "label": "Size Chart Image"
+        }, 
+        {
+          "type": "html",
+          "id": "code",
+          "label": "HTML Size chart",
+		  "default": "<div class=\"row\"><div class=\"col-md-4 text-cente\"><div class=\"wpb_wrapper vc_column-inner\"><div class=\"wpb_single_image wpb_content_element vc_align_center  vc_custom_1515734435831\"><div class=\"wpb_wrapper\"><div class=\"vc_single_image-wrapper   vc_box_border_grey\"><img class=\"vc_single_image-img\" src=\"http://www.portotheme.com/wordpress/porto/wp-content/uploads/images/size_guide.png\"></div></div></div></div></div><div class=\"vc_column_container col-md-8\"><div class=\"wpb_wrapper vc_column-inner\"><div class=\"wpb_text_column wpb_content_element \"><div class=\"wpb_wrapper\"><table class=\"sizes-table\"><thead><tr><th>size</th><th>chest(in.)</th><th>waist(in.)</th><th>hips(in.)</th></tr></thead><tbody><tr><th>XS</th><td>34-36</td><td>27-29</td><td>34.5-36.5</td></tr><tr><th>S</th><td>36-38</td><td>29-31</td><td>36.5-38.5</td></tr><tr><th>M</th><td>38-40</td><td>31-33</td><td>38.5-40.5</td></tr><tr><th>L</th><td>40-42</td><td>33-36</td><td>40.5-43.5</td></tr><tr><th>XL</th><td>42-45</td><td>36-40</td><td>43.5-47.5</td></tr><tr><th>XXL</th><td>45-48</td><td>40-44</td><td>47.5-51.5</td></tr></tbody></table></div></div></div></div></div>"
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Shipping & Delivery"
+        },
+        {
+          "type": "html",
+          "id": "code",
+          "label": "HTML"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

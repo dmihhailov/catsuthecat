@@ -1,0 +1,451 @@
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+  <!-- stylesheet -->
+  <style>
+    .slide-bg-{{ section.id }}.slideshow_demo_8{
+      background-color: {{ section.settings.bg_section_color }};
+    }
+  </style>
+  <!-- end stylesheet -->
+  <div class="main-slideshow slideshow_demo_8 slide-bg-{{ section.id }}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="slider-with-side">
+        <div class="slider-area col-sm-9">
+          {% if section.blocks.size > 0 %}
+          <div class="slideshow-section">
+            <div class="data-slideshow"  
+                 data-auto="{{ section.settings.auto_speed }}"
+                 data-paging="{{ section.settings.slide_pagination }}"
+                 data-nav="{{ section.settings.slide_navigation }}"
+                 data-transition="{{ section.settings.slide_transition }}"
+                 data-prev='{{ section.settings.slide_nav_prev }}' 
+                 data-next='{{ section.settings.slide_nav_next }}' style="display: none;"></div>
+            <div id="slideshow-section-{{ section.id }}" class="slideshow owl-carousel">
+              {% for block in section.blocks %}
+              <div class="item">
+                <div class="" style="position:relative">
+                  <a href="{{ block.settings.link_image_slide }}" style="position:absolute;height:100%;width:100%;z-index:10;"></a>
+                  {% if block.settings.image != blank %}
+                  {% assign img_url = block.settings.image | img_url: 'master' %}
+                  {% else %}
+                  {% assign img_url = 'img820x405.png' | asset_url %}
+                  {% endif %}
+                  <img src="{{ img_url }}" alt="{{block.settings.image.alt}}"/> 
+                  <div class="content" style="position:absolute;width:100%;height:100%;left:0;top:0;"> 
+                    {% if block.settings.content1 != "" %}
+                    <div class="ribbon" style="position:absolute;text-align:right;">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content1 | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content1 | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content1 | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.content2 != "" %}
+                    <div class="text-area" style="left:3%;bottom:15%;position:absolute;text-align:left;">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content2 | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content2 | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content2 | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                {%if block.type == 'video' %}
+                <div class="video-wrap">
+                  {% if block.settings.ico_slide_video_overlay != 'none' %}
+                  <div class="video-overlay overlay-{{ block.settings.ico_slide_video_overlay }}" style="opacity: 1;"></div>
+                  {% endif %}
+                  <video class="video" poster="{{ slide_img | asset_url }}" autoplay {% if block.settings.ico_slide_video_loop == 'loop' %}loop=""{% endif %} {% if block.settings.ico_slide_video_mute == 'mute' %}muted=""{% endif %} preload="auto" data-width="0" data-height="0">
+                    {% if block.settings.ico_slide_video contains '.mp4' %}     
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/mp4">
+                    {% else %}
+                    <source src="{{ block.settings.ico_slide_video }}" type="video/webm">
+                    {% endif %}
+                  </video>
+                  <div class="content" style="position:absolute;width:100%;height:100%;left:0;top:0;"> 
+                    {% if block.settings.content1 != "" %}
+                    <div class="ribbon" style="position:absolute;text-align:right;">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content1 | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content1 | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content1 | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if block.settings.content2 != "" %}
+                    <div class="text-area" style="left:3%;bottom:15%;position:absolute;text-align:left;">
+                      {% if settings.language_enable %}
+                      <div class="lang1">{{ block.settings.content2 | split: '[lang2]' | first }}</div>
+                      <div class="lang2">{{ block.settings.content2 | split: '[lang2]' | last }}</div>
+                      {% else %}
+                      {{ block.settings.content2 | split: '[lang2]' | first }}
+                      {% endif %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %} 
+        </div>
+        <div class="side-area col-sm-3">
+          <div class="item1">
+            <a href="{{ section.settings.link_image_baner1 }}" style="position:absolute;height:100%;width:100%;z-index:10;"></a>
+            {% if section.settings.image_banner_1 != blank %}
+            {% assign baner_url = section.settings.image_banner_1 | img_url: 'master' %}
+            {% else %}
+            {% assign baner_url = 'baner305x129.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}" width="305" height="129"/> 
+            {% if section.settings.content_banner_1 != " " %}
+            <div class="content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.content_banner_1 | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.content_banner_1 | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.content_banner_1 | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+          <div class="item2">
+            <a href="{{ section.settings.link_image_baner2 }}" style="position:absolute;height:100%;width:100%;z-index:10;"></a>
+            {% if section.settings.image_banner_2 != blank %}
+            {% assign baner_url = section.settings.image_banner_2 | img_url: 'master' %}
+            {% else %}
+            {% assign baner_url = 'baner305x129.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}" width="305" height="129"/>
+            {% if section.settings.content_banner_2 != " " %}
+            <div class="content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.content_banner_2 | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.content_banner_2 | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.content_banner_2 | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+          <div class="item3">
+            <a href="{{ section.settings.link_image_baner3 }}" style="position:absolute;height:100%;width:100%;z-index:10;"></a>
+            {% if section.settings.image_banner_3 != blank %}
+            {% assign baner_url = section.settings.image_banner_3 | img_url: 'master' %}
+            {% else %}
+            {% assign baner_url = 'baner305x129.png' | asset_url %}
+            {% endif %}
+            <img src="{{ baner_url }}" width="305" height="129"/> 
+            {% if section.settings.content_banner_3 != " " %}
+            <div class="content">
+              {% if settings.language_enable %}
+              <div class="lang1">{{ section.settings.content_banner_3 | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ section.settings.content_banner_3 | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ section.settings.content_banner_3 | split: '[lang2]' | first }}
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+{% schema %}
+{
+  "name": "Slideshow & Banner Right",  
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" ,
+      "default": "#ffffff"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },  
+	{
+		"type":"header",
+		"content":"Banner Settings"
+	},
+	{
+        "type": "image_picker",
+        "id": "image_banner_1",
+        "label": "Image Banner 1"
+    },
+	{
+		"type": "url",
+		"id" : "link_image_baner1",
+		"label": "Link Banner"
+	},
+	{
+        "type": "html",
+        "id": "content_banner_1",
+        "label": "Content Banner 1",
+		"default" : "<em style='color:#fff; font-weight:400; font-style:italic; line-height:1;'>fashion</em><h2 style='color:#fff; font-weight:700; line-height:1;'>TRENDS</h2><a href='#' style='color:#000;font-weight:300;line-height:1;'>Shop now</a>"
+    },
+	{
+        "type": "image_picker",
+        "id": "image_banner_2",
+        "label": "Image Banner 2"
+    },
+	{
+		"type": "url",
+		"id" : "link_image_baner2",
+		"label": "Link Banner"
+	},
+	{
+        "type": "html",
+        "id": "content_banner_2",
+        "label": "Content Banner 2",
+		"default" : "<h2 style='color:#000;font-weight:300;line-height:1;'><b style='font-weight:600;font-style:italic;'>Deals</b> + PROMOS</h2><p style='color:#777;font-weight:300;font-style:italic;vertical-align:bottom;line-height:1.2;float:left;'>Limited sales in<br>our categories.</p><a href='#' class='btn btn-default' style='color:#fff;font-weight:400;vertical-align:bottom;line-height:1;float:left;'>SHOP NOW <i class='icon-right-dir'></i></a>"
+    },
+	{
+        "type": "image_picker",
+        "id": "image_banner_3",
+        "label": "Image Banner 3"
+    },
+	{
+		"type": "url",
+		"id" : "link_image_baner3",
+		"label": "Link Banner"
+	},
+	{
+        "type": "html",
+        "id": "content_banner_3",
+        "label": "Content Banner 3",
+		"default": "<h2 style='color:#fff;font-weight:600;line-height:1;'>HUGE <b style='font-weight:800;'>SALE</b></h2><p style='color:#b2b2b2;font-weight:300;line-height:1;'>Now starting at <b style='font-weight:600;'>$99</b></p><a href='#' style='font-weight:300;line-height:1;'>Shop now &gt;</a>"
+    },
+    {
+      "type": "header",
+      "content": "Slideshow Settings"
+    },
+    {
+      "type": "text",
+      "id": "auto_speed",
+      "label": "Autoplay",
+      "info": "If you would like the slider to auto-rotate, then set the autoplay rotate time in ms here. I.e. you would enter '5000' for the slider to rotate every 5 seconds.",
+      "default": "5000"
+    },
+    {
+      "type": "select",
+      "id": "slide_transition",
+      "label": "Transition",
+      "options": [
+        {
+          "value": "slide",
+          "label": "Slide"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "select",
+      "id": "slide_navigation",
+      "label": "Navigation",
+      "info": "Choose if you would like to display the left\/right arrows on the slider.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "slide_pagination",
+      "label": "Pagination",
+      "info": "Choose if you would like to display the slider pagination.",
+      "options": [
+        {
+          "value": "1",
+          "label": "Yes"
+        },
+        {
+          "value": "0",
+          "label": "No"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "slide_nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image slideshow"
+        },
+		{
+			"type": "url",
+			"id": "link_image_slide",
+			"label": "Slide link"
+		},
+        {
+          "type": "html",
+          "id": "content1",
+          "label": "Content 1",
+		  "default": "<em style=\"font-weight:300;line-height:1;color:#fff;font-style:normal;\">FEEL</em><h3 style=\"font-weight:700;line-height:1;color:#fff;\">The</h3><h5 style=\"font-weight:600;line-height:1;color:#fff;\">Power!</h5>"
+        }, 
+        {
+          "type": "html",
+          "id": "content2",
+          "label": "Content 2",
+		  "default": "<h2 style=\"font-weight:600;line-height:1;color:#fff;background-color:#202020;background-color:rgba(23,23,23,.9);\">EXPLORE <b style=\"font-weight:800;\">PORTO</b></h2><br><p style=\"line-height:1.2;color:#fff;background-color:#444;background-color:rgba(23,23,23,.75);\">With <b>PORTO</b> you can customize the<br>banners and styles whithin minutes.</p>"
+        }
+      ]
+    },
+	{
+  "type": "video",
+  "name": "Video slide",
+  "settings": [
+  {
+  "type": "text",
+  "id": "ico_slide_video",
+  "label": "Background Video .mp4 or .webm URL",
+  "info": "provide the video .mp4, .webm url for the background"
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_loop",
+  "label": "Video Loop",
+  "info": "Choose if you would like the slide background video to play once, or loop.",
+  "options": [
+  {
+  "value": "loop",
+  "label": "Loop"
+  },
+  {
+  "value": "",
+  "label": "Single play"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_mute",
+  "label": "Video mute",
+  "info": "Choose if you would like the slide background video to be muted, or not.",
+  "options": [
+  {
+  "value": "mute",
+  "label": "Mute"
+  },
+  {
+  "value": "volume",
+  "label": "Volume"
+  }
+  ]
+  },
+  {
+  "type": "select",
+  "id": "ico_slide_video_overlay",
+  "label": "Video overlay",
+  "info": "Choose if you would like to show an overlay style over the video.",
+  "options": [
+  {
+  "value": "none",
+  "label": "None"
+  },
+  {
+  "value": "lightgrid",
+  "label": "Lightgrid"
+  }
+  ]
+  },
+	{
+          "type": "html",
+          "id": "content1",
+          "label": "Content 1",
+		  "default": "<em style=\"font-weight:300;line-height:1;color:#fff;font-style:normal;\">FEEL</em><h3 style=\"font-weight:700;line-height:1;color:#fff;\">The</h3><h5 style=\"font-weight:600;line-height:1;color:#fff;\">Power!</h5>"
+        }, 
+        {
+          "type": "html",
+          "id": "content2",
+          "label": "Content 2",
+		  "default": "<h2 style=\"font-weight:600;line-height:1;color:#fff;background-color:#202020;background-color:rgba(23,23,23,.9);\">EXPLORE <b style=\"font-weight:800;\">PORTO</b></h2><br><p style=\"line-height:1.2;color:#fff;background-color:#444;background-color:rgba(23,23,23,.75);\">With <b>PORTO</b> you can customize the<br>banners and styles whithin minutes.</p>"
+        }
+  ]
+  }
+  ],
+  "presets": [{
+    "name": "Slideshow With Banner Right",
+    "category": "Slideshow",
+    "settings": { 
+      "auto_speed": "5000"
+    },
+    "blocks": [
+      {
+        "type": "image", 
+		"settings": {  
+          "content1": "<em style=\"font-weight:300;line-height:1;color:#fff;font-style:normal;\">FEEL</em><h3 style=\"font-weight:700;line-height:1;color:#fff;\">The</h3><h5 style=\"font-weight:600;line-height:1;color:#fff;\">Power!</h5>",
+		  "content2": "<h2 style=\"font-weight:600;line-height:1;color:#fff;background-color:#202020;background-color:rgba(23,23,23,.9);\">EXPLORE <b style=\"font-weight:800;\">PORTO</b></h2><br><p style=\"line-height:1.2;color:#fff;background-color:#444;background-color:rgba(23,23,23,.75);\">With <b>PORTO</b> you can customize the<br>banners and styles whithin minutes.</p>"
+        } 
+      }, 
+      {
+        "type": "image", 
+		"settings": {  
+          "content1": "<em style=\"font-weight:300;line-height:1;color:#fff;font-style:normal;\">FEEL</em><h3 style=\"font-weight:700;line-height:1;color:#fff;\">The</h3><h5 style=\"font-weight:600;line-height:1;color:#fff;\">Power!</h5>",
+		  "content2": "<h2 style=\"font-weight:600;line-height:1;color:#fff;background-color:#202020;background-color:rgba(23,23,23,.9);\">EXPLORE <b style=\"font-weight:800;\">PORTO</b></h2><br><p style=\"line-height:1.2;color:#fff;background-color:#444;background-color:rgba(23,23,23,.75);\">With <b>PORTO</b> you can customize the<br>banners and styles whithin minutes.</p>"
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

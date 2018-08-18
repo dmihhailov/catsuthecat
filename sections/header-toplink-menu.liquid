@@ -1,0 +1,126 @@
+<ul class="links">
+  {%- if settings.header_design == 'type16' -%}
+  <li> 
+    <a id='header-compare' href="javascript:;" ><i class="icon-compare-link"></i><span {% if settings.language_enable %}data-translate="header.settings.compare"{% endif %}>{{'header.settings.compare' | t}}</span> <span class='compareCount'>(0)</span></a>
+  </li>
+  {%- endif -%}
+  {%- if section.blocks.size > 0 -%} 
+  {%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'menu_wishlist' -%}
+  <li {% if forloop.last %}class="last"{% endif %}>
+    <a id='header-wishlist' href="javascript:;">
+      <span>
+        {%- if settings.language_enable -%}
+        <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+        <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+        {%- else -%}
+        {{ block.settings.title | split: '|' | first }}
+        {%- endif -%}
+      </span>
+      <span class='wishlistCount'></span>
+    </a>
+  </li>
+  {%- when 'menu_login' -%}
+  <li {% if forloop.last %}class="last"{% endif %}>
+    {%- if customer -%} 
+    <a href="/account/logout" {% if settings.language_enable %}data-translate="header.settings.logout"{% endif %}>{{ 'header.settings.logout' | t }}</a>
+    {%- else -%}
+    <a href="/account/login">
+      {%- if settings.language_enable -%}
+      <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+      <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+      {%- else -%}
+      {{ block.settings.title | split: '|' | first }}
+      {%- endif -%}
+    </a>
+    {%- endif -%} 
+  </li>
+  {%- when 'html' -%}
+  <li class="hidden-sm hidden-xs {% if forloop.last %}last{% endif %}">
+    {%- if settings.language_enable -%}
+    <span class="lang1">{{ block.settings.html | split: '[lang2]' | first }}</span>
+    <span class="lang2">{{ block.settings.html | split: '[lang2]' | last }}</span>
+    {%- else -%}
+    {{ block.settings.html | split: '[lang2]' | first }}
+    {%- endif -%} 
+  </li>
+  {%- else -%}
+  {%- if block.settings.button_link != blank and block.settings.title != blank -%}
+  <li {% if forloop.last %}class="last"{% endif %}>
+    <a href="{{block.settings.button_link}}">
+      {%- if settings.language_enable -%}
+      <span class="lang1">{{ block.settings.title | split: '|' | first }}</span>
+      <span class="lang2">{{ block.settings.title | split: '|' | last }}</span>
+      {%- else -%}
+      {{ block.settings.title | split: '|' | first }}
+      {%- endif -%} 
+    </a>
+  </li> 
+  {%- endif -%}
+  {%- endcase -%} 
+  {%- endfor -%}
+  {%- endif -%} 
+</ul> 
+{%- schema -%}
+{
+  "name": "Top Link Menu", 
+  "blocks": [ 
+    {
+      "type": "menu_wishlist",
+      "name": "Link Wishlist",
+      "limit": 1,
+        "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "My Wishlist"
+        }
+      ]
+    },
+    {
+      "type": "menu_login",
+      "name": "Link Login",
+      "limit": 1,
+        "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Login"
+        }
+      ]
+    },
+    {
+      "type":"menu_item",
+      "name":"Add Items",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navigation Title",
+          "default": "Contact Us"
+        }, 
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Navigation link"
+        }
+      ]
+    },
+    {
+      "type": "html",
+      "name": "Custom Text",
+        "settings": [
+        {
+          "type": "text",
+          "id": "html",
+          "label": "Custom Text",
+          "default": "DEFAULT WELCOME MSG!"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

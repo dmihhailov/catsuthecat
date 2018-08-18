@@ -1,0 +1,22 @@
+<div class="search-extended"> 
+  <form role="search" method="get" class="searchform {% if settings.header_search_colletion != blank %}has-categories-dropdown{% endif %} {% if settings.header_ajax_search != blank %}woodmart-ajax-search{% endif %}" action="/search" data-thumbnail="1" data-price="1" data-post-type="product" data-count="15">
+    <div>
+      <label class="screen-reader-text" for="q"></label>
+      <input type="text" class="s" {% if settings.language_enable %}data-translate="general.search.placeholder"{% endif %} placeholder="{{ 'general.search.placeholder' | t }}" value="" name="q" autocomplete="off" style="padding-right: 55px;">
+      <input type="hidden" name="type" value="product">
+      {%- if settings.header_search_colletion != blank -%}
+      {%- section 'search-by-category' -%} 
+      {%- endif -%}
+      <button type="submit" class="searchsubmit" {% if settings.language_enable %}data-translate="general.search.submit"{% endif %}>{{ 'general.search.submit' | t }}</button>
+    </div>
+  </form>
+  <div class="search-info-text"><span {% if settings.language_enable %}data-translate="general.search.info_search"{% endif %}>{{ 'general.search.info_search' | t }}</span></div>
+  <div class="search-results-wrapper">
+    <div class="shopify-scroll has-scrollbar">
+      <div class="shopify-search-results shopify-scroll-content" tabindex="0">
+        <div class="autocomplete-suggestions" style="position: absolute; max-height: 300px; z-index: 9999; width: 308px; display: flex;"></div>
+      </div>
+    </div>
+    <div class="shopify-search-loader"></div>
+  </div>
+</div>

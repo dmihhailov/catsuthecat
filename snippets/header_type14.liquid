@@ -1,0 +1,48 @@
+<div class="header container">
+  {% include 'header-logo' %}
+  <div class="cart-area">
+    <div class="menu-area">
+      <div class="menu-icon"><a href="javascript:void(0)" title="Menu" {% if settings.language_enable %}data-translate="header.settings.shop"{% endif %}>{{ 'header.settings.shop' | t }}</a></div>
+      <a href="javascript:void(0)" class="shop-menu" {% if settings.language_enable %}data-translate="header.settings.shop"{% endif %}>{{ 'header.settings.shop' | t }}</a>
+      <div class="header-wrapper">
+        <div class="main-nav wrapper-top-menu">   
+          <div class="container">
+            <div id="main-top-nav" class="main-top-nav">  
+              <!-- Main Menu -->
+              {% include 'main-menu' %} 
+              <!-- End Main Menu --> 
+            </div>
+          </div> 
+        </div>
+      </div>  
+    </div>
+    <div class="top-links-area">
+      <div class="top-links-icon">
+        <a href="javascript:;" {% if settings.language_enable %}data-translate="header.settings.links"{% endif %}>{{ 'header.settings.links' | t }}</a>
+      </div>
+      {% section 'header-toplink-menu' %}
+    </div> 
+    {% if settings.header_custom_text != '' %}
+    <div class="custom-block"> 
+      {% if settings.language_enable %}
+      <div class="lang1">{{ settings.header_custom_text | split: '[lang2]' | first }}</div>
+      <div class="lang2">{{ settings.header_custom_text | split: '[lang2]' | last }}</div>
+      {% else %}
+      {{ settings.header_custom_text | split: '[lang2]' | first }}
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="switcher-area">
+      {% include 'header-setting' %} 
+      <div class="search-area show-icon"> 
+        <a href="javascript:void(0);" class="search-icon"><span><i class="icon-search"></i></span></a>
+        {% include 'header-search' %}
+      </div> 
+      <div class="shoppingcart-area">
+        <div class="mini-cart">
+          {% include 'header-cart' %} 
+        </div>
+      </div>
+    </div>
+  </div> 
+</div> 

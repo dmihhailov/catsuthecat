@@ -1,0 +1,58 @@
+<div class="header container">
+  <div class="menu-icon"><a href="javascript:void(0)" title="Menu"><i class="fa fa-bars"></i></a></div>
+  {% include 'header-logo' %} 
+  {% include 'header-logo-sticky' %}
+  <div class="header-right-area">
+    <div>
+      {% if settings.header_custom_text != '' %}
+      <div class="custom-block"> 
+        {% if settings.language_enable %}
+        <div class="lang1">{{ settings.header_custom_text | split: '[lang2]' | first }}</div>
+        <div class="lang2">{{ settings.header_custom_text | split: '[lang2]' | last }}</div>
+        {% else %}
+        {{ settings.header_custom_text | split: '[lang2]' | first }}
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="top-links-area show-icon">
+        <div class="top-links-icon">
+          <a href="javascript:;" {% if settings.language_enable %}data-translate="header.settings.links"{% endif %}>{{ 'header.settings.links' | t }}</a>
+        </div>
+        {% section 'header-toplink-menu' %}
+      </div>
+      <div class="search-area show-icon"> 
+        <a href="javascript:void(0);" class="search-icon"><span><i class="icon-search"></i></span></a>
+        {% include 'header-search' %}
+      </div>
+    </div>
+    <div>
+      <div class="switcher-area">
+        {% include 'header-setting' %}
+        <div class="mini-cart">
+          {% include 'header-cart' %} 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-wrapper">
+    <div class="main-nav wrapper-top-menu">   
+      <div class="container">
+        <div id="main-top-nav" class="main-top-nav"> 
+          <!-- Main Menu -->
+          {% include 'main-menu' %} 
+          <!-- End Main Menu --> 
+        </div>
+      </div> 
+    </div>
+  </div>     
+</div>
+<script>
+  jQuery(function($) {
+    var w = $(window).width(); 
+    w <= 767 ? $('.header .search-area').addClass('show-left'):$('.header .search-area').removeClass('show-left'); 
+    $( window ).resize(function() {
+      var nw = $(window).width();
+      nw <= 767 ? $('.header .search-area').addClass('show-left'):$('.header .search-area').removeClass('show-left'); 
+    });
+  });
+</script>

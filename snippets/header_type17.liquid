@@ -1,0 +1,50 @@
+<div class="top-links-container topbar-text-{{settings.topbar_text_color}}">
+  <div class="container">   
+    {%- if settings.header_design == 'type17' and settings.header_compare_enable != blank -%}
+    <div class="compare-link">
+      <a id='header-compare' href="javascript:;" ><i class="icon-compare-link"></i><span {% if settings.language_enable %}data-translate="header.settings.compare"{% endif %}>{{'header.settings.compare' | t}}</span> <span class='compareCount'>(0)</span></a>
+    </div> 
+    {%- endif -%}
+    <div class="top-links-area show-icon-tablet">
+      <div class="top-links-icon">
+        <a href="javascript:;" {% if settings.language_enable %}data-translate="header.settings.links"{% endif %}>{{ 'header.settings.links' | t }}</a>
+      </div>
+      {% section 'header-toplink-menu' %}
+    </div>
+  </div>
+</div>
+<div class="header container">
+  <div class="select-area">
+    {% include 'header-setting' %}
+  </div>
+  {% include 'header-logo' %}
+  <div class="search-area show-icon-tablet"> 
+    <div style="position: relative;">
+      <a href="javascript:void(0);" class="search-icon"><span><i class="icon-search"></i></span></a>
+      {% include 'header-search' %}
+    </div>
+  </div>  
+</div>
+<div class="header-main-nav">  
+  <div class="container" style="position:relative;">
+    <div class="menu-icon"><a href="javascript:void(0)" title="Menu"><i class="fa fa-bars"></i></a></div>
+    <div class="header-wrapper">
+      <div class="main-nav wrapper-top-menu">             
+        <div id="main-top-nav" class="main-top-nav"> 
+          {% include 'header-logo-sticky' %}
+          <!-- Main Menu -->
+          {% include 'main-menu' %} 
+          <!-- End Main Menu -->
+          <div class="mini-cart">
+            {% include 'header-cart' %} 
+          </div>
+        </div>      
+      </div> 
+    </div>
+    <div class="cart-area"> 
+      <div class="mini-cart">
+        {% include 'header-cart' %} 
+      </div>
+    </div>
+  </div>    
+</div>

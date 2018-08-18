@@ -1,0 +1,15 @@
+{%- if settings.header_topbar_disable == blank -%}
+<div class="top-links-container topbar-text-{{settings.topbar_text_color}}">
+  <div class="container">
+    <div class="top-links-inner">
+      {% include 'header-setting' %}
+      <div class="top-links-area show-icon-tablet">
+        <div class="top-links-icon">
+          <a href="javascript:;" {% if settings.language_enable %}data-translate="header.settings.links"{% endif %}>{{ 'header.settings.links' | t }}</a>
+        </div>
+        {% section 'header-toplink-menu' %}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}

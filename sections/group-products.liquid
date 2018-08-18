@@ -1,0 +1,221 @@
+<div data-section-id="{{ section.id }}" data-section-type="filter-products-section">
+  <div id="filter-products-{{ section.id }}" class="container" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="grounp_collection filter-products">
+        <div class="row">
+          <div class="col-md-3 col-sm-6">
+            <h3 class="title-widget">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.products_collection_title_1 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.products_collection_title_1 | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.products_collection_title_1 | split: '|' | first }}
+              {% endif %}
+            </h3>
+            <div class="category-products"> 
+              {%- assign limit = section.settings.products_collection_limit_1 -%}   
+              {%- assign name_collection = section.settings.home_products_collection_1 -%}
+              {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+              {%- assign collection = collections[name_collection] -%} 
+              {% if collection.products.size == 0 %}
+              <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+              {% else %}
+              <div class="products-grid"> 
+                {% for product in collection.products limit: limit %}  
+                {% include 'product_collection_item' %} 
+                {% endfor %} 
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <h3 class="title-widget">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.products_collection_title_2 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.products_collection_title_2 | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.products_collection_title_2 | split: '|' | first }}
+              {% endif %}
+            </h3>
+            <div class="category-products"> 
+              {%- assign limit = section.settings.products_collection_limit_2 -%}   
+              {%- assign name_collection = section.settings.home_products_collection_2 -%} 
+              {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+              {%- assign collection = collections[name_collection] -%}
+              {% if collection.products.size == 0 %}
+              <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+              {% else %}
+              <div class="products-grid"> 
+                {% for product in collection.products limit: limit %}  
+                {% include 'product_collection_item' %}
+                {% endfor %} 
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <h3 class="title-widget">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.products_collection_title_3 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.products_collection_title_3 | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.products_collection_title_3 | split: '|' | first }}
+              {% endif %}
+            </h3>
+            <div class="category-products"> 
+              {%- assign limit = section.settings.products_collection_limit_3 -%}   
+              {%- assign name_collection = section.settings.home_products_collection_3 -%} 
+              {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+              {%- assign collection = collections[name_collection] -%}
+              {% if collection.products.size == 0 %}
+              <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+              {% else %}
+              <div class="products-grid"> 
+                {% for product in collection.products limit: limit %}  
+                {% include 'product_collection_item' %}
+                {% endfor %} 
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <h3 class="title-widget">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.products_collection_title_4 | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.products_collection_title_4 | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.products_collection_title_4 | split: '|' | first }}
+              {% endif %}
+            </h3>
+            <div class="category-products"> 
+              {%- assign limit = section.settings.products_collection_limit_4 -%}   
+              {%- assign name_collection = section.settings.home_products_collection_4 -%} 
+              {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+              {%- assign collection = collections[name_collection] -%}  
+              {% if collection.products.size == 0 %}
+              <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+              {% else %}
+              <div class="products-grid"> 
+                {% for product in collection.products limit: limit %}  
+                {% include 'product_collection_item' %}
+                {% endfor %} 
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Group Mini Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type":"header",
+      "content":"Product Collection"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_title_1",
+      "label": "Collection Title 1",
+      "default": "FEATURED"
+    },
+    {
+      "type": "collection",
+      "id": "home_products_collection_1",
+      "label": "Product Collection 1 use:"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_limit_1",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_title_2",
+      "label": "Collection Title 2",
+      "default": "NEW"
+    },
+    {
+      "type": "collection",
+      "id": "home_products_collection_2",
+      "label": "Product Collection 2 use:"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_limit_2",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_title_3",
+      "label": "Collection Title 3",
+      "default": "HOT"
+    },
+    {
+      "type": "collection",
+      "id": "home_products_collection_3",
+      "label": "Product Collection 3 use:"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_limit_3",
+      "label": "Limit",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_title_4",
+      "label": "Collection Title 4",
+      "default": "SALE"
+    },
+    {
+      "type": "collection",
+      "id": "home_products_collection_4",
+      "label": "Product Collection 4 use:"
+    },
+    {
+      "type": "text",
+      "id": "products_collection_limit_4",
+      "label": "Limit",
+      "default": "3"
+    }
+  ],
+  "presets": [{
+    "name": "Group Mini Product",
+    "category": "Products"
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

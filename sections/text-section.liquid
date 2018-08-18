@@ -1,0 +1,176 @@
+{% if section.blocks.size > 0 %}
+{% assign col = 12 | divided_by: section.blocks.size %}
+{% else %}
+{% assign col = 4 %}
+{% endif %}
+<div class="home_bar_main" data-section-id="{{ section.id }}" data-section-type="home-bar-section"> 
+  <div class="homepage-bar homepage-bar-{{ section.id }}" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="block_content">
+        <div class="row">
+          {% if section.blocks.size > 0 %} 
+          {% for block in section.blocks %}
+          <div class="col-md-{{col}}">
+            <i class="{{ block.settings.item_icon }}"></i>
+            <div class="text-area">
+              <h3>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ block.settings.item_title | split: '|' | first }}</span>
+                <span class="lang2">{{ block.settings.item_title | split: '|' | last }}</span>
+                {% else %}
+                {{ block.settings.item_title | split: '|' | first }}
+                {% endif %}
+              </h3>
+              <p>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ block.settings.item_text | split: '|' | first }}</span>
+                <span class="lang2">{{ block.settings.item_text | split: '|' | last }}</span>
+                {% else %}
+                {{ block.settings.item_text | split: '|' | first }}
+                {% endif %}
+              </p>
+            </div> 
+          </div>
+          {% endfor %}
+          {% else %}
+          <p>No Content</p>
+          {% endif %} 
+          <div style="clear:both;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style> 
+    .homepage-bar-{{ section.id }}{
+      background-color: {{ section.settings.bg_section_color }};
+      color: {{ section.settings.icon_content_color }};
+    } 
+    .homepage-bar-{{ section.id }} .text-area h3,
+    .homepage-bar-{{ section.id }} .text-area p{
+      color: {{ section.settings.text_content_color }};
+    }
+    .homepage-bar-{{ section.id }} .col-md-{{col}}{
+      border-color: {{ section.settings.border_color_block }};
+    }
+    @media(min-width: 992px){
+      .homepage-bar-{{ section.id }} .col-md-{{col}}:first-child{text-align: left;}
+    }
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Text Block",
+  "max_blocks": 4,
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" ,
+      "default": "#ffffff"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "icon_content_color",
+      "label": "Icon Color"
+    },
+    {
+      "type": "color",
+      "id": "text_content_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "border_color_block",
+      "label": "Border Block Color"
+    } 
+  ],
+  "blocks": [
+    {
+      "type": "item-block",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "item_title",
+          "label": "Item Tile",
+          "default": "Title"
+        },
+        {
+          "type": "text",
+          "id": "item_icon",
+          "label": "Item Icon",
+          "default": "icon-truck"
+        },
+        {
+          "type": "textarea",
+          "id": "item_text",
+          "label": "Item Text",
+          "default": "Content"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Text Block",
+    "category": "Text Section", 
+    "blocks": [
+      {
+        "type": "item-block",
+        "settings": {
+          "item_icon": "icon-shipping",
+          "item_title": "FREE SHIPPING &amp; RETURN",
+		  "item_text": "Free shipping on all orders over $99."
+        }
+      },
+      {
+        "type": "item-block",
+        "settings": {
+          "item_icon": "icon-us-dollar",
+          "item_title": "MONEY BACK GUARANTEE",
+          "item_text": "100% money back guarantee."
+        }
+      },
+      {
+        "type": "item-block",
+        "settings": {
+          "item_icon": "icon-support",
+          "item_title": "ONLINE SUPPORT 24/7",
+          "item_text": "Lorem ipsum dolor sit amet."
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

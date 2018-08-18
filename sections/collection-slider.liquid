@@ -1,0 +1,278 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-slider-section">
+  <style>
+    #collection-slider-{{ section.id }}, 
+    #collection-slider-{{ section.id }} h3.title-widget span.inner{background-color:{{section.settings.bg_section_color}};}
+    #collection-slider-{{ section.id }} .item a p .category_slider_content{
+      background-color: {{ section.settings.color_bg_content }};
+      color: {{ section.settings.color_text_content }};
+    }
+    #collection-slider-{{ section.id }}.category_slider .thumb-info-title h3 a,
+    #collection-slider-{{ section.id }}.category_slider .thumb-info-title .thumb-info-type{
+    	color: {{ section.settings.color_text_content }};
+    }
+    #collection-slider-{{ section.id }} h3.title-widget{
+      color: {{ section.settings.color_title_section }};
+    }
+  </style>
+  <div id="collection-slider-{{ section.id }}" class="category_slider" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      {% if section.settings.title != blank %}
+      <h3 class="title-widget"> 
+        <span class="inner">
+          {% if settings.language_enable %}
+          <span class="lang1">{{ section.settings.title | split: '|' | first }}</span>
+          <span class="lang2">{{ section.settings.title | split: '|' | last }}</span>
+          {% else %}
+          {{ section.settings.title | split: '|' | first }}
+          {% endif %}
+        </span>
+      </h3>
+      {% endif %}
+      <div class="category-products">
+        <div class="data-carousel"  
+             data-auto="{{ section.settings.autoplay }}"
+             data-items="{{ section.settings.column }}"
+             data-1200="{{ section.settings.column }}"
+             data-992="4"
+             data-768="3"
+             data-640="2"
+             data-480="2"
+             data-320="1"
+             data-paging="{{ section.settings.show_paging }}"
+             data-nav="{{ section.settings.show_nav }}"
+             data-margin="{{ section.settings.item_margin }}"
+             data-prev='{{ section.settings.nav_prev }}' 
+             data-next='{{ section.settings.nav_next }}' style="display: none;"></div> 
+        <div class="products-grid owl-carousel">
+          {% for block in section.blocks %}
+          {%- assign collection = collections[block.settings.collection] -%}
+          {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+          <div class="item">
+            <a href="{{ block.settings.slider_link }}" class="single-image">
+              {% if block.settings.slider_image != blank %}
+              {% assign img_url = block.settings.slider_image | img_url: '279x140' %}
+              {% else %}
+              {% assign img_url = 'img279x140.png' | asset_url  %}
+              {% endif %}
+              <img data-src="{{ img_url }}" class="owl-lazy"/> 
+            </a> 
+            <span class="thumb-info-title">
+              <h3 class="sub-title thumb-info-inner">
+                {% if section.settings.use_title != blank %}
+                {% assign _collection_title = block.settings.slider_content %}
+                {% else %}
+                {% assign _collection_title = collection.title %}
+                {% endif %}
+                {% if settings.language_enable %}
+                <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" {% if settings.language_enable %}data-translate="collections.general.link_title|title:{{collection_title}}" translate-item="title"{% endif %}>
+                  <span class="lang1">{{ _collection_title | split: '|' | first }}</span>
+                  <span class="lang2">{{ _collection_title | split: '|' | last }}</span>
+                </a>
+                {% else %}
+                <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" {% if settings.language_enable %}data-translate="collections.general.link_title|title:{{collection_title}}" translate-item="title"{% endif %}>
+                  {{ _collection_title }}
+                </a>
+                {% endif %}
+              </h3>
+              <span class="thumb-info-type" {% if settings.language_enable %}data-translate="collections.general.items_with_count|count:{{collection.all_products_count}}"{% endif %}>{{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}</span>
+            </span> 
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Collection Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type" : "header",
+      "content": "Content Settings"
+    },  
+    {
+      "type": "color",
+      "id": "color_bg_content",
+      "label": "Background Content Color",
+      "default": "#000000"
+    },
+	{
+	  "type": "color",
+      "id": "color_title_section",
+      "label": "Title Color",
+      "default": "#313131"
+	},
+    {
+      "type": "color",
+      "id": "color_text_content",
+      "label": "Text Content Color",
+      "default": "#ffffff"
+    },
+    {
+      "type":"header",
+      "content":"Collection Slider"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Browse Our Collection"
+    },
+    {
+      "type": "text",
+      "id": "column",
+      "label": "Columns",
+      "default": "4"
+    }, 
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    },
+	{
+      "type": "checkbox",
+      "id": "use_title",
+      "label": "Use Custom Title Collection?",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Category slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slider_image",
+          "label": "Slider Image"
+        },
+        {
+          "type": "url",
+          "id": "slider_link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "slider_content",
+          "label": "Title Collection",
+          "default": "Title Collection"
+        },
+		{
+          "type": "collection",
+          "id": "collection",
+          "label": "collection"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Collection Slider",
+    "category": "Collection",
+    "settings": { 
+
+    },
+    "blocks": [ 
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Fashion" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Electronics" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Home & Gaden" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Moto" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Kids Fashion" 
+        } 
+      },
+      {
+        "type": "image",
+		"settings": {
+          "slider_content": "Jewellery" 
+        } 
+      }
+    ]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

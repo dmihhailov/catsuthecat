@@ -1,0 +1,122 @@
+.header-container.type7{ 
+  border-bottom: 1px solid #e1e1e1; 
+  &.sticky-header {
+    .top-links-container {display:none;}
+  }
+  .header { 
+    text-align: center;
+    .logo {
+      margin: 30px 0;
+    }
+    .custom-block {
+      margin-right: 10px;
+      div >* {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      span.split {
+        height: 14px;
+        width: 1px;
+        border-right: 1px solid #ccc;
+        margin: 0 13px;
+      }
+      a {
+        font-size: 12px;
+      }
+    }
+  }  
+  .top-select:first-child > a {
+    padding-left: 0;
+  }  
+  .mini-cart {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    top: 0;
+    left: 0;
+  } 
+  .header-left {
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 1;
+    display: inline-block;
+    height: 40px;
+    left: 15px;
+    vertical-align: middle;
+  }
+  .search-area{  
+    .search-extended {
+      width: auto;
+    }
+  }  
+  .header-wrapper {
+    border: 0;
+    margin-bottom: 10px;
+  } 
+  .main-nav {  
+    ul.top-navigation {
+      >li {
+        >a {
+          padding-top: 13px;
+          padding-bottom: 13px;
+          margin-right: 10px;
+          border-radius: 0; 
+          font-weight: 700; 
+        } 
+        &.fl-right {
+          margin-right: 0;
+          margin-left: 3px; 
+        } 
+      }
+    }
+  }
+}
+@media (max-width: 991px){
+  .header-container.type7 {
+    &.sticky-header {
+      .top-links-container {
+        display: none;
+      }
+      .header .logo {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      } 
+      .header-left {
+        left: 0;
+        top: 0;
+        margin: 8px 10px;
+        z-index: 2;
+      }
+    }
+    .header-left {
+      left: 0;
+      top: 0;
+      margin: 30px 10px;
+      z-index: 2;
+    }
+    .search-area.show-icon-tablet.show-left .search-extended {
+      left: -15px;
+      &:before {
+        left: 11px;
+      }
+    }
+    .search-area .search-icon {vertical-align: middle;}
+    .menu-icon {
+      width: 30px;
+      text-align: center;
+      line-height: 30px;
+      height: auto;
+      padding: 0;
+      display: inline-block;
+    }
+    .custom-block {
+      display: none;
+    }
+    .header-container .cart-area {
+      margin-top: -18px;
+    }
+  } 
+}

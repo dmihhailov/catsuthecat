@@ -1,0 +1,269 @@
+<div data-section-id="{{ section.id }}" data-section-type="testimonial-section">
+<style>
+  #testimonial-section-{{ section.id }} .testimonials-block .item blockquote p{
+    color: {{ section.settings.text_color }};
+  }
+  #testimonial-section-{{ section.id }} .testimonials-block .item blockquote::before,
+  #testimonial-section-{{ section.id }} .testimonials-block .item blockquote::after{
+  	color: {{ section.settings.text_color }} !important;
+  }  
+  #testimonial-section-{{ section.id }} .testimonials-block .item .testimonial-author p{
+    color: {{ section.settings.author_tes }}
+  }
+  #testimonial-section-{{ section.id }} .testimonials-block .item .testimonial-author p span{
+    color: {{ section.settings.desc_color }}
+  }
+</style>
+  <div id="testimonial-section-{{ section.id }}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="title-widget">
+            <span class="inner">
+              {% if settings.language_enable %}
+              <span class="lang1">{{ section.settings.testimonials_title | split: '|' | first }}</span>
+              <span class="lang2">{{ section.settings.testimonials_title | split: '|' | last }}</span>
+              {% else %}
+              {{ section.settings.testimonials_title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </h3>
+          <div class="testimonials testimonials-block id-{{ section.id }}">
+            <div class="owl-banner">
+              <div class="data-carousel" 
+                   data-items="{{ section.settings.column }}"
+                   data-1200="{{ section.settings.column }}"
+                   data-992="1"
+                   data-768="1"
+                   data-640="1"
+                   data-480="1"
+                   data-320="1"
+                   data-auto="{{ section.settings.autoplay }}"
+                   data-paging="{{ section.settings.show_paging }}"
+                   data-nav="{{ section.settings.show_nav }}" 
+                   data-margin="{{ section.settings.item_margin }}"
+                   data-prev='{{ section.settings.nav_prev }}' 
+                   data-next='{{ section.settings.nav_next }}' style="display: none;"></div>
+              <div class="owl-carousel">
+                {% for block in section.blocks %}
+                <div class="item" style="padding-right:10px;"> 
+                  <div class="testimonial-author">
+                    <div class="img-thumbnail img-thumbnail-small">
+                      {% if block.settings.testimonials_image != blank %}
+                      {% assign img_url = block.settings.testimonials_image | img_url: 'master' %}
+                      {% else %}
+                      {% assign img_url = 'img60x60.png' | asset_url %}
+                      {% endif %}
+                      <img width="60" height="60" src="{{ img_url }}" alt="">
+                    </div>
+                    {% if settings.language_enable %}
+                    <p class="lang1">
+                      <strong>{{ block.settings.name_author | split: '|' | first }}</strong>
+                      <span>{{ block.settings.desc_author | split: '|' | first }}</span>
+                    </p>
+                    <p class="lang2">
+                      <strong>{{ block.settings.name_author | split: '|' | last }}</strong>
+                      <span>{{ block.settings.desc_author | split: '|' | last }}</span>
+                    </p>
+                    {% else %}
+                      <strong>{{ block.settings.name_author | split: '|' | first }}</strong>
+                      <span>{{ block.settings.desc_author | split: '|' | first }}</span>
+                    {% endif %}
+                  </div> 
+                  <blockquote>
+                    {% if settings.language_enable %}
+                    <p class="lang1">{{ block.settings.text_content | split: '|' | first }}</p>
+                    <p class="lang2">{{ block.settings.text_content | split: '|' | last }}</p>
+                    {% else %}
+                    {{ block.settings.text_content | split: '|' | first }}
+                    {% endif %}
+                  </blockquote>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Testimonial",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type" : "header",
+      "content": "Color"
+    }, 
+    {
+      "type": "color",
+      "id" : "text_color",
+      "label": "Text Content Color",
+      "default": "#333"
+    }, 
+    {
+      "type": "color",
+      "id" : "name_color",
+      "label": "Author Name Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id" : "desc_color",
+      "label": "Author Desc Color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "settings"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_title",
+      "label": "Testimonials Title",
+      "default": "What Client's Say"
+    },
+    {
+      "type": "text",
+      "id" : "num_item_show",
+      "label": "Number of items to show",
+      "default": "4"
+    }, 
+    {
+      "type": "text",
+      "id" : "column",
+      "label": "Columns",
+      "default": "2"
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paging",
+      "label": "Show Paging"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show Navigation"
+    },
+    {
+      "type": "text",
+      "id": "nav_prev",
+      "label": "Prev Navigation",
+      "default": "<i class=\"icon-chevron-left\"></i>"
+    },
+    {
+      "type": "text",
+      "id": "nav_next",
+      "label": "Next Navigation",
+      "default": "<i class=\"icon-chevron-right\"></i>"
+    }, 
+    {
+      "type": "text",
+      "id": "item_margin",
+      "label": "Margin",
+      "info": "Margin each item.",
+      "default": "30"
+    }
+  ],
+  "blocks":[
+    {
+      "type": "content",
+      "name": "Content",
+      "settings":[
+        {
+          "type": "image_picker",
+          "id": "testimonials_image",
+          "label": "Testimonials Image"
+        },
+        {
+          "type": "textarea",
+          "id": "text_content",
+          "label": "Text Content",
+          "default": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it."
+        },
+        {
+          "type": "text",
+          "id": "name_author",
+          "label": "Name Author",
+          "default": "John Smith"
+        },
+        {
+          "type": "text",
+          "id": "desc_author",
+          "label": "Description Author",
+          "default": "CEO & Founder - Okler"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial",
+      "category": "Blog",
+      "settings": {
+
+      },
+      "blocks":[
+        {
+          "type": "content",
+          "settings":
+          {
+            "text_content": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it.",
+            "name_author": "John Smith",
+            "desc_author": "CEO & Founder - Okler"
+          }
+        },
+        {
+          "type": "content",
+          "settings":
+          {
+            "text_content": "Hello, I want to thank you for creating a great template and for the excellent and quick support and help that you have been providing to me as I begin to work with it.",
+            "name_author": "John Smith",
+            "desc_author": "CEO & Founder - Okler"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

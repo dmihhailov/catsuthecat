@@ -1,0 +1,184 @@
+<div data-section-id="{{ section.id }}" data-section-type="parallax-fixed-section">
+  <!-- config color -->
+  <style> 
+    .parallax-wrapper.id-{{ section.id }} .parallax_fixed_text .content{
+      background-color: {{ section.settings.background_content }};
+    }
+    .parallax-wrapper.id-{{ section.id }} .parallax_fixed_text .content em{
+      color:{{ section.settings.text_1_color }};
+    }
+    .parallax-wrapper.id-{{ section.id }} .parallax_fixed_text .content h2{
+      color:{{ section.settings.text_2_color }};
+    }
+    .parallax-wrapper.id-{{ section.id }} .parallax_fixed_text .content a{
+      color: {{ section.settings.button_text_color }};
+      background-color: {{ section.settings.button_background_color }};
+      border-color: {{ section.settings.button_border_color }};
+    }
+    .parallax-wrapper.id-{{ section.id }} .parallax_fixed_text .content a:hover{
+      color: {{ section.settings.button_hover_text_color }};
+      background-color: {{ section.settings.button_hove_background_color }};
+      border-color: {{ section.settings.button_hover_border_color }};
+    }
+  </style>
+  <!-- end config color -->
+  <div id="parallax-fixed-{{ section.id }}" class="parallax-wrapper id-{{ section.id }}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    {% if section.settings.image != blank %}
+    {% assign bg_url = section.settings.image | img_url: 'master' %}
+    {% else %}
+    {% assign bg_url = 'bg1920x1307.png' | asset_url %}
+    {% endif %}
+    <div class="parallax parallax_fixed_text" data-stellar-background-ratio="0.5" style="background:url({{ bg_url }});padding: 149px 0px 190px;">
+      <div class="overlay overlay-color" style="background-color: #000000;opacity: 0.1;filter: alpha(opacity=20);top:0;"></div>
+      <div class="parallax-slider">
+        <div class="container" style="position:relative;">
+          <div class="content"> 
+            {% if settings.language_enable %}
+            <div class="lang1">
+              <em>{{ section.settings.text_1 | split: '[lang2]' | first }}</em>
+              <div class="clearer"></div>
+              <h2>{{ section.settings.text_2 | split: '[lang2]' | first }}</h2>
+              <div class="clearer"></div>
+              <a href="#" class="btn btn-default"><span>{{ section.settings.text_button | split: '[lang2]' | first }}</span></a>
+            </div>
+            <div class="lang2">
+              <em>{{ section.settings.text_1 | split: '[lang2]' | last }}</em>
+              <div class="clearer"></div>
+              <h2>{{ section.settings.text_2 | split: '[lang2]' | last }}</h2>
+              <div class="clearer"></div>
+              <a href="#" class="btn btn-default"><span>{{ section.settings.text_button | split: '[lang2]' | last }}</span></a>
+            </div>
+            {% else %}
+            <em>{{ section.settings.text_1 | split: '[lang2]' | first }}</em>
+            <div class="clearer"></div>
+            <h2>{{ section.settings.text_2 | split: '[lang2]' | first }}</h2>
+            <div class="clearer"></div>
+            <a href="{{ section.settings.link_button }}" class="btn btn-default"><span>{{ section.settings.text_button | split: '[lang2]' | first }}</span></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Parallax Fixed Text",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type": "header",
+      "content": "Content Settings"
+    }, 
+    {
+      "type": "color",
+      "id": "background_content",
+      "label": "Background Content Color",
+      "default": "#0e0e0e"
+    },
+    {
+      "type": "color",
+      "id": "text_1_color",
+      "label": "Text 1 Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_2_color",
+      "label": "Text 2 Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#fff"
+    }, 
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#0e0e0e"
+    }, 
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button Border Color",
+      "default": "#2c2c2c"
+    }, 
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Text 1",
+      "default": "Men’s"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Text 2",
+      "default": "Watches"
+    },
+    {
+      "type": "text",
+      "id": "text_button",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "link_button",
+      "label": "Link Button"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Fixed Text",
+      "category": "Banner",
+      "settings": { 
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

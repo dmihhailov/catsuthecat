@@ -1,0 +1,98 @@
+<!-- /templates/page.contact.liquid -->
+{% include 'breadcrumb' %} 
+<style>
+  .main-container .main-breadcrumbs {
+    margin: 0 !important;
+  }
+</style>
+<div class="main-map"> 
+  {% if settings.google_map_enable != blank %}
+  <div class="block-googlemap">
+    <script src="//maps.googleapis.com/maps/api/js{% if settings.google_map_api_key != '' %}?key={{settings.google_map_api_key}}{% else %}?v=3.17{% endif %}" type="text/javascript"></script>
+    <script type="text/javascript">
+      function initialize() {
+        var pos = new google.maps.LatLng({{ settings.google_map_pin_latitude }}, {{settings.google_map_pin_longitude}});
+        var mapOptions = {
+          center: pos,
+          panControl: true,
+          scrollwheel: false,
+          zoomControl: true,
+          mapTypeControl: true,
+          scaleControl: true,
+          streetViewControl: true,
+          overviewMapControl: true,
+          zoom: {{settings.google_map_zoom}}
+        };
+          var map = new google.maps.Map(document.getElementById("store_map"), mapOptions);
+          var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          title: '{{settings.google_map_address}}'
+        });
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <div id="store_map" style="min-height: 300px; width: 100%;"></div>
+  </div>  
+  {% endif %}
+</div>
+<div class="container">
+  <div class="row">
+    <div class="contact-container">  
+      <div class="col-sm-8">
+        <div class="form-vertical">
+          {% form 'contact' %}  
+          {% if form.posted_successfully? %}
+          <p class="note form-success" {% if settings.language_enable %}data-translate="contact.form.post_success"{% endif %}>
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %} 
+          {{ form.errors | default_errors }}
+          <h3 {% if settings.language_enable %}data-translate="contact.form.title"{% endif %}>{{'contact.form.title' | t}}<b {% if settings.language_enable %}data-translate="contact.form.title_after"{% endif %}>{{'contact.form.title_after' | t}}</b></h3>
+          {% assign name_attr = 'contact.form.name' | t | handle %}  
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="form-list">
+                <li>
+                  <label for="name" class="required">{{ 'contact.form.name' | t }}<em>*</em></label>
+                  <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                </li>
+                <li>
+                  <label for="name" class="required">{{ 'contact.form.email' | t }}<em>*</em></label>
+                  <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                </li>
+                <li>
+                  <label for="name" class="required">{{ 'contact.form.phone' | t }}</label>
+                  {% assign name_attr = 'contact.form.phone' | t | handle %} 
+                  <input type="tel" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+                </li>
+              </ul> 
+            </div>
+            <div class="col-sm-6">
+              <ul class="form-list">
+                <li>
+                  <label for="name" class="required">{{ 'contact.form.comment' | t }}<em>*</em></label>
+                  <textarea rows="5" cols="5" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="{{ 'contact.form.comment' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                </li>
+                <li>
+                  <input type="submit" class="btn-button bordered right" {% if settings.language_enable %}data-translate="contact.form.submit"{% endif %} value="{{ 'contact.form.submit' | t }}">
+                </li>
+              </ul> 
+            </div>
+          </div> 
+          {% endform %}
+        </div>
+      </div>
+      <div class="col-sm-4"> 
+        <div class="content-contact">
+          {% if settings.language_enable %}
+          <div class="lang1">{{ page.content | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ page.content | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ page.content | split: '[lang2]' | first }}
+          {% endif %}
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>

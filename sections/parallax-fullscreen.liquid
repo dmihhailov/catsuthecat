@@ -1,0 +1,233 @@
+<!-- config color style -->
+<style>
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} em{
+    color: {{ section.settings.text_color_1 }};
+  }
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} h2{
+  	color: {{ section.settings.text_color_2 }};
+  }	
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} p{
+  	color: {{ section.settings.text_color_3 }};
+  }
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} a{
+    color: {{ section.settings.button_text_color }};
+  }
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} a:hover{
+    color: {{ section.settings.button_text_hover_color }};
+  }
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} a{
+    background-color: {{ section.settings.button_background_color }};
+  }
+  .parallax_fullscreen .parallax-content-15.id-{{ section.id }} a:hover{
+    background-color: {{ section.settings.button_hover_background_color }};
+  }
+</style>
+<!-- end config color style -->
+{% if section.settings.background_banner != blank %}
+{% assign bg_url = section.settings.background_banner | img_url: 'master' %}
+{% else%}
+{% assign bg_url = 'bg1904x981.png' | asset_url %}
+{% endif %}
+<div class="parallax_fullscreen {% if section.settings.banner_content_location == 'banner_content_1' %}parallax_01{% else %}parallax_04{%endif%}" style="background: url({{ bg_url }}) 50% 0 no-repeat fixed;color:#fff;height:100vh;margin:0 auto;position: relative;padding:0;">
+  <div class="parallax-content-15 id-{{ section.id }}">
+    {% if section.settings.use_one_banner == blank %}
+    {% if settings.language_enable %}
+    <div class="lang1">
+      <div class="text_content_1">
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+          <em>{{ section.settings.text_banner_content_1 | split: '[lang2]' | first }}</em>
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+	  </div>
+      <h2 class="text_content_2">{{ section.settings.text_banner_content_2 | split: '[lang2]' | first }}</h2>
+      <p class="text_content_3">{{ section.settings.text_banner_content_3 | split: '[lang2]' | first }}</p>
+      {% if section.settings.banner_content_location == 'banner_content_2' %}
+      <a href="#" class="btn btn-default">{{ section.settings.content_button_text | split: '[lang2]' | first }}</a>
+      {% endif %}
+    </div>
+    <div class="lang2">
+      <div class="text_content_1">
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+          <em>{{ section.settings.text_banner_content_1 | split: '[lang2]' | last }}</em>
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+	  </div>
+      <h2 class="text_content_2">{{ section.settings.text_banner_content_2 | split: '[lang2]' | last }}</h2>
+      <p class="text_content_3">{{ section.settings.text_banner_content_3 | split: '[lang2]' | last }}</p>
+      {% if section.settings.banner_content_location == 'banner_content_2' %}
+      <a href="#" class="btn btn-default">{{ section.settings.content_button_text | split: '[lang2]' | last }}</a>
+      {% endif %}
+    </div>
+    {% else %}
+      <div class="text_content_1">
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+          <em>{{ section.settings.text_banner_content_1 | split: '[lang2]' | first }}</em>
+          {% if section.settings.banner_content_location == 'banner_content_1' %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote.png?16379687509074076010" alt="" class="quote">
+          {% else %}
+          <img src="https://cdn.shopify.com/s/files/1/1613/0211/files/quote_black.png?16379687509074076010" alt="" class="quote">
+          {% endif %}
+	  </div>
+      <h2 class="text_content_2">{{ section.settings.text_banner_content_2 | split: '[lang2]' | first }}</h2>
+      <p class="text_content_3">{{ section.settings.text_banner_content_3 | split: '[lang2]' | first }}</p>
+      {% if section.settings.banner_content_location == 'banner_content_2' %}
+      <a href="{{ section.settings.button_link }}" class="btn btn-default">{{ section.settings.content_button_text | split: '[lang2]' | first }}</a>
+      {% endif %}
+    {% endif %}
+    {% endif %}
+    {% if section.settings.use_one_banner != blank %}
+    {% if settings.language_enable %}
+    <div class="lang1">{{ section.settings.text_banner_content | split: '[lang2]' | first }}</div>
+    <div class="lang2">{{ section.settings.text_banner_content | split: '[lang2]' | last }}</div>
+    {% else %}
+    {{ section.settings.text_banner_content | split: '[lang2]' | first }}
+    {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+{
+"name": "Parallax Fullscreen",
+"settings": [
+{
+"type": "header",
+"content": "color"
+},
+{
+"type": "color",
+"id": "text_color_1",
+"label": "Text Banner Content 1 Color",
+"default": "#fff"
+},
+{
+"type": "color",
+"id": "text_color_2",
+"label": "Text Banner Content 2 Color",
+"default": "#fff"
+},
+{
+"type": "color",
+"id": "text_color_3",
+"label": "Text Banner Content 3 Color",
+"default": "#fff"
+},
+{
+"type": "color",
+"id": "button_text_color",
+"label": "Button Text Color",
+"default": "#fff"
+},
+{
+"type": "color",
+"id": "button_text_hover_color",
+"label": "Button Hover Text Color",
+"default": "#fff"
+},
+{
+"type":"color",
+"id": "button_background_color",
+"label": "Button Background Color",
+"default": "#333"
+},
+{
+"type":"color",
+"id": "button_hover_background_color",
+"label": "Button Hover Background Color",
+"default": "#333"
+},
+{
+"type": "select",
+"id": "banner_content_location",
+"label": "Banner Type",
+"options": [
+{
+"value": "banner_content_1",
+"label": "Type 1"
+},
+{
+"value": "banner_content_2",
+"label": "Type 2"
+}
+],
+"default": "banner_content_1"
+},
+{
+"type": "image_picker",
+"id": "background_banner",
+"label": "Background Image"
+},
+{
+"type": "textarea",
+"id": "text_banner_content_1",
+"label": "Banner Text Content 1",
+"default": "DO YOU NEED A NEW"
+},
+{
+"type": "textarea",
+"id": "text_banner_content_2",
+"label": "Banner Text Content 2",
+"default": "eCOMMERCE?"
+},
+{
+"type": "textarea",
+"id": "text_banner_content_3",
+"label": "Banner Text Content 3",
+"default": "Check our options and features."
+},
+{
+"type": "text",
+"id": "content_button_text",
+"label": "Button Text",
+"default": "SHOP NOW"
+},
+{
+"type": "url",
+"id": "button_link",
+"label": "Button Link"
+},
+{
+"type": "checkbox",
+"id": "use_one_banner",
+"label": "Use One Banner Content",
+"default": false
+},
+{
+"type": "textarea",
+"id": "text_banner_content",
+"label": "Banner Text Content"
+}
+],
+"presets": [{
+"name": "Parallax Fullscreen",
+"category": "Banner",
+"settings": { 
+
+}
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

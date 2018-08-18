@@ -1,0 +1,181 @@
+<style>
+  .banner_text_{{ section.id }} h3 {color:{{ section.settings.title_color }}} 
+  .banner_text_{{ section.id }} p {color:{{ section.settings.content_color }}}
+  .banner_text_{{ section.id }} a {color:{{ section.settings.link_color }}}
+</style>
+<div data-section-id="{{ section.id }}" data-section-type="banner-content-section">
+  <div class="banner_text_3 banner_text_{{ section.id }}" style="background-color:{{section.settings.bg_section_color}}; margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="container">
+      <div class="row">      
+        <div class="col-sm-4 column" style="{% if section.settings.banner_content_position == 'right' %}float:right;{%endif%}">
+          <div style="background-color:{{ section.settings.banner_bg_content }};position:relative;">
+            <img src="https://cdn.shopify.com/s/files/1/1417/7206/files/blank_141126bc-a0a4-4ad9-8afb-f5fd53ccc3a6.png?6944089350470357221"/>
+            <div class="img-desc-home3">
+              {% if section.settings.banner_title != '' %}
+              <h3>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.banner_title | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ section.settings.banner_title | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ section.settings.banner_title | split: '[lang2]' | first }}
+                {% endif %}
+              </h3>
+              {% endif %}
+              {% if section.settings.banner_content != '' %}
+              <hr style="margin:15px 0;border-color:{{section.settings.content_color}};">
+              <p>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.banner_content | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ section.settings.banner_content | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ section.settings.banner_content | split: '[lang2]' | first }}
+                {% endif %}
+              </p>
+              {% endif %}
+              {% if section.settings.banner_link_text != blank %}
+              <a href="{{ section.settings.banner_link }}">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ section.settings.banner_link_text | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ section.settings.banner_link_text | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ section.settings.banner_link_text | split: '[lang2]' | first }}
+                {% endif %}
+              </a> 
+              {% endif %}
+            </div>  
+          </div>
+        </div>
+        <div class="col-sm-8 column">
+          <a href="{{ section.settings.banner_image }}" class="image-link">
+            {% if section.settings.banner_image != blank %}
+            <img src="{{ section.settings.banner_image | img_url: 'master' }}"/>
+            {% else %}
+            <img src="{{ 'home-banner-content722x436.png' | asset_url }}"/>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner Text 3",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_section_color",
+      "label": "Section background color" 
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    }, 
+    {
+      "type":"header",
+      "content":"Banner Content"
+    },
+    {
+      "type": "select",
+      "id": "banner_content_position",
+      "label": "Content Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "label": "right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "banner_bg_content",
+      "label": "Banner Background Content",
+      "default": "#2b262f"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#f2f4f3"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content Color",
+      "default": "#ada4b5"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner Title",
+      "default": "The Wedding Day"
+    },  
+    {
+      "type": "html",
+      "id": "banner_content",
+      "label": "Banner Content",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a arcu lacinia, ornare lorem maximus, consequat mauris. Nam vitae risus at leo convallis sagittis."
+    },
+    {
+      "type": "text",
+      "id": "banner_link_text",
+      "label": "Banner Link Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Text 3",
+      "category": "Banner",
+      "settings": { 
+
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

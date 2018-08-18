@@ -1,0 +1,86 @@
+{% assign list = linklists[settings.sidebar_menu_categories] %} 
+<ul id="categories_nav" class="nav-accordion nav-categories">
+  {% for link in list.links %}
+  {% assign child_list_handle = link.title | handleize %}  
+  {% if linklists[child_list_handle].links != blank %}
+  <li class="level0 level-top parent {% if link.active %}active{% endif %} {% if forloop.index == list.links.size %}last{% endif %}">
+    <a href="{{ link.url }}" class="level-top">
+      <span> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ link.title | split: '|' | first }}</span>
+        <span class="lang2">{{ link.title | split: '|' | last }}</span>
+        {% else %}
+        {{ link.title | split: '|' | first }}
+        {% endif %}
+      </span>
+    </a>
+    <ul class="level0"> 
+      {% for childlink in linklists[child_list_handle].links %}  
+      {% assign grand_child_list_handle = childlink.title | handle %}
+      {% if linklists[grand_child_list_handle].links != blank %} 
+      <li class="level1 parent {% if childlink.active %}active{% endif %} {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+        <a href="{{ childlink.url }}">
+          <span> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+            <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+            {% else %}
+            {{ childlink.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </a>
+        <ul class="level1">
+          {% for grand_child_link in linklists[grand_child_list_handle].links %}
+          <li class="level2 {% if grand_child_link.active %}active{% endif %} {% if forloop.index == linklists[grand_child_list_handle].links.size %}last{% endif %}">
+            <a href="{{ grand_child_link.url }}" class="site-nav__link"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+              <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+              {% else %}
+              {{ grand_child_link.title | split: '|' | first }}
+              {% endif %}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% else %}
+      <li class="level1 {% if childlink.active %}active{% endif %} {% if forloop.index == linklists[child_list_handle].links.size %}last{% endif %}">
+      	<a href="{{ childlink.url }}">
+          <span> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+            <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+            {% else %}
+            {{ childlink.title | split: '|' | first }}
+            {% endif %}
+          </span>
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </li>
+  {% else %}
+  <li class="level0 level-top {% if link.active %}active{% endif %} {% if forloop.index == list.links.size %}last{% endif %}">
+    <a href="{{ link.url }}" class="level-top"> 
+      {% if settings.language_enable %}
+      <span class="lang1">{{ link.title | split: '|' | first }}</span>
+      <span class="lang2">{{ link.title | split: '|' | last }}</span>
+      {% else %}
+      {{ link.title | split: '|' | first }}
+      {% endif %}
+    </a>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+<script>
+  jQuery(document).ready(function($){
+    $('.nav-categories li').each(function(){
+      if($(this).hasClass('active')){ 
+        $(this).parents('li').addClass('active')
+      }
+    }); 
+  });
+</script>

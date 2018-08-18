@@ -1,0 +1,340 @@
+<!-- /snippets/product-grid-item.liquid -->  
+{% assign sold_out = true %}
+{% if product.available %}
+{% assign sold_out = false %}
+{% endif %}
+{% assign on_sale = false %}
+{% if product.compare_at_price_min > product.price_min %}
+{% assign on_sale = true %}
+{% endif %}
+{% assign variant_tmp = product.selected_or_first_available_variant  %}
+{% for variant in product.variants %}
+{% if variant.available == true and variant.price < variant_tmp.price %}
+{% assign variant_tmp = variant %}	
+{% endif %}
+{% endfor %}
+<div class="item-area"> 
+  <div class="product-image-area"> 
+    {% case settings.collection_aspect_ratio %}
+    {% when '1' %}
+    {%- assign image_width = settings.collection_ratio_width -%}
+    {%- assign image_height = '' -%} 
+    {% else %}
+    {%- assign image_width = settings.collection_ratio_width -%}
+    {%- assign image_height = settings.collection_ratio_height -%}
+    {% endcase %}  
+    {% capture image_size %}{{ image_width }}x{{ image_height }}{% endcapture %}   
+    <div class="loader-container" style="display: none;">
+      <div class="loader">
+        <i class="ajax-loader medium animate-spin"></i>
+      </div>
+    </div>
+    {%- if settings.collection_grid_quickview != blank -%}
+    <a href="{{product.url}}?view=quickview" class="action-list quickview-icon quickview">
+      <i class="icon-export"></i>
+      <span {% if settings.language_enable %}data-translate="collections.general.quickview"{% endif %}>{{ 'collections.general.quickview' | t }}</span>
+    </a> 
+    {%- endif -%}
+    {% if settings.style_product_view == '3' %}
+    <div class="actions">
+      <div class="action-list">
+        <div class="product-wishlist wishlist-{{product.id}}">
+          <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="icon-wishlist"></i><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a>
+        </div>
+      </div> 
+      <div class="action-list addtocart">
+        {% if product.available %}
+        {% if product.variants.size > 1 %}
+        <a href="{{ product.url | within: collection }}" class="btn-cart select-options"> 
+          <i class="icon-cart"></i>
+          <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+        </a>
+        {% else %}
+        <form action="/cart/add" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="quantity" value="1" />
+          <select class="hide" name="id">
+            {% for variant in product.variants %}
+            <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn-cart add-to-cart">
+            <i class="icon-cart"></i>
+            <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+          </button> 
+        </form>
+        {% endif %}
+        {% else %}
+        <a href="{{ product.url | within: collection }}" class="btn-cart">
+          <i class="icon-cart"></i>
+          <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+        </a>
+        {% endif %}
+      </div>    
+    </div>
+    {% endif %}
+    <a href="{{ product.url | within: collection }}" class="product-image"> 
+      <img data-src="{{ product.featured_image.src | img_url: image_size, crop: 'center' }}" alt="{{ product.featured_image.alt | escape }}" class="img-responsive owl-lazy main">
+      {% if product.images[1] and settings.collection_alternative_image != blank %}
+      <img data-src="{{ product.images[1].src | img_url: image_size, crop: 'center' }}" alt="{{ product.images[1].alt | escape }}" class="alt-img owl-lazy img-responsive">
+      {% endif %}
+    </a> 
+    {% if variant_tmp.compare_at_price > variant_tmp.price %}
+    <div class="product-label">
+      {% if settings.collection_show_discount != blank or settings.collection_show_sale != blank %}
+      <div class="onsale">
+        <span class="price_percentage">
+          
+          {% if settings.collection_show_discount != blank %}
+          {% if settings.collection_sale_label_text != '' %}
+          {% if settings.language_enable %}
+          <span class="lang1">{{ settings.collection_sale_label_text | split: '|' | first }}</span>
+          <span class="lang2">{{ settings.collection_sale_label_text | split: '|' | last }}</span>
+          {% else %}
+          {{ settings.collection_sale_label_text | split: '|' | first }}
+          {% endif %}
+          {% endif %}
+           -{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%
+          {% else %}
+          {% if settings.collection_show_sale != blank %}
+          {% if settings.language_enable %}
+          <span class="lang1">{{ settings.collection_sale_label_text | split: '|' | first }}</span>
+          <span class="lang2">{{ settings.collection_sale_label_text | split: '|' | last }}</span>
+          {% else %}
+          {{ settings.collection_sale_label_text | split: '|' | first }}
+          {% endif %}
+          {% endif %}
+          {% endif %}
+         
+        </span>
+      </div>
+       {% endif %}
+    </div>
+    {% endif %}
+    {% if sold_out %}
+    <div class="product-label">
+      <div class="sold-out">{{ 'products.product.sold_out' | t }}</div>
+    </div>
+    {% endif %}  
+    {% if product.description contains '[countdown]' %}  
+    <div class="deal-label">
+      <i class="icon-clock"></i>
+    </div>
+    {% assign count_down_first = product.description | split:'[/countdown]' | first %}
+    {% assign count_down_final = count_down_first | split:'[countdown]' | last %}
+    <div class="bottom-product-dailydeal bottom-home-dailydeal">  
+      <div class="product-date" data-date="{{ count_down_final }}"></div>
+    </div> 
+    {% endif %} 
+  </div>
+  <div class="details-area">
+    {% if settings.move_product_name == blank %}
+    <h2 class="product-name">
+      <a href="{{ product.url | within: collection }}" title="{{ product.title }}"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ product.title | split: '|' | first }}</span>
+        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+        {% else %}
+        {{ product.title | split: '|' | first }}
+        {% endif %}
+      </a>
+    </h2>
+    {% endif %}
+    {% if settings.collection_rating_star != blank %}
+    <div class="ratings">
+      <div class="rating-box">
+        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> 
+      </div> 
+    </div>
+    {% endif %}
+    {% if settings.move_product_name != blank %}
+    <h2 class="product-name">
+      <a href="{{ product.url | within: collection }}" title="{{ product.title }}"> 
+        {% if settings.language_enable %}
+        <span class="lang1">{{ product.title | split: '|' | first }}</span>
+        <span class="lang2">{{ product.title | split: '|' | last }}</span>
+        {% else %}
+        {{ product.title | split: '|' | first }}
+        {% endif %}
+      </a>
+    </h2> 
+    {% endif %}
+    <div class="product-short-desc">
+      {% if product.description contains '[countdown]' %}
+      {% assign des = product.description | split:'[/countdown]' | last %} 
+      {% if des contains '[/size]' %}
+      {% assign des2 = des | split:'[size]' | first %}
+      {% if settings.language_enable %}
+      <span class="lang1">{{ des2 | strip_html | split: '[lang2]' | first | truncatewords: 30 }}</span>
+      <span class="lang2">{{ des2 | strip_html | split: '[lang2]' | last | truncatewords: 30 }}</span>
+      {% else %}
+      {{ des2 | strip_html | split: '[lang2]' | first | truncatewords: 30 }}
+      {% endif %}
+      {% else %}
+      {% if settings.language_enable %}
+      <span class="lang1">{{ des | strip_html | split: '[lang2]' | first | truncatewords: 30 }}</span>
+      <span class="lang2">{{ des | strip_html | split: '[lang2]' | last | truncatewords: 30 }}</span>
+      {% else %}
+      {{ des | strip_html | split: '[lang2]' | first | truncatewords: 30 }}
+      {% endif %}
+      {% endif %} 
+      {% else %}
+      {% if product.description contains '[/size]' %}
+      {% assign des = product.description | split:'[size]' | first %}
+      {% if settings.language_enable %}
+      <span class="lang1">{{ des | strip_html | split: '[lang2]' | first | truncatewords: 30 }}</span>
+      <span class="lang2">{{ des | strip_html | split: '[lang2]' | last | truncatewords: 30 }}</span>
+      {% else %}
+      {{ des | strip_html | split: '[lang2]' | first | truncatewords: 30 }}
+      {% endif %}
+      {% else %}
+      {% if settings.language_enable %}
+      <span class="lang1">{{ product.content | strip_html | split: '[lang2]' | first | truncatewords: 30 }}</span>
+      <span class="lang2">{{ product.content | strip_html | split: '[lang2]' | last | truncatewords: 30 }}</span>
+      {% else %}
+      {{ product.content | strip_html | split: '[lang2]' | first | truncatewords: 30 }}
+      {% endif %}
+      {% endif %} 
+      {% endif %} 
+    </div> 
+    {% if settings.collection_product_price != blank %}
+    <div class="price">  
+      {% if on_sale %} 
+      <div class="compare-price">
+        <span class="money">{{ product.compare_at_price | money }}</span>
+      </div>
+      {% endif %} 
+      {% if on_sale %}
+      {% if product.price_varies %}
+      {% assign sale_price = product.price | money %}
+      <span class="money">
+        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+      </span>
+      {% else %} 
+      <div class="special-price">
+        <span class="money">{{ product.price | money }}</span>
+      </div>
+      {% endif %}
+      {% else %}
+      {% if product.price_varies %}
+      {% assign price = product.price | money %}
+      <span class="money">{{ 'products.general.from_text_html' | t: price: price }}</span>
+      {% else %}
+      <span class="money">
+        {{ product.price | money }}
+      </span>
+      {% endif %}
+      {% endif %} 
+    </div>   
+    {% endif %}
+    {% if settings.collection_actions != blank %}
+    <div class="actions">  
+      {% if settings.style_product_view == '2' %}
+      	{% if settings.collection_show_addtolinks != blank and product.variants.size > 1 %}
+        <div class="action-list">
+          {% if settings.wishlist_enable %}
+          <div class="product-wishlist wishlist-{{product.id}}">
+            <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="icon-wishlist"></i><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a>
+          </div>
+          {% endif %}
+		</div> 
+        {% endif %}
+      	{% if settings.collection_show_addtocart != blank %}
+        <div class="action-list addtocart">
+          {% if product.available %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="btn-cart select-options"> 
+            <i class="icon-cart"></i>
+            <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+          </a>
+          {% else %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data">
+            {% if settings.collection_show_quantity != blank %}
+            <div class='qtyminus'><i class="icon-minus"></i></div>
+            <input type="text" name="quantity" value="1" class="quantity"/>
+            <div class='qtyplus'><i class="icon-plus"></i></div>
+            {% else %}
+            <input type="hidden" name="quantity" value="1" />
+            {% endif %}
+            <select class="hide" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn-cart add-to-cart">
+              <i class="icon-cart"></i>
+              <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+            </button> 
+          </form>
+          {% endif %}
+          {% else %}
+          <a href="{{ product.url | within: collection }}" class="btn-cart">
+            <i class="icon-cart"></i>
+            <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+          </a>
+          {% endif %}
+        </div>
+        {% endif %}
+      	{% if settings.collection_show_addtolinks != blank and product.variants.size <= 1 %}
+          <div class="action-list">
+            {% if settings.wishlist_enable %}
+            <div class="product-wishlist wishlist-{{product.id}}">
+              <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="icon-wishlist"></i><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a>
+            </div>
+            {% endif %}
+          </div> 
+        {% endif %}
+      	{% if settings.collection_show_addtolinks != blank and product.variants.size > 1 %}
+        <div class="action-list">
+          <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-compare"><i class="icon-compare"></i><span {% if settings.language_enable %}data-translate="compare_list.general.add_to_compare"{% endif %}>{{ 'compare_list.general.add_to_compare' | t }}</span></a>
+        </div>
+        {% endif %} 
+      {% else %}
+        {% if settings.collection_show_addtolinks != blank %}
+        <div class="action-list">
+          {% if settings.wishlist_enable %}
+          <div class="product-wishlist wishlist-{{product.id}}">
+            <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-wishlist" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="icon-wishlist"></i><span {% if settings.language_enable %}data-translate="wish_list.general.add_to_wishlist"{% endif %}>{{ 'wish_list.general.add_to_wishlist' | t }}</span></a>
+          </div>
+          {% endif %}
+        </div> 
+        {% endif %}
+        {% if settings.collection_show_addtocart != blank %}
+        <div class="action-list addtocart">
+          {% if product.available %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="btn-cart select-options"> 
+            <i class="icon-cart"></i>
+            <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+          </a>
+          {% else %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="quantity" value="1" />
+            <select class="hide" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn-cart add-to-cart">
+              <i class="icon-cart"></i>
+              <span {% if settings.language_enable %}data-translate="products.product.add_to_cart"{% endif %}>{{ 'products.product.add_to_cart' | t }}</span>
+            </button> 
+          </form>
+          {% endif %}
+          {% else %}
+          <a href="{{ product.url | within: collection }}" class="btn-cart">
+            <i class="icon-cart"></i>
+            <span {% if settings.language_enable %}data-translate="products.product.sold_out"{% endif %}>{{ 'products.product.sold_out' | t }}</span> 
+          </a>
+          {% endif %}
+        </div>
+        {% endif %}
+      {% endif %} 
+      {% if settings.collection_show_addtolinks != blank and settings.style_product_view != '2' %}
+      <div class="action-list">
+        <a href="javascript:;" data-product-handle="{{product.handle}}" data-product-title="{{product.title}}" class="link-compare"><i class="icon-compare"></i><span {% if settings.language_enable %}data-translate="compare_list.general.add_to_compare"{% endif %}>{{ 'compare_list.general.add_to_compare' | t }}</span></a>
+      </div>
+      {% endif %}
+    </div> 
+    {% endif %}
+  </div>
+</div>

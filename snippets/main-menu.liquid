@@ -1,0 +1,238 @@
+<div class="navigation-wrapper">
+  <div class="main-navigation"> 
+    <!-- begin site-nav -->
+    <ul class="top-navigation"> 
+      {% for link in linklists[settings.nav_linklist].links %}   
+      {% capture menu_type %}menu_item_type_{{ forloop.index }}{% endcapture %}
+      {% capture menu_staticwidth %}menu_item_staticwidth_{{ forloop.index }}{% endcapture %}
+      {% capture menu_float %}menu_item_float_{{ forloop.index }}{% endcapture %}
+      {% capture menu_icon_image %}icon_image_{{ forloop.index }}.png{% endcapture %}
+      {% capture menu_icon_image_use %}icon_image_use_{{ forloop.index }}{% endcapture %}
+      {% capture menu_font_icon %}menu_item_font_icon_{{ forloop.index }}{% endcapture %} 
+      {% capture menu_label %}menu_item_label_{{ forloop.index }}{% endcapture %} 
+      {% capture menu_label_text1 %}menu_item_label_{{ forloop.index }}_text1{% endcapture %} 
+      {% capture menu_label_text2 %}menu_item_label_{{ forloop.index }}_text2{% endcapture %} 
+      {% capture menu_column %}menu_item_column_{{ forloop.index }}{% endcapture %}
+      {% capture banner_left_enable %}banner_left_enable_{{ forloop.index }}{% endcapture %}
+      {% capture banner_left %}banner_left_{{ forloop.index }}.jpg{% endcapture %}
+      {% capture block_left %}menu_item_block_left_{{ forloop.index }}{% endcapture %}
+      {% capture proportions_left %}menu_proportions_left_{{ forloop.index }}{% endcapture %}
+      {% capture banner_right_enable %}banner_right_enable_{{ forloop.index }}{% endcapture %}
+      {% capture banner_right %}banner_right_{{ forloop.index }}.png{% endcapture %}
+      {% capture block_right %}menu_item_block_right_{{ forloop.index }}{% endcapture %}
+      {% capture proportions_right %}menu_proportions_right_{{ forloop.index }}{% endcapture %}
+      {% capture banner_top_enable %}banner_top_enable_{{ forloop.index }}{% endcapture %}
+      {% capture banner_top %}banner_top_{{ forloop.index }}.jpg{% endcapture %}
+      {% capture block_top %}menu_item_block_top_{{ forloop.index }}{% endcapture %}
+      {% capture banner_bottom_enable %}banner_bottom_enable_{{ forloop.index }}{% endcapture %}
+      {% capture banner_bottom %}banner_bottom_{{ forloop.index }}.jpg{% endcapture %} 
+      {% capture block_bottom %}menu_item_block_bottom_{{ forloop.index }}{% endcapture %}
+      {% capture menu_i %}{{ forloop.index }}{% endcapture %}
+      {% assign pro_left = settings[proportions_left] %}
+      {% assign pro_right = settings[proportions_right] %}
+      {% assign groups = pro_left | plus:pro_right %}
+      {% assign grid = 12 | minus: groups %} 
+      {% assign child_list_handle = link.title | handleize %}   
+      {% if linklists[child_list_handle].links != blank %}
+      <li class="level0 level-top parent {% if link.active %}active{% endif %}{% if settings[menu_type] =='classic'%} m-dropdown {% endif %} {% if settings[menu_type] == 'staticwidth' %} static-dropdown {%endif%} {% if settings[menu_float] == 'right' %} fl-right {% endif %}">
+        <a href="{{ link.url }}" class="level-top">
+          {% if settings[menu_icon_image_use] != blank %}
+          <img class="category-icon" src="{{ menu_icon_image | asset_url }}" alt="icon">
+          {% else %} 
+            {% if settings[menu_font_icon] %}
+            <i class="category-icon {{settings[menu_font_icon]}}"></i>
+            {% endif %} 
+          {% endif %}
+          <span> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ link.title | split: '|' | first }}</span>
+            <span class="lang2">{{ link.title | split: '|' | last }}</span>
+            {% else %}
+            {{ link.title | split: '|' | first }}
+            {% endif %}
+            {% if settings[menu_label] !='' and settings[menu_label] == '1' %}
+            <span class="cat-label cat-label-label1 pin-bottom"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ settings[menu_label_text1] | split: '|' | first }}</span>
+              <span class="lang2">{{ settings[menu_label_text1] | split: '|' | last }}</span>
+              {% else %}
+              {{ settings[menu_label_text1] | split: '|' | first }}
+              {% endif %}
+            </span>
+            {% endif %}
+            {% if settings[menu_label] !='' and settings[menu_label] == '2' %}
+            <span class="cat-label cat-label-label2 pin-bottom"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ settings[menu_label_text2] | split: '|' | first }}</span>
+              <span class="lang2">{{ settings[menu_label_text2] | split: '|' | last }}</span>
+              {% else %}
+              {{ settings[menu_label_text2] | split: '|' | first }}
+              {% endif %}
+            </span>
+            {% endif %}
+          </span>
+          <!--span class="icon icon-arrow-down" aria-hidden="true"></span-->
+        </a>   
+        <div class="level0 menu-wrap-sub {% if settings[menu_type] =='classic'%} dropdown {% endif %}" {% if settings[menu_type] == 'staticwidth' %} style="width: {{settings[menu_staticwidth]}}" {%endif%}> 
+          <div class="container">
+            {% if settings[banner_top_enable] or settings[block_top] != blank %}
+            <div class="ulmenu-block ulmenu-block-top grid-full std">
+              {% if settings[banner_top_enable] %}
+              {{ banner_top | asset_url | img_tag: 'banner-top' }} 
+              {% endif %} 
+              {% if settings.language_enable %}
+              <div class="lang1">{{ settings[block_top] | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ settings[block_top] | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ settings[block_top] | split: '|' | first }}
+              {% endif %} 
+            </div> 
+            {% endif %} 
+            <div class="mega-columns row">
+              {% if settings[proportions_left] != '0' %}
+              <div class="menu-static-blocks ulmenu-block ulmenu-block-left pull-left col-sm-{{ settings[proportions_left] }}">
+                {% if settings[banner_left_enable] %} 
+                <img src="{{banner_left | asset_url}}" alt="banner left" style="max-width: 100%;"/>
+                {% endif %} 
+                {% if settings.language_enable %}
+                <div class="lang1">{{ settings[block_left] | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ settings[block_left] | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ settings[block_left] | split: '|' | first }}
+                {% endif %} 
+              </div> 
+              {% endif %} 
+              <div class="ulmenu-block ulmenu-block-center menu-items col-sm-{{ grid }} itemgrid itemgrid-{{ settings[menu_column] }}col">
+                <div class="row">
+                  <ul class="level0">  
+                    {% for childlink in linklists[child_list_handle].links %}  
+                    {% capture banner_sub_top_enable %}banner_sub_{{menu_i}}_top_enable_{{ forloop.index }}{% endcapture %}
+                    {% capture banner_sub_top %}banner_sub_{{menu_i}}_top_column_{{ forloop.index }}.png{% endcapture %}
+                    {% assign grand_child_list_handle = childlink.title | handle %} 
+                    {% if linklists[grand_child_list_handle].links != blank %} 
+                    <li class="level1 {% if childlink.active %}active{% endif %} {% if settings[menu_type] != 'classic' %} groups {%endif%} item {% if settings[menu_type] =='classic' %} parent {% endif %}"> 
+                      {% if settings[banner_sub_top_enable] != blank %}
+                      <div class="banner-sub-top">{{ banner_sub_top | asset_url | img_tag: 'banner-sub-top' }}</div>
+                      {% endif %}
+                      <a href="{{ childlink.url }}" class="title-level1"> 
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ childlink.title | escape | split: '|' | first }}</span>
+                        <span class="lang2">{{ childlink.title | escape | split: '|' | last }}</span>
+                        {% else %}
+                        {{ childlink.title | escape | split: '|' | first }}
+                        {% endif %} 
+                      </a> 
+                      <div class="{% if settings[menu_type] != 'classic' %} menu-wrapper {% else %} menu-wrap-sub {% endif %}">
+                        <ul class="level1">
+                          {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                          <li class="level2 {% if grand_child_link.active %}active{% endif %}">
+                            <a href="{{ grand_child_link.url }}" class="site-nav__link"> 
+                              {% if settings.language_enable %}
+                              <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+                              <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+                              {% else %}
+                              {{ grand_child_link.title | split: '|' | first }}
+                              {% endif %} 
+                            </a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </li>
+                    {% else %}
+                    <li class="level1 item {% if childlink.active %}active{% endif %}">
+                      {% if settings[banner_sub_top_enable] != blank %}
+                      <div class="banner-sub-top">
+                        {{ banner_sub_top | asset_url | img_tag: 'banner-sub-top' }}  
+                      </div>
+                      {% endif %}
+                      <a href="{{ childlink.url }}"> 
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ childlink.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ childlink.title | split: '|' | last }}</span>
+                        {% else %}
+                        {{ childlink.title | split: '|' | first }}
+                        {% endif %} 
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div> 
+              {% if settings[proportions_right] != '0' %}
+              <div class="menu-static-blocks ulmenu-block ulmenu-block-right col-sm-{{ settings[proportions_right] }}">
+                {% if settings[banner_right_enable] %} 
+                <img src="{{banner_right | asset_url}}" alt="banner right" style="max-width: 100%;"/>
+                {% endif %} 
+                {% if settings.language_enable %}
+                <div class="lang1">{{ settings[block_right] | split: '[lang2]' | first }}</div>
+                <div class="lang2">{{ settings[block_right] | split: '[lang2]' | last }}</div>
+                {% else %}
+                {{ settings[block_right] | split: '|' | first }}
+                {% endif %}  
+              </div> 
+              {% endif %}
+            </div>
+            {% if settings[banner_bottom_enable] or settings[block_bottom] != blank %}
+            <div class="ulmenu-block ulmenu-block-bottom grid-full std">
+              {% if settings[banner_bottom_enable] %}
+              {{ banner_bottom | asset_url | img_tag: 'banner-bottom' }}
+              {% endif %} 
+              {% if settings.language_enable %}
+              <div class="lang1">{{ settings[block_bottom] | split: '[lang2]' | first }}</div>
+              <div class="lang2">{{ settings[block_bottom] | split: '[lang2]' | last }}</div>
+              {% else %}
+              {{ settings[block_bottom] | split: '|' | first }}
+              {% endif %} 
+            </div>
+            {% endif %} 
+          </div>
+        </div>
+      </li>
+      {% else %}
+      <li class="level0 level-top {% if link.active %}active{% endif %} {% if settings[menu_float] == 'right' %} fl-right {% endif %}"> 
+        <a href="{{ link.url }}" class="level-top">
+          {% if settings[menu_icon_image_use] != blank %}
+          <img class="category-icon" src="{{ menu_icon_image | asset_url }}" alt="icon">
+          {% else %} 
+            {% if settings[menu_font_icon] %}
+            <i class="category-icon {{settings[menu_font_icon]}}"></i>
+            {% endif %} 
+          {% endif %}
+          <span> 
+            {% if settings.language_enable %}
+            <span class="lang1">{{ link.title | split: '|' | first }}</span>
+            <span class="lang2">{{ link.title | split: '|' | last }}</span>
+            {% else %}
+            {{ link.title | split: '|' | first }}
+            {% endif %} 
+            {% if settings[menu_label] !='' and settings[menu_label] == '1' %}
+            <span class="cat-label cat-label-label1 pin-bottom"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ settings[menu_label_text1] | split: '|' | first }}</span>
+              <span class="lang2">{{ settings[menu_label_text1] | split: '|' | last }}</span>
+              {% else %}
+              {{ settings[menu_label_text1] | split: '|' | first }}
+              {% endif %}
+            </span>
+            {% endif %}
+            {% if settings[menu_label] !='' and settings[menu_label] == '2' %}
+            <span class="cat-label cat-label-label2 pin-bottom"> 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ settings[menu_label_text2] | split: '|' | first }}</span>
+              <span class="lang2">{{ settings[menu_label_text2] | split: '|' | last }}</span>
+              {% else %}
+              {{ settings[menu_label_text2] | split: '|' | first }}
+              {% endif %}
+            </span>
+            {% endif %}
+          </span>
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    <!-- //site-nav -->
+  </div> 
+</div>

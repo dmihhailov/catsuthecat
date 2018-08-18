@@ -1,0 +1,278 @@
+<div data-section-id="{{ section.id }}" data-section-type="onepage-section">
+  <div id="onepage-section-{{ section.id }}" class="onepage-category" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    <div class="category-list">
+      <ul>
+        {% for link in linklists[settings.opc_nav_linklist].links %}   
+        {% capture collection %}opc_collection_{{ forloop.index }}{% endcapture %}
+        {% capture use_icon_image %}opc_use_icon_image_{{ forloop.index }}{% endcapture %}
+        {% capture icon_image %}opc_icon_image_{{ forloop.index }}.png{% endcapture %}
+        {% capture font_icon %}opc_font_icon_{{ forloop.index }}{% endcapture %}
+        {% capture hover_bg_color %}opc_item_hover_bg_color_{{ forloop.index }}{% endcapture %}
+        {% capture content %}opc_content_{{ forloop.index }}{% endcapture %}
+        <li data-index="{{ forloop.index }}">
+          <a href="javascript:void(0)" data-link="{{ forloop.index }}">
+            <em class="onepage-category-icon"> 
+              {% if settings[use_icon_image] != blank %}
+              <img src="{{ icon_image | asset_url }}" alt="">
+              {% else %}
+              {% if settings[font_icon] != '' %}
+              <i class="{{settings[font_icon]}}"></i>
+              {% else %}
+              <i class="icon-cat-default"></i>
+              {% endif %}
+              {% endif %}
+            </em> 
+            <span>
+              {% if settings.language_enable %}
+              <span class="lang1">{{ link.title | split: '|' | first }}</span>
+              <span class="lang2">{{ link.title | split: '|' | last }}</span>
+              {% else %}
+              {{ link.title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </a>
+        </li>  
+        {% endfor %}
+      </ul>
+      <style type="text/css">
+        {% for link in linklists[settings.opc_nav_linklist].links %}  
+        {% capture hover_bg_color %}opc_item_hover_bg_color_{{ forloop.index }}{% endcapture %}
+        .onepage-category .category-list > ul > li > a[data-link="{{ forloop.index }}"]:hover,
+        .onepage-category .category-list > ul > li > a[data-link="{{ forloop.index }}"].active{
+        background-color: {{settings[hover_bg_color]}};
+        }
+        .onepage-category .category-list > ul > li > a[data-link="{{ forloop.index }}"]:hover:after,
+        .onepage-category .category-list > ul > li > a[data-link="{{ forloop.index }}"].active:after{
+        border-left-color: {{settings[hover_bg_color]}};
+        } 
+        {% endfor %}
+      </style>
+    </div>
+    <div class="category-details">
+      {% for link in linklists[settings.opc_nav_linklist].links %}   
+      {% capture collection %}opc_collection_{{ forloop.index }}{% endcapture %} 
+      {% capture additional_content_image_1 %}additional_content_image_{{ forloop.index }}_1.png{% endcapture %}
+      {% capture additional_content_image_2 %}additional_content_image_{{ forloop.index }}_2.png{% endcapture %}
+      {% capture additional_content_link_1 %}additional_content_link_{{ forloop.index }}_1{% endcapture %}
+      {% capture additional_content_link_2 %}additional_content_link_{{ forloop.index }}_2{% endcapture %}
+      {% capture collection_image_enable %}collection_image_enable_{{ forloop.index }}{% endcapture %}
+      {% assign child_list_handle = link.title | handleize %}  
+      <div id="link_{{ forloop.index }}" class="category-detail">
+        <div class="title-menu">
+          <a href="javascript:void(0)" data-id="{{ forloop.index }}" class="{% if linklists[child_list_handle].links != blank %}parent{%endif%}">
+            <span>
+              {% if settings.language_enable %}
+              <span class="lang1">{{ link.title | split: '|' | first }}</span>
+              <span class="lang2">{{ link.title | split: '|' | last }}</span>
+              {% else %}
+              {{ link.title | split: '|' | first }}
+              {% endif %}
+            </span>
+          </a>
+          {% if linklists[child_list_handle].links != blank %}
+          <div class="menu-popup">
+            <ul class="columns5">
+              {% for childlink in linklists[child_list_handle].links %}
+              {% assign grand_child_list_handle = childlink.title | handle %} 
+              <li class="menu-item level0 menu-parent-item">
+                <a href="{{ childlink.url }}">
+                  <span>
+                    {% if settings.language_enable %}
+                    <span class="lang1">{{ childlink.title | escape | split: '|' | first }}</span>
+                    <span class="lang2">{{ childlink.title | escape | split: '|' | last }}</span>
+                    {% else %}
+                    {{ childlink.title | escape | split: '|' | first }}
+                    {% endif %} 
+                  </span>
+                </a>
+                {% if linklists[grand_child_list_handle].links != blank %} 
+                <ul>
+                  {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                  <li class="menu-item level1">
+                    <a href="{{ grand_child_link.url }}">
+                      <span>
+                        {% if settings.language_enable %}
+                        <span class="lang1">{{ grand_child_link.title | split: '|' | first }}</span>
+                        <span class="lang2">{{ grand_child_link.title | split: '|' | last }}</span>
+                        {% else %}
+                        {{ grand_child_link.title | split: '|' | first }}
+                        {% endif %}
+                      </span>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </li> 
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+        <div class="products-area">
+          <a href="{{ link.url }}" class="category-link" {% if settings.language_enable %}data-translate="collections.onepage.seemore"{% endif %}>{{ 'collections.onepage.seemore' | t  }}</a>
+          <div class="products-collection {% if settings.style_product_view == '1' %}product_type_1{% endif %}{% if settings.style_product_view == '2' %}product_type_2{% endif %}{% if settings.style_product_view == '3' %}product_type_3{% endif %}{% if settings.style_product_view == '4' %}product_type_4{% endif %}">    
+            <div class="category-products products-spacing-{{section.settings.space_product}}">
+              <div class="data-carousel"             
+                   data-auto="5000"
+                   data-items="{{section.settings.collection_column}}"
+                   data-1200="{{section.settings.collection_column}}"
+                   data-992="4"
+                   data-768="3"
+                   data-640="2"
+                   data-480="2"
+                   data-320="1"
+                   data-lazy="true"
+                   data-nav="false"
+                   data-prev=''
+                   data-next=''
+                   data-paging="true"
+                   data-margin='0' style="display: none;"></div>  
+              {%- assign name_collection = settings[collection] -%}
+              {%- if name_collection == blank -%}{%- assign name_collection = "all" -%}{%- endif -%}
+              {%- assign collection = collections[name_collection] -%} 
+              {% if collection.products.size == 0 %}
+              <p style="text-align:center;color:#999;padding: 5px 10px;font-style:italic;" {% if settings.language_enable %}data-translate="products.general.no_more_product"{% endif %}>{{ 'products.general.no_more_product' | t }}</p>
+              {% else %}
+              <div class="products-grid carousel-init owl-carousel {% if section.settings.hide_actions != blank %}hide-action{% endif %}"> 
+                {% for product in collection.products limit: section.settings.collection_limit %}  
+                <div class="item product">
+                  {% include 'owl-lazyload-product-grid-item' %}
+                </div> 
+                {% endfor %}  
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% if settings[collection_image_enable] != blank %}
+        <div class="additional-content"> 
+          <div class="row" style="margin:0 -10px;">
+            <div class="col-sm-6" style="padding: 0 10px;">
+              <a href="{{ settings[additional_content_link_1] }}">
+                <img data-src="{{ additional_content_image_1 | asset_url }}" src="{{ 'placeholder.png' | asset_url }}" alt="" style="margin-top: 50px;" class="lazy">
+              </a>
+            </div>
+            <div class="col-sm-6" style="padding: 0 10px;">
+              <a href="{{ settings[additional_content_link_2] }}">
+                <img data-src="{{ additional_content_image_2 | asset_url }}" src="{{ 'placeholder.png' | asset_url }}" alt="" style="margin-top: 50px;" class="lazy">
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div> 
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Onepage Collections",
+  "class": "index-section index-section--flush", 
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Products Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "collection_limit",
+      "label": "Number of products to show",
+      "default": "8"
+    },  
+    {
+      "type": "text",
+      "id": "collection_column",
+      "label": "Products per row",
+      "default": "4"
+    },  
+    {
+      "type": "select",
+      "id": "space_product",
+      "label": "Space between products",
+      "options": [
+        {
+          "value": "30",
+          "label": "30"
+        },
+        {
+          "value": "25",
+          "label": "25"
+        },
+        {
+          "value": "20",
+          "label": "20"
+        },
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "0",
+          "label": "0"
+        }
+      ],
+      "default": "10"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_actions",
+      "label": "Hide Action Links",
+      "default": false
+    } 
+  ],
+  "presets": [{
+    "name": "Onepage Collections",
+    "category": "Products" 
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

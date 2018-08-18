@@ -1,0 +1,220 @@
+<!-- config color -->
+<style>
+  #parallax-slider-{{ section.id }} .parallax .parallax-slider .item h2{
+    color:{{ section.settings.text_1_color }};
+  }
+  #parallax-slider-{{ section.id }} .parallax .parallax .parallax-slider .item p{
+    color: {{ section.settings.text_2_color }}
+  }
+  #parallax-slider-{{ section.id }} .parallax .parallax .parallax-slider .item a{
+    color: {{ section.settings.text_buton_color }};
+  }
+  #parallax-slider-{{ section.id }} .parallax .parallax .parallax-slider .item a:hover{
+    color: {{ section.settings.text_buton_hover_color }};
+  }
+</style>
+<!-- end config color -->
+<div data-section-id="{{ section.id }}" data-section-type="parallax-slider-section">
+  <div id="parallax-slider-{{ section.id }}" class="parallax-wrapper" style="margin-top: {{section.settings.margin_top | remove: 'px' | append: 'px' }};margin-bottom: {{section.settings.margin_bottom | remove: 'px' | append: 'px' }};padding: {{section.settings.section_padding}};">
+    {% if section.settings.image != blank %}
+    {% assign bg_url = section.settings.image | img_url: 'master' %}
+    {% else %}
+    {% assign bg_url = 'bg1920x1307.png' | asset_url %}
+    {% endif %}
+    <div class="parallax" data-stellar-background-ratio="0.5" style="background:url({{ bg_url }}) 80% 0 no-repeat;">
+      <div class="overlay overlay-color"></div>
+      <div class="parallax-slider">
+        <div class="container">
+          <div class="data-carousel"  
+               data-auto="{{ section.settings.autoplay }}"
+               data-items="1"
+               data-paging="{{ section.settings.paging }}"
+               data-margin="0"  style="display: none;"></div> 
+          <div class="owl-carousel">
+            {% for block in section.blocks %}
+            <div class="item">
+              {% if block.settings.text_slide_1 != blank %}
+              <h2>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ block.settings.text_slide_1 | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ block.settings.text_slide_1 | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ block.settings.title | split: '[lang2]' | first }}
+                {% endif %}
+              </h2>
+              {% endif %}
+              {% if block.settings.text_slide_2 != blank %}
+              <p>
+                {% if settings.language_enable %}
+                <span class="lang1">{{ block.settings.text_slide_2 | split: '[lang2]' | first }}</span>
+                <span class="lang2">{{ block.settings.text_slide_2 | split: '[lang2]' | last }}</span>
+                {% else %}
+                {{ block.settings.text_slide_2 | split: '[lang2]' | first }}
+                {% endif %}
+              </p>
+              {% endif %}
+              {% if block.settings.button_content != blank %}
+              <a href="{{ block.settings.link }}" class="btn btn-default">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ block.settings.button_content | split: '|' | first }}</span>
+                <span class="lang2">{{ block.settings.button_content | split: '|' | last }}</span>
+                {% else %}
+                {{ block.settings.button_content | split: '|' | first }}
+                {% endif %}
+              </a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Parallax Slider",
+  "class": "index-section",
+  "settings": [ 
+    {
+      "type": "header",
+      "content": "Section Settings"
+    }, 
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Section margin top",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Section margin bottom",
+      "info": "40px"
+    },
+    {
+      "type": "text",
+      "id": "section_padding",
+      "label": "Section padding",
+      "info": "Set padding for section top-right-bottom-left (ex: 0 0 10px 0)"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_1_color",
+      "label": "Text 1 Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_2_color",
+      "label": "Text 2 Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_buton_color",
+      "label": "Button Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "text_buton_hover_color",
+      "label": "Button Hover Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "autoplay",
+      "label": "Slideshow",
+      "info": "Change to any integrer for example 5000 to play every 5 seconds. Leave empty to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "paging",
+      "label": "Show Paging",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Content Slide",
+      "settings": [ 
+        {
+          "type": "textarea",
+          "id": "text_slide_1",
+          "label": "Text Slider 1",
+          "default": "EXPLORE <b style='font-weight:800;'>PORTO</b>"
+        },  
+        {
+          "type": "textarea",
+          "id": "text_slide_2",
+          "label": "Text Slider 2",
+          "default": "Premium theme, unlimited possibilities..."
+        }, 
+        {
+          "type": "text",
+          "id": "button_content",
+          "label": "Button content",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
+    } 
+  ],
+  "presets": [
+    {
+      "name": "Parallax Slider",
+      "category": "Banner",
+      "settings": { 
+        "autoplay": "5000"
+      },
+      "blocks":[
+        {
+          "type": "text",
+          "settings":{
+            "text_slide_1": "EXPLORE <b style='font-weight:800;'>PORTO</b>",
+            "text_slide_2": "Premium theme, unlimited possibilities...",
+            "button_content": "Shop Now"
+          }
+        },
+        {
+          "type": "text",
+          "settings":{
+            "text_slide_1": "EXPLORE <b style='font-weight:800;'>PORTO</b>",
+            "text_slide_2": "Premium theme, unlimited possibilities...",
+            "button_content": "Shop Now"
+          }
+        },
+        {
+          "type": "text",
+          "settings":{
+            "text_slide_1": "EXPLORE <b style='font-weight:800;'>PORTO</b>",
+            "text_slide_2": "Premium theme, unlimited possibilities...",
+            "button_content": "Shop Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

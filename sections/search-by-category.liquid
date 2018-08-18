@@ -1,0 +1,84 @@
+<div class="search-by-category input-dropdown" {% if settings.header_search_colletion != blank %}style="display:inline-block;"{% endif %}>
+  <div class="input-dropdown-inner shopify-scroll-content">
+    <input type="hidden" name="product_cat" value="all">
+    <a href="#" data-val="all" {% if settings.language_enable %}data-translate="general.search.category"{% endif %}>{{ 'general.search.category' | t }}</a>
+    <div class="list-wrapper shopify-scroll has-scrollbar">
+      <ul class="shopify-scroll-content" tabindex="0">
+        <li style="display:none;"><a href="#" data-val="all" {% if settings.language_enable %}data-translate="general.search.category"{% endif %}>{{ 'general.search.category' | t }}</a></li>
+        {%- if section.settings.select_collection == '1' -%}
+        	{%- for collection in collections -%}
+        	  {%- if collection.products.size > 0 -%}
+              <li class="cat-item cat-item-{{collection.id}}">
+                <a href="{{collection.url}}" data-val="{{collection.title | handleize}}">
+                  {% if settings.language_enable %}
+                  <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                  <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                  {% else %}
+                  {{ collection.title | split: '|' | first }}
+                  {% endif %}
+                </a>
+              </li>
+        	  {%- endif -%}
+        	{%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            {%- assign collection = collections[block.settings.collection] -%} 
+        	{%- if collection.products.size > 0 -%}
+            <li class="cat-item cat-item-{{collection.id}}">
+              <a href="{{collection.url}}" data-val="{{collection.title | handleize}}">
+                {% if settings.language_enable %}
+                <span class="lang1">{{ collection.title | split: '|' | first }}</span>
+                <span class="lang2">{{ collection.title | split: '|' | last }}</span>
+                {% else %}
+                {{ collection.title | split: '|' | first }}
+                {% endif %}
+              </a>
+            </li>
+        	{%- endif -%} 	
+          {%- endfor -%}
+        {%- endif -%} 
+      </ul> 
+    </div>
+  </div>
+</div>
+{%- schema -%}
+  {
+    "name": "Search By Category",
+    "settings": [
+      {
+        "type": "radio",
+        "id": "select_collection",
+        "options": [
+          {
+            "value": "1",
+            "label": "Show all collection"
+          },
+          {
+            "value": "2",
+            "label": "Manually select collection"
+          }
+        ],
+        "label": "Select Show Collection"
+      } 
+   	],
+   	"blocks": [
+      {
+        "type":"collection",
+        "name":"Choose collection",
+		"settings": [
+          {
+             "type":"collection",
+             "id":"collection",
+             "label":"Choose collection"
+           }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

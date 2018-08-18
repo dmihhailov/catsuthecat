@@ -1,0 +1,62 @@
+{% include 'header-top-bar' %}
+<div class="header container">
+  {% include 'header-logo' %}
+  <div class="cart-area">
+    {% if settings.header_custom_text != '' %}
+    <div class="custom-block"> 
+      {% if settings.language_enable %}
+      <div class="lang1">{{ settings.header_custom_text | split: '[lang2]' | first }}</div>
+      <div class="lang2">{{ settings.header_custom_text | split: '[lang2]' | last }}</div>
+      {% else %}
+      {{ settings.header_custom_text | split: '[lang2]' | first }}
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="mini-cart">
+      {% include 'header-cart' %} 
+    </div>
+  </div>
+  <div class="search-area show-icon-tablet"> 
+    <a href="javascript:void(0);" class="search-icon"><span><i class="icon-search"></i></span></a>
+    {% include 'header-search' %}
+  </div> 
+</div>
+<div class="header-wrapper">
+  <div class="main-nav wrapper-top-menu">   
+    <div class="container">
+      <div id="main-top-nav" class="main-top-nav">  
+        <div class="dropdown-menu">
+          <div class="menu-container category-menu-style-{{settings.category_menu_style}}">
+            <a href="javascript:void(0)">
+              <i class="fa fa-bars"></i>
+              {% if settings.header_category_text != '' %} 
+              {% if settings.language_enable %}
+              <span class="lang1">{{ settings.header_category_text  | split: '|' | first }}</span>
+              <span class="lang2">{{ settings.header_category_text  | split: '|' | last }}</span>
+              {% else %}
+              {{ settings.header_category_text  | split: '|' | first }}
+              {% endif %} 
+              {% endif %}
+            </a> 
+            <!-- Main Menu -->
+            {% include 'side-menu' %} 
+            <!-- End Main Menu -->
+          </div>
+        </div> 
+        <div class="custom-menu-block">
+          {% if settings.custom_block_2 != '' %} 
+          {% if settings.language_enable %}
+          <div class="lang1">{{ settings.custom_block_2 | split: '[lang2]' | first }}</div>
+          <div class="lang2">{{ settings.custom_block_2 | split: '[lang2]' | last }}</div>
+          {% else %}
+          {{ settings.custom_block_2 | split: '[lang2]' | first }}
+          {% endif %} 
+          {% endif %}
+        </div>
+        <div class="mini-cart">
+          {% include 'header-cart' %} 
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>  

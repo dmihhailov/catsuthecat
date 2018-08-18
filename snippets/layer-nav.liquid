@@ -1,0 +1,192 @@
+<style>
+  .block-layered-nav dd.size .input-container{
+  	display:none !important;
+  }
+</style>
+{% if settings.collection_sidebar_filters == 'groups' %}
+<dl class="narrow-by-list">
+{% assign tag_size = 0 %}
+{% for i in (1..10) %}
+{% assign tmp = 'filtering_' | append:i %}
+{% if settings[tmp] %} 
+  {% assign tmp = 'filtering_heading_' | append:i %}
+  {% assign cat_item = settings[tmp] %}
+  {% assign cat_item_down = cat_item | downcase %}
+  {% assign tmp = 'filtering_filters_' | append:i %}
+  {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
+  {% assign class = 'hide' %}
+  {% for custom_tag in filters %}
+  {% if collection.tags contains custom_tag %}
+  {% assign class = 'show' %}
+  {% assign tag_size = tag_size | plus: 1 %}
+  {% endif %}
+  {% endfor %}
+  <div class="narrow-item sidebar-toogle {{class}}">
+    <dt class="block-title">
+      <span>
+        {% if settings.language_enable %}
+          <span class="lang1">{{ cat_item | split: '|' | first }}</span>
+          <span class="lang2">{{ cat_item | split: '|' | last }}</span>
+          {% else %}
+          {{ cat_item | split: '|' | first }}
+          {% endif %}
+      </span>
+      {% for custom_tag in filters %}
+      {% if current_tags contains custom_tag %}
+      <a href="javascript:void(0);" class="clear">({{ 'collections.general.clear' | t }})</a>
+      {% break %}
+      {% endif %}
+      {% endfor %}
+      <span class="collapse">
+        <i class="icon-down-dir"></i>
+      <i class="icon-up-dir"></i>
+      </span>
+    </dt>
+    <dd class="sidebar-content layer-filter {{ cat_item_down | replace: ' ', '_' }} {% if settings.collection_color_swatch != blank %}color-swatch{%endif%}"> 
+      <ol class="swatch-list fields"> 
+        {% if settings.collection_color_swatch != blank %}	
+        {% if cat_item_down contains 'color' or cat_item_down contains 'colour' %}
+          {% assign file_extension = '.png' %} 
+          {% for custom_tag in filters %}
+          {% if collection.tags contains custom_tag %}
+          {% if current_tags contains custom_tag %}
+          <li>
+            <div class="item active">
+              <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
+              <span class="has-image btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}">
+                <i class="color_out_box">
+                  <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
+                </i>
+              </span>
+            </div>
+          </li>
+          {% else %}
+          <li>
+            <div class="item">
+              <input type="checkbox" value="{{ custom_tag | handleize }}" class="hide" />
+              <span class="has-image btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}">
+                <i class="color_out_box">
+                  <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
+                </i>
+              </span>
+            </div>
+          </li>
+          {% endif %}
+          {% else %}
+          <li class="disable">
+            <div class="item disable">
+              <span class="has-image"><i class="color_out_box">
+                  <i class="color_box" style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
+                </i></span>
+            </div>
+          </li>
+          {% endif %}
+          {% endfor %}
+          
+        {% else %}
+
+          {% for custom_tag in filters %}
+          {% if collection.tags contains custom_tag %}
+          {% if current_tags contains custom_tag %}
+          <li>
+            <div class="item swatch-checkbox active">
+              <div class="input-container"> 
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" checked="checked" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% else %}
+          <li>
+            <div class="item swatch-checkbox">
+              <div class="input-container">  
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div>  
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% endif %}
+          {% else %}
+          <li class="disable">
+            <div class="item disable swatch-checkbox">
+              <div class="input-container">   
+                <input type="checkbox" value="{{ custom_tag | handleize }}" disabled="disabled" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% endif %}
+          {% endfor %} 
+        {% endif %}
+        {% else %}
+          {% for custom_tag in filters %}
+          {% if collection.tags contains custom_tag %}
+          {% if current_tags contains custom_tag %}
+          <li>
+            <div class="item swatch-checkbox active">
+              <div class="input-container"> 
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" checked="checked" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% else %}
+          <li>
+            <div class="item swatch-checkbox">
+              <div class="input-container">  
+                <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div>  
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% endif %}
+          {% else %}
+          <li class="disable">
+            <div class="item disable swatch-checkbox">
+              <div class="input-container">   
+                <input type="checkbox" value="{{ custom_tag | handleize }}" disabled="disabled" class="checkbox smart_input" />
+                <div class="input-skin">
+                  <i class="visible-unchecked icon-check-empty"></i>
+                  <i class="visible-checked icon-check"></i>    
+                </div>
+              </div> 
+              <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+            </div>
+          </li>
+          {% endif %}
+          {% endfor %} 
+        {% endif %}
+      </ol>
+    </dd>
+  </div>
+{% endif %}
+{% endfor %}  
+{% if tag_size == 0 %}
+  <script>
+    jQuery(function ($) {
+      $('.block-layered-nav').hide(); 
+    });
+  </script>
+{% endif %}
+</dl>
+{% endif %}

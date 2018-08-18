@@ -1,0 +1,33 @@
+* {
+  margin:0;
+  padding:0;
+}
+body {
+  font-family: 'Montserrat', arial, serif;
+  line-height:1.55;
+  text-align:left;
+}
+img {
+  border:0;
+  outline:none;
+}
+a:hover, a:active { text-decoration:none; }
+:focus { outline:0; }
+.page ul, .page ol {
+  margin:0;
+  padding:0;
+}
+ul, ol { list-style:none outside none; }
+ul { padding:0; }
+ul li {
+  list-style:none;
+  padding:0;
+}
+p { line-height:24px; }
+a, i {
+  text-decoration:none;
+  -moz-transition:all 500ms ease;
+  -webkit-transition:all 500ms ease;
+  -o-transition:all 500ms ease;
+  transition:all 500ms ease;
+} 
