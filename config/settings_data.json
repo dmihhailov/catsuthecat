@@ -115,7 +115,7 @@
     "topbar_background_size": "cover",
     "topbar_background_attachment": "default",
     "topbar_background_position": "center_center",
-    "logo_svg": "logo_black_new.png",
+    "logo_svg": "logo.png",
     "logo": "",
     "logo_width": "109",
     "logo_sticky_svg": "logo_white_new.png",
@@ -850,12 +850,12 @@
           "logo_sticky": "shopify:\/\/shop_images\/logo_red_111x50_1f27c463-5400-4e89-86b1-d1e5246c4d4d.png",
           "sticky_header_enable": "enable",
           "sticky_header_on_mobile": "enable",
-          "my_account_link": "enable",
-          "daily_deal_link": "enable",
-          "my_wishlist_link": "enable",
-          "my_compare_link": "enable",
-          "blog_link": "enable",
-          "login_link": "enable"
+          "my_account_link": "disable",
+          "daily_deal_link": "disable",
+          "my_wishlist_link": "disable",
+          "my_compare_link": "disable",
+          "blog_link": "disable",
+          "login_link": "disable"
         }
       },
       "footer": {

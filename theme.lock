@@ -422,7 +422,7 @@ assets/logo-sticky.png:
 assets/logo-x2.png:
   development: 2018-08-18T22:15:12+03:00   4db4a130f523fe48e96507cd2cb59444
 assets/logo.png:
-  development: 2018-08-18T22:15:12+03:00   4db4a130f523fe48e96507cd2cb59444
+  development: 2018-08-19T08:27:50+03:00   bfc55c079afcdbc247a7a3a928b13c27
 assets/logo_13.png:
   development: 2018-08-18T22:15:12+03:00   3e5de89b5b5ddb93a88745eefb0bf286
 assets/logo_black_3.png:
@@ -604,7 +604,7 @@ assets/white.png:
 assets/yellow.png:
   development: 2018-08-18T22:15:26+03:00   1106c90e418e5a163eb628897d0b2d16
 config/settings_data.json:
-  development: 2018-08-18T22:33:40+03:00   96264a0b68fc2d75b7404623090b0d3e
+  development: 2018-08-19T08:51:28+03:00   7bc1c2a0793cab7240d058ba95a483db
 config/settings_schema.json:
   development: 2018-08-18T22:15:35+03:00   6d0bd73cd35a290c6b1bd007bf62c8fd
 layout/theme.liquid:
